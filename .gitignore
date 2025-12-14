@@ -1,0 +1,14 @@
+CMakeFiles/
+CMakeCache.txt
+
+*.cmake
+_deps/
+MakeFile
+
+lib/
+bin/
+
+*.a
+
+app/metro_sim
+tests/core_tests
