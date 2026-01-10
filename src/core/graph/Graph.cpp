@@ -1,6 +1,8 @@
 #include "Graph.hpp"
 #include "Line.hpp"
 #include <algorithm>
+#include <iostream>
+#include <stdexcept>
 #include <vector>
 
 std::uint32_t Graph::addStation(StationType type) {
@@ -11,13 +13,14 @@ std::uint32_t Graph::addStation(StationType type) {
 
 void Graph::removeStation(std::uint32_t stationId) {
     auto stationFind = this->stations_.find(stationId);
-    if (stationFind != this->stations_.end()) {
-        this->stations_.erase(stationId);
-        for (auto& [_, line] : this->lines_) {
-            line.stationIds.erase(
-                std::remove(line.stationIds.begin(), line.stationIds.end(), stationId),
-                line.stationIds.end());
-        }
+    if (stationFind == this->stations_.end()) {
+        throw std::logic_error("StationId doesn't exists in removeStation");
+    }
+    this->stations_.erase(stationId);
+    for (auto& [_, line] : this->lines_) {
+        line.stationIds.erase(
+            std::remove(line.stationIds.begin(), line.stationIds.end(), stationId),
+            line.stationIds.end());
     }
 }
 
@@ -30,15 +33,21 @@ std::uint32_t Graph::addLine() {
 void Graph::addStationToLine(std::uint32_t lineId, std::uint32_t stationId) {
     auto lineFind = this->lines_.find(lineId);
     auto stationFind = this->stations_.find(stationId);
-    if (lineFind != this->lines_.end() && stationFind != this->stations_.end()) {
-        this->lines_[lineId].stationIds.push_back(stationId);
+    if (lineFind == this->lines_.end() || stationFind == this->stations_.end()) {
+        throw std::logic_error("StationId or LineId doesn't exists in addStationToLine");
     }
+    if (std::find(this->lines_[lineId].stationIds.begin(), this->lines_[lineId].stationIds.end(),
+                  stationId) != this->lines_[lineId].stationIds.end()) {
+        throw std::logic_error("Station already exists on line");
+    }
+    this->lines_[lineId].stationIds.push_back(stationId);
 }
 void Graph::removeLine(std::uint32_t lineId) {
     auto it = this->lines_.find(lineId);
-    if (it != this->lines_.end()) {
-        this->lines_.erase(lineId);
+    if (it == this->lines_.end()) {
+        throw std::logic_error("LineId doesn't exists in removeLine");
     }
+    this->lines_.erase(lineId);
 }
 
 const Station* Graph::getStation(std::uint32_t id) const {

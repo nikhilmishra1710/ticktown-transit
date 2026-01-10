@@ -25,3 +25,14 @@ TEST(Graph, StationRemovalCleansLines) {
     EXPECT_EQ(l->stationIds.size(), 1u);
     EXPECT_EQ(l->stationIds[0], s2);
 }
+
+TEST(Graph, InvalidStationRemovalThrows) {
+    Graph g;
+    EXPECT_THROW(g.removeStation(999), std::logic_error);
+    EXPECT_THROW(g.removeLine(999), std::logic_error);
+    auto s1 = g.addStation(StationType::Circle);
+    auto line = g.addLine();
+    g.addStationToLine(line, s1);
+    EXPECT_THROW(g.addStationToLine(line, s1), std::logic_error);
+}
+
