@@ -2,7 +2,7 @@
 #include <chrono>
 
 class TickClock {
-public:
+  public:
     using Duration = std::chrono::milliseconds;
 
     explicit TickClock(Duration tick);
@@ -10,7 +10,7 @@ public:
     bool shouldStep(Duration frameDelta);
     void consumeStep();
 
-private:
+  private:
     Duration tick_;
     Duration accumulator_{0};
 };

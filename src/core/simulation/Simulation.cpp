@@ -1,6 +1,7 @@
 #include "Simulation.hpp"
 
-Simulation::Simulation(std::uint64_t seed) : seed_(seed) {}
+Simulation::Simulation(std::uint64_t seed) : seed_(seed) {
+}
 
 void Simulation::step(std::chrono::milliseconds) {
     ++tickCount_;

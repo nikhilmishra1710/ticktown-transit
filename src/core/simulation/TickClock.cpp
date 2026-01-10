@@ -1,6 +1,7 @@
 #include "TickClock.hpp"
 
-TickClock::TickClock(Duration tick) : tick_(tick) {}
+TickClock::TickClock(Duration tick) : tick_(tick) {
+}
 
 bool TickClock::shouldStep(Duration frameDelta) {
     accumulator_ += frameDelta;

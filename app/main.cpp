@@ -1,7 +1,7 @@
+#include "../src/core/simulation/Simulation.hpp"
+#include "../src/core/simulation/TickClock.hpp"
 #include <chrono>
 #include <iostream>
-#include "core/simulation/Simulation.hpp"
-#include "core/simulation/TickClock.hpp"
 
 int main() {
     using namespace std::chrono;
