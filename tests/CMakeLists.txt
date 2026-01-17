@@ -11,7 +11,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 add_executable(core_tests
-    determinism_tests.cpp graph_tests.cpp route_test.cpp
+    determinism_tests.cpp graph_tests.cpp route_test.cpp train_simulation_test.cpp
 )
 
 target_link_libraries(core_tests

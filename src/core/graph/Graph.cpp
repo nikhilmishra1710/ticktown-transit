@@ -1,5 +1,7 @@
 #include "Graph.hpp"
 #include "Line.hpp"
+#include "Passenger.hpp"
+#include "Station.hpp"
 #include "StationType.hpp"
 #include <algorithm>
 #include <iostream>
@@ -90,7 +92,7 @@ bool Graph::lineContainsStation(std::uint32_t lineId, std::uint32_t stationId) c
            line->stationIds.end();
 }
 
-void Graph::spawnPassenger(std::uint32_t stationId, StationType destination) {
+void Graph::spawnPassengerAt(std::uint32_t stationId, StationType destination) {
     auto it = stations_.find(stationId);
     if (it == stations_.end()) {
         throw std::logic_error("Invalid stationId in spawnPassenger");
@@ -152,4 +154,84 @@ bool Graph::canRoute(std::uint32_t fromStationId, StationType destinationType) c
 
 bool Graph::canPassengerBeServed(std::uint32_t stationId, const Passenger& p) const {
     return canRoute(stationId, p.destination);
+}
+
+void Graph::addTrain(std::uint32_t lineId, std::uint32_t capacity) {
+    if (!this->lineExists(lineId)) {
+        throw std::logic_error("Line doesn't exist in addTrain");
+    }
+    if (capacity <= 0) {
+        throw std::logic_error("Capacity below 0");
+    }
+    const Line* line = this->getLine(lineId);
+    if (line->stationIds.size() <= 0) {
+        throw std::logic_error("Cannot add train to line with no stations");
+    }
+    Train t = {lineId, 0, 1, {}, capacity};
+    this->trains_.push_back(t);
+}
+
+const std::vector<Train>& Graph::getTrains() const {
+    return this->trains_;
+}
+
+void Graph::_advanceTrainPosition(Train& t, Line& line) {
+    const std::size_t last = line.stationIds.size() - 1;
+
+    if (last == 0)
+        return;
+
+    if (t.direction == 1 && t.stationIndex == last) {
+        t.direction = -1;
+    } else if (t.direction == -1 && t.stationIndex == 0) {
+        t.direction = 1;
+    }
+
+    t.stationIndex += t.direction;
+}
+
+void Graph::_alightPassengers(Train& train, Station& station) {
+    std::vector<Passenger>& onboard = train.onboard;
+    if (onboard.size() <= 0)
+        return;
+    std::cout << "Alighting passenger\nBefore: " << onboard.size() << std::endl;
+    onboard.erase(std::remove_if(onboard.begin(), onboard.end(),
+                                 [&](const Passenger& p) { return p.destination == station.type; }),
+                  onboard.end());
+    std::cout << "After: " << train.onboard.size() << std::endl;
+}
+
+void Graph::_boardPassengers(Train& train, Station& station) {
+    std::vector<Passenger>& waiting = station.waitingPassengers;
+
+    for (auto it = waiting.begin(); it < waiting.end() && train.onboard.size() < train.capacity;) {
+        std::cout << "Station.type: " << station.type << " Destination: " << it->destination
+                  << "canRoute: " << this->canRoute(station.id, it->destination) << std::endl;
+        if (this->canRoute(station.id, it->destination)) {
+            train.onboard.push_back(*it);
+            std::cout << "Adding passenger to train: " << train.onboard.size() << std::endl;
+            it = waiting.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
+void Graph::tick() {
+    std::cout << "Advancing graph 1 tick" << std::endl;
+    for (Train& t : this->trains_) {
+        Line& line = this->lines_.at(t.lineId);
+        std::uint32_t stationId = line.stationIds[t.stationIndex];
+        Station& station = this->stations_.at(stationId);
+
+        std::cout << "Before alighting passengers: " << t.onboard.size() << std::endl;
+        this->_alightPassengers(t, station);
+        std::cout << "After alighting passengers: " << t.onboard.size() << std::endl;
+        this->_boardPassengers(t, station);
+        std::cout << "After Boarding passengers: " << t.onboard.size() << std::endl;
+
+        std::cout << "Initial station idx: " << t.stationIndex << std::endl;
+        this->_advanceTrainPosition(t, line);
+        std::cout << "Final station idx: " << t.stationIndex << std::endl;
+    }
 }

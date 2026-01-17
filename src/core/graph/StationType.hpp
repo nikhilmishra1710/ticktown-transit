@@ -1,3 +1,3 @@
 #pragma once
 
-enum class StationType { Circle, Square, Triangle };
+enum StationType { Circle, Square, Triangle };
