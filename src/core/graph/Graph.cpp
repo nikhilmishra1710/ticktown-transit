@@ -4,7 +4,9 @@
 #include "Station.hpp"
 #include "StationType.hpp"
 #include <algorithm>
+#include <cassert>
 #include <iostream>
+#include <optional>
 #include <queue>
 #include <stdexcept>
 #include <unordered_set>
@@ -67,12 +69,24 @@ const Line* Graph::getLine(std::uint32_t id) const {
     return nullptr;
 }
 
+Station& Graph::getMutableStation(std::uint32_t id) {
+    auto it = this->stations_.find(id); // assuming 'lines' is your map
+    if (it != this->stations_.end()) {
+        return it->second;
+    }
+    throw std::logic_error("Invalid station id in getMutableStation");
+}
+
 std::size_t Graph::stationCount() const {
     return stations_.size();
 }
 
 std::size_t Graph::lineCount() const {
     return lines_.size();
+}
+
+std::uint32_t Graph::completedPassengers() const {
+    return this->completedPassengers_;
 }
 
 bool Graph::stationExists(std::uint32_t id) const {
@@ -99,7 +113,11 @@ void Graph::spawnPassengerAt(std::uint32_t stationId, StationType destination) {
     }
 
     Station& s = it->second;
-    s.waitingPassengers.emplace_back(s.type, destination);
+    if (s.waitingPassengers.size() >= s.maxCapacity) {
+        this->stateFailed();
+        return;
+    }
+    s.waitingPassengers.emplace_back(s.type, destination, WAITING);
 }
 
 std::vector<std::uint32_t> Graph::adjacentStations(std::uint32_t stationId) const {
@@ -156,6 +174,72 @@ bool Graph::canPassengerBeServed(std::uint32_t stationId, const Passenger& p) co
     return canRoute(stationId, p.destination);
 }
 
+std::optional<std::uint32_t> Graph::nextHop(std::uint32_t fromStationId,
+                                            StationType destType) const {
+    if (stations_.at(fromStationId).type == destType) {
+        return std::nullopt; // already there; no movement
+    }
+
+    std::queue<std::uint32_t> q;
+    std::unordered_map<std::uint32_t, std::uint32_t> parent;
+    std::unordered_set<std::uint32_t> visited;
+
+    q.push(fromStationId);
+    visited.insert(fromStationId);
+
+    while (!q.empty()) {
+        std::uint32_t cur = q.front();
+        q.pop();
+
+        // neighbors induced by lines
+        for (const auto& [_, line] : lines_) {
+            for (size_t i = 0; i < line.stationIds.size(); ++i) {
+                if (line.stationIds[i] != cur)
+                    continue;
+
+                if (i > 0) {
+                    auto n = line.stationIds[i - 1];
+                    if (!visited.count(n)) {
+                        visited.insert(n);
+                        parent[n] = cur;
+                        if (stations_.at(n).type == destType) {
+                            // reconstruct first hop
+                            while (parent[n] != fromStationId)
+                                n = parent[n];
+                            return n;
+                        }
+                        q.push(n);
+                    }
+                }
+
+                if (i + 1 < line.stationIds.size()) {
+                    auto n = line.stationIds[i + 1];
+                    if (!visited.count(n)) {
+                        visited.insert(n);
+                        parent[n] = cur;
+                        if (stations_.at(n).type == destType) {
+                            while (parent[n] != fromStationId)
+                                n = parent[n];
+                            return n;
+                        }
+                        q.push(n);
+                    }
+                }
+            }
+        }
+    }
+    return std::nullopt;
+}
+
+bool Graph::_canBoard(const Passenger& p, std::uint32_t stationId, std::uint32_t lineId) const {
+    auto hop = nextHop(stationId, p.destination);
+    if (!hop)
+        return false;
+
+    const Line& line = lines_.at(lineId);
+    return std::find(line.stationIds.begin(), line.stationIds.end(), *hop) != line.stationIds.end();
+}
+
 void Graph::addTrain(std::uint32_t lineId, std::uint32_t capacity) {
     if (!this->lineExists(lineId)) {
         throw std::logic_error("Line doesn't exist in addTrain");
@@ -191,47 +275,91 @@ void Graph::_advanceTrainPosition(Train& t, Line& line) {
 }
 
 void Graph::_alightPassengers(Train& train, Station& station) {
-    std::vector<Passenger>& onboard = train.onboard;
-    if (onboard.size() <= 0)
-        return;
-    std::cout << "Alighting passenger\nBefore: " << onboard.size() << std::endl;
-    onboard.erase(std::remove_if(onboard.begin(), onboard.end(),
-                                 [&](const Passenger& p) { return p.destination == station.type; }),
-                  onboard.end());
-    std::cout << "After: " << train.onboard.size() << std::endl;
+    for (auto passenger = train.onboard.begin(); passenger != train.onboard.end();) {
+        bool done =
+            station.type == passenger->destination || station.id == passenger->targetStationId;
+
+        if (!done) {
+            ++passenger;
+            continue;
+        }
+
+        // clear travel commitment
+        passenger->currentLineId.reset();
+        passenger->targetStationId.reset();
+        passenger->state = PassengerState::WAITING;
+
+        if (station.type != passenger->destination) {
+            station.waitingPassengers.push_back(*passenger); // transfer
+        } else {
+            this->completedPassengers_++;
+        }
+
+        passenger = train.onboard.erase(passenger);
+    }
 }
 
 void Graph::_boardPassengers(Train& train, Station& station) {
     std::vector<Passenger>& waiting = station.waitingPassengers;
 
-    for (auto it = waiting.begin(); it < waiting.end() && train.onboard.size() < train.capacity;) {
-        std::cout << "Station.type: " << station.type << " Destination: " << it->destination
-                  << "canRoute: " << this->canRoute(station.id, it->destination) << std::endl;
-        if (this->canRoute(station.id, it->destination)) {
-            train.onboard.push_back(*it);
-            std::cout << "Adding passenger to train: " << train.onboard.size() << std::endl;
-            it = waiting.erase(it);
-        } else {
+    for (auto it = waiting.begin(); it != waiting.end() && train.onboard.size() < train.capacity;) {
+        if (!this->_canBoard(*it, station.id, train.lineId)) {
             ++it;
+            continue;
+        }
+        std::optional<std::uint32_t> hop = nextHop(station.id, it->destination);
+
+        Passenger p = *it; // copy first
+        p.targetStationId = *hop;
+        p.currentLineId = train.lineId;
+        p.state = ONTRAIN;
+
+        train.onboard.push_back(p);
+        it = waiting.erase(it);
+    }
+}
+
+void Graph::_assertInvariants() const {
+    std::unordered_set<const Passenger*> seen;
+
+    for (const auto& [_, st] : stations_) {
+        for (const auto& p : st.waitingPassengers) {
+            assert(!p.currentLineId.has_value());
+            assert(seen.insert(&p).second);
+        }
+    }
+
+    for (const auto& t : trains_) {
+        for (const auto& p : t.onboard) {
+            assert(p.currentLineId.has_value());
+            assert(p.currentLineId == t.lineId);
+            assert(seen.insert(&p).second);
         }
     }
 }
 
+
 void Graph::tick() {
-    std::cout << "Advancing graph 1 tick" << std::endl;
+    if (this->failed_)
+        return;
     for (Train& t : this->trains_) {
         Line& line = this->lines_.at(t.lineId);
         std::uint32_t stationId = line.stationIds[t.stationIndex];
         Station& station = this->stations_.at(stationId);
 
-        std::cout << "Before alighting passengers: " << t.onboard.size() << std::endl;
         this->_alightPassengers(t, station);
-        std::cout << "After alighting passengers: " << t.onboard.size() << std::endl;
         this->_boardPassengers(t, station);
-        std::cout << "After Boarding passengers: " << t.onboard.size() << std::endl;
 
-        std::cout << "Initial station idx: " << t.stationIndex << std::endl;
         this->_advanceTrainPosition(t, line);
-        std::cout << "Final station idx: " << t.stationIndex << std::endl;
+
+        this->_assertInvariants();
     }
+}
+
+void Graph::stateFailed() {
+    this->failed_ = true;
+}
+
+bool Graph::isFailed() const {
+    return this->failed_;
 }

@@ -8,4 +8,6 @@ struct Station {
     std::uint32_t id;
     StationType type;
     std::vector<Passenger> waitingPassengers;
+
+    std::size_t maxCapacity = 6;
 };

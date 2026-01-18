@@ -1,6 +1,5 @@
 #include "../src/core/simulation/Simulation.hpp"
 #include "../src/core/simulation/TickClock.hpp"
-#include <chrono>
 #include <iostream>
 
 int main() {

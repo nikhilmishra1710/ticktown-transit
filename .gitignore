@@ -12,3 +12,8 @@ bin/
 
 app/metro_sim
 tests/core_tests
+
+.vscode/
+build/
+.cache/
+compile_commands.json
