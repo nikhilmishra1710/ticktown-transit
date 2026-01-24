@@ -117,10 +117,10 @@ void Graph::spawnPassengerAt(std::uint32_t stationId, StationType destination) {
         this->stateFailed();
         return;
     }
-    s.waitingPassengers.emplace_back(s.type, destination, WAITING);
+    s.waitingPassengers.emplace_back(this->nextPassengerId_++, s.type, destination, WAITING);
 }
 
-std::vector<std::uint32_t> Graph::adjacentStations(std::uint32_t stationId) const {
+std::vector<std::uint32_t> Graph::_adjacentStations(std::uint32_t stationId) const {
     std::vector<std::uint32_t> result;
 
     for (const auto& [_, line] : lines_) {
@@ -159,7 +159,7 @@ bool Graph::canRoute(std::uint32_t fromStationId, StationType destinationType) c
             return true;
         }
 
-        for (auto neighbor : adjacentStations(current)) {
+        for (auto neighbor : this->_adjacentStations(current)) {
             if (!visited.contains(neighbor)) {
                 visited.insert(neighbor);
                 q.push(neighbor);
@@ -231,6 +231,16 @@ std::optional<std::uint32_t> Graph::nextHop(std::uint32_t fromStationId,
     return std::nullopt;
 }
 
+bool Graph::_canPassengerBoard(const Passenger& p, std::uint32_t stationId,
+                               const Train& train) const {
+    if (p.state != PassengerState::WAITING)
+        return false;
+    if (train.onboard.size() >= train.capacity)
+        return false;
+    bool board = this->_canBoard(p, stationId, train.lineId);
+    return board;
+}
+
 bool Graph::_canBoard(const Passenger& p, std::uint32_t stationId, std::uint32_t lineId) const {
     auto hop = nextHop(stationId, p.destination);
     if (!hop)
@@ -257,6 +267,32 @@ void Graph::addTrain(std::uint32_t lineId, std::uint32_t capacity) {
 
 const std::vector<Train>& Graph::getTrains() const {
     return this->trains_;
+}
+
+std::size_t Graph::estimateRemainingHops(std::uint32_t fromStationId,
+                                         StationType destination) const {
+    std::queue<std::uint32_t> q;
+    std::unordered_map<std::uint32_t, std::size_t> dist;
+
+    q.push(fromStationId);
+    dist[fromStationId] = 0;
+
+    while (!q.empty()) {
+        auto s = q.front();
+        q.pop();
+
+        if (stations_.at(s).type == destination) {
+            return dist[s];
+        }
+
+        for (auto n : this->_adjacentStations(s)) {
+            if (!dist.contains(n)) {
+                dist[n] = dist[s] + 1;
+                q.push(n);
+            }
+        }
+    }
+    return SIZE_MAX; // unreachable
 }
 
 void Graph::_advanceTrainPosition(Train& t, Line& line) {
@@ -302,18 +338,38 @@ void Graph::_alightPassengers(Train& train, Station& station) {
 void Graph::_boardPassengers(Train& train, Station& station) {
     std::vector<Passenger>& waiting = station.waitingPassengers;
 
+    auto score = [&](const Passenger& p) {
+        switch (boardingPolicy_) {
+        case BoardingPolicy::FIFO:
+            return p.waitingTicks;
+
+        case BoardingPolicy::AGING_PRIORITY:
+            return p.waitingTicks;
+
+        case BoardingPolicy::SHORTEST_REMAINING_HOPS:
+            return SIZE_MAX - estimateRemainingHops(station.id, p.destination);
+        }
+        return std::size_t{0};
+    };
+
+    std::stable_sort(waiting.begin(), waiting.end(),
+                     [&](const Passenger& a, const Passenger& b) { return score(a) > score(b); });
     for (auto it = waiting.begin(); it != waiting.end() && train.onboard.size() < train.capacity;) {
-        if (!this->_canBoard(*it, station.id, train.lineId)) {
+
+        if (!this->_canPassengerBoard(*it, station.id, train)) {
             ++it;
             continue;
         }
-        std::optional<std::uint32_t> hop = nextHop(station.id, it->destination);
+        std::optional<std::uint32_t> hop = this->nextHop(station.id, it->destination);
 
-        Passenger p = *it; // copy first
+        Passenger p = *it;
         p.targetStationId = *hop;
         p.currentLineId = train.lineId;
         p.state = ONTRAIN;
-
+        if (p.lastStationId == *hop) {
+            std::logic_error("Passenger is oscilating!");
+        }
+        p.lastStationId = station.id;
         train.onboard.push_back(p);
         it = waiting.erase(it);
     }
@@ -338,6 +394,17 @@ void Graph::_assertInvariants() const {
     }
 }
 
+void Graph::_ageWaitingPassengers() {
+    for (auto& [_, station] : stations_) {
+        for (auto& p : station.waitingPassengers) {
+            ++p.waitingTicks;
+        }
+    }
+}
+
+void Graph::setBoardingPolicy(BoardingPolicy p) {
+    this->boardingPolicy_ = p;
+}
 
 void Graph::tick() {
     if (this->failed_)
@@ -354,6 +421,7 @@ void Graph::tick() {
 
         this->_assertInvariants();
     }
+    this->_ageWaitingPassengers();
 }
 
 void Graph::stateFailed() {

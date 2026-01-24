@@ -7,6 +7,8 @@
 #include <unordered_map>
 #include <vector>
 
+enum BoardingPolicy { FIFO, SHORTEST_REMAINING_HOPS, AGING_PRIORITY };
+
 class Graph {
   public:
     std::uint32_t addStation(StationType type);
@@ -30,7 +32,7 @@ class Graph {
     bool lineExists(std::uint32_t id) const;
     bool lineContainsStation(std::uint32_t lineId, std::uint32_t stationId) const;
 
-    std::vector<std::uint32_t> adjacentStations(std::uint32_t stationId) const;
+    std::size_t estimateRemainingHops(std::uint32_t fromStationId, StationType destination) const;
     bool canRoute(std::uint32_t fromStationId, StationType destinationType) const;
     bool canPassengerBeServed(std::uint32_t stationId, const Passenger& p) const;
     std::optional<std::uint32_t> nextHop(std::uint32_t fromStationId, StationType destType) const;
@@ -40,12 +42,16 @@ class Graph {
     void addTrain(std::uint32_t line, std::uint32_t capacity);
     const std::vector<Train>& getTrains() const;
 
+    void setBoardingPolicy(BoardingPolicy p);
     void tick();
     void stateFailed();
     bool isFailed() const;
 
   private:
+    bool _canPassengerBoard(const Passenger& p, std::uint32_t stationId, const Train& train) const;
     bool _canBoard(const Passenger& p, std::uint32_t stationId, std::uint32_t lineId) const;
+    std::vector<std::uint32_t> _adjacentStations(std::uint32_t stationId) const;
+    void _ageWaitingPassengers();
     void _advanceTrainPosition(Train& t, Line& line);
     void _alightPassengers(Train& t, Station& station);
     void _boardPassengers(Train& t, Station& station);
@@ -54,6 +60,8 @@ class Graph {
 
     std::uint32_t nextStationId_{1};
     std::uint32_t nextLineId_{1};
+    std::uint32_t nextPassengerId_{1};
+    BoardingPolicy boardingPolicy_ = FIFO;
     bool failed_ = false;
 
     std::uint32_t completedPassengers_{0};
