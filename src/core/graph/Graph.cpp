@@ -274,7 +274,7 @@ void Graph::addTrain(std::uint32_t lineId, std::uint32_t capacity) {
     if (line->stationIds.size() <= 0) {
         throw std::logic_error("Cannot add train to line with no stations");
     }
-    Train t = {this->nextTrainId_++, lineId, 0, 1, {}, capacity};
+    Train t = {this->nextTrainId_++, lineId, 0, 0, 1, {}, capacity};
     this->trains_.push_back(t);
 }
 
@@ -321,6 +321,7 @@ void Graph::_advanceTrainPosition(Train& t, Line& line) {
     }
 
     t.stationIndex += t.direction;
+    t.currentStationId = line.stationIds[t.stationIndex];
 }
 
 void Graph::_alightPassengers(Train& train, Station& station) {
@@ -377,7 +378,7 @@ void Graph::_boardPassengers(Train& train, Station& station) {
 
     std::stable_sort(waiting.begin(), waiting.end(),
                      [&](const Passenger& a, const Passenger& b) { return score(a) > score(b); });
-
+    std::cout << "Train id: " << train.trainId << std::endl;
     for (auto it = waiting.begin(); it != waiting.end() && train.onboard.size() < train.capacity;) {
 
         Passenger& passenger = *it;

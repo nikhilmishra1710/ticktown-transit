@@ -10,7 +10,7 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 FetchContent_MakeAvailable(googletest)
-# determinism_tests.cpp graph_tests.cpp route_test.cpp train_simulation_test.cpp passenger_test.cpp passenger_heutristic.cpp
+
 add_executable(core_tests
 determinism_tests.cpp 
 graph_tests.cpp 
@@ -18,7 +18,8 @@ route_test.cpp
 train_simulation_test.cpp 
 passenger_test.cpp 
 passenger_heutristic.cpp    
-transfer_test.cpp 
+transfer_test.cpp
+routing_cache.cpp
 )
 
 target_link_libraries(core_tests
