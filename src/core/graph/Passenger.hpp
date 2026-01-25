@@ -1,24 +1,35 @@
 #pragma once
 #include "StationType.hpp"
+#include "id.hpp"
 #include <cstdint>
 #include <optional>
 #include <stdexcept>
+#include <vector>
 
-enum PassengerState { WAITING, ONTRAIN };
+enum class PassengerState { WAITING, ON_TRAIN, TRANSFERRING, COMPLETED };
+
+using PassengerId = std::uint32_t;
 
 struct Passenger {
-    std::uint32_t passengerId;
-    StationType origin;
+    PassengerId passengerId;
     StationType destination;
     PassengerState state;
-    std::uint32_t lastStationId = UINT32_MAX;
 
-    std::size_t waitingTicks = 0;
+    std::optional<TrainId> train;
+    std::optional<StationId> station;
+
+    std::vector<StationId> committedRoute;
+    std::size_t routeIndex = 0;
+
+    std::size_t age = 0;
+    std::optional<StationId> nextHop;
+
+    std::uint32_t lastStationId = UINT32_MAX;
     std::optional<std::uint32_t> currentLineId;
     std::optional<std::uint32_t> targetStationId;
 
     Passenger(std::uint32_t id, StationType o, StationType d, PassengerState s)
-        : passengerId(id), origin(o), destination(d), state(s) {
+        : passengerId(id), station(o), destination(d), state(s) {
         if (o == d) {
             throw std::logic_error("Passenger origin == destination");
         }

@@ -3,6 +3,9 @@
 #include "Passenger.hpp"
 #include "Station.hpp"
 #include "StationType.hpp"
+#include "id.hpp"
+#include "passenger_state_machine.hpp"
+#include "route_info.hpp"
 #include <algorithm>
 #include <cassert>
 #include <iostream>
@@ -13,8 +16,9 @@
 #include <vector>
 
 std::uint32_t Graph::addStation(StationType type) {
-    Station newStation = {this->nextStationId_, type};
+    Station newStation = {this->nextStationId_, type, {}};
     this->stations_[this->nextStationId_] = newStation;
+    routingCache_.invalidate();
     return this->nextStationId_++;
 }
 
@@ -29,11 +33,13 @@ void Graph::removeStation(std::uint32_t stationId) {
             std::remove(line.stationIds.begin(), line.stationIds.end(), stationId),
             line.stationIds.end());
     }
+    routingCache_.invalidate();
 }
 
 std::uint32_t Graph::addLine() {
     Line newLine = {this->nextLineId_, {}};
     this->lines_[this->nextLineId_] = newLine;
+    routingCache_.invalidate();
     return this->nextLineId_++;
 }
 
@@ -45,12 +51,14 @@ void Graph::addStationToLine(std::uint32_t lineId, std::uint32_t stationId) {
         throw std::logic_error("Station already exists on line");
     }
     this->lines_[lineId].stationIds.push_back(stationId);
+    routingCache_.invalidate();
 }
 void Graph::removeLine(std::uint32_t lineId) {
     if (!this->lineExists(lineId)) {
         throw std::logic_error("Line doesn't exist");
     }
     this->lines_.erase(lineId);
+    routingCache_.invalidate();
 }
 
 const Station* Graph::getStation(std::uint32_t id) const {
@@ -117,7 +125,8 @@ void Graph::spawnPassengerAt(std::uint32_t stationId, StationType destination) {
         this->stateFailed();
         return;
     }
-    s.waitingPassengers.emplace_back(this->nextPassengerId_++, s.type, destination, WAITING);
+    s.waitingPassengers.emplace_back(this->nextPassengerId_++, s.type, destination,
+                                     PassengerState::WAITING);
 }
 
 std::vector<std::uint32_t> Graph::_adjacentStations(std::uint32_t stationId) const {
@@ -138,54 +147,46 @@ std::vector<std::uint32_t> Graph::_adjacentStations(std::uint32_t stationId) con
     return result;
 }
 
-bool Graph::canRoute(std::uint32_t fromStationId, StationType destinationType) const {
-    auto startIt = stations_.find(fromStationId);
-    if (startIt == stations_.end()) {
-        throw std::logic_error("Invalid fromStationId in canRoute");
-    }
-
-    std::queue<std::uint32_t> q;
-    std::unordered_set<std::uint32_t> visited;
-
-    q.push(fromStationId);
-    visited.insert(fromStationId);
-
-    while (!q.empty()) {
-        auto current = q.front();
-        q.pop();
-
-        const Station& s = stations_.at(current);
-        if (s.type == destinationType) {
-            return true;
-        }
-
-        for (auto neighbor : this->_adjacentStations(current)) {
-            if (!visited.contains(neighbor)) {
-                visited.insert(neighbor);
-                q.push(neighbor);
-            }
-        }
-    }
-
-    return false;
+bool Graph::canRoute(std::uint32_t fromStationId, StationType destinationType) {
+    const RouteInfo& r = routingCache_.get(fromStationId, destinationType, *this);
+    return r.reachable;
 }
 
-bool Graph::canPassengerBeServed(std::uint32_t stationId, const Passenger& p) const {
+bool Graph::canPassengerBeServed(std::uint32_t stationId, const Passenger& p) {
     return canRoute(stationId, p.destination);
 }
 
-std::optional<std::uint32_t> Graph::nextHop(std::uint32_t fromStationId,
-                                            StationType destType) const {
-    if (stations_.at(fromStationId).type == destType) {
-        return std::nullopt; // already there; no movement
+std::optional<std::uint32_t> Graph::nextHop(std::uint32_t fromStationId, StationType destType) {
+    const RouteInfo& r = routingCache_.get(fromStationId, destType, *this);
+    std::cout << "Source: " << fromStationId << " Dest Type: " << destType
+              << " Reachable: " << r.reachable << "\nPath: ";
+    for (auto it : r.path) {
+        std::cout << it << " ";
+    }
+    std::cout << std::endl;
+    if (!r.reachable || r.path.size() < 2) {
+        return std::nullopt;
     }
 
-    std::queue<std::uint32_t> q;
-    std::unordered_map<std::uint32_t, std::uint32_t> parent;
-    std::unordered_set<std::uint32_t> visited;
+    return r.path[1]; // path[0] == from
+}
 
-    q.push(fromStationId);
-    visited.insert(fromStationId);
+RouteInfo Graph::computeRoute(StationId source, StationType destinationType) const {
+    std::cout << "Started Compute Route source: " << source << " Dest type: " << destinationType
+              << std::endl;
+    RouteInfo routeInfo = {false, {}};
+    if (stations_.at(source).type == destinationType) {
+        return routeInfo; // already there; no movement
+    }
+
+    std::queue<StationId> q;
+    std::unordered_map<StationId, StationId> parent;
+    std::unordered_set<StationId> visited;
+
+    std::vector<StationId> path;
+
+    q.push(source);
+    visited.insert(source);
 
     while (!q.empty()) {
         std::uint32_t cur = q.front();
@@ -202,11 +203,17 @@ std::optional<std::uint32_t> Graph::nextHop(std::uint32_t fromStationId,
                     if (!visited.count(n)) {
                         visited.insert(n);
                         parent[n] = cur;
-                        if (stations_.at(n).type == destType) {
-                            // reconstruct first hop
-                            while (parent[n] != fromStationId)
+                        if (stations_.at(n).type == destinationType) {
+                            while (parent[n] != source) {
+                                routeInfo.path.push_back(n);
                                 n = parent[n];
-                            return n;
+                            }
+                            routeInfo.path.push_back(n);
+                            routeInfo.path.push_back(source);
+                            std::reverse(routeInfo.path.begin(), routeInfo.path.end());
+                            routeInfo.reachable = true;
+                            std::cout << "Length: " << routeInfo.path.size() << std::endl;
+                            return routeInfo;
                         }
                         q.push(n);
                     }
@@ -217,10 +224,17 @@ std::optional<std::uint32_t> Graph::nextHop(std::uint32_t fromStationId,
                     if (!visited.count(n)) {
                         visited.insert(n);
                         parent[n] = cur;
-                        if (stations_.at(n).type == destType) {
-                            while (parent[n] != fromStationId)
+                        if (stations_.at(n).type == destinationType) {
+                            while (parent[n] != source) {
+                                routeInfo.path.push_back(n);
                                 n = parent[n];
-                            return n;
+                            }
+                            routeInfo.path.push_back(n);
+                            routeInfo.path.push_back(source);
+                            std::reverse(routeInfo.path.begin(), routeInfo.path.end());
+                            routeInfo.reachable = true;
+                            std::cout << "Length: " << routeInfo.path.size() << std::endl;
+                            return routeInfo;
                         }
                         q.push(n);
                     }
@@ -228,12 +242,11 @@ std::optional<std::uint32_t> Graph::nextHop(std::uint32_t fromStationId,
             }
         }
     }
-    return std::nullopt;
+    return routeInfo;
 }
 
-bool Graph::_canPassengerBoard(const Passenger& p, std::uint32_t stationId,
-                               const Train& train) const {
-    if (p.state != PassengerState::WAITING)
+bool Graph::_canPassengerBoard(const Passenger& p, std::uint32_t stationId, const Train& train) {
+    if (p.state != PassengerState::WAITING && p.state != PassengerState::TRANSFERRING)
         return false;
     if (train.onboard.size() >= train.capacity)
         return false;
@@ -241,7 +254,7 @@ bool Graph::_canPassengerBoard(const Passenger& p, std::uint32_t stationId,
     return board;
 }
 
-bool Graph::_canBoard(const Passenger& p, std::uint32_t stationId, std::uint32_t lineId) const {
+bool Graph::_canBoard(const Passenger& p, std::uint32_t stationId, std::uint32_t lineId) {
     auto hop = nextHop(stationId, p.destination);
     if (!hop)
         return false;
@@ -261,7 +274,7 @@ void Graph::addTrain(std::uint32_t lineId, std::uint32_t capacity) {
     if (line->stationIds.size() <= 0) {
         throw std::logic_error("Cannot add train to line with no stations");
     }
-    Train t = {lineId, 0, 1, {}, capacity};
+    Train t = {this->nextTrainId_++, lineId, 0, 1, {}, capacity};
     this->trains_.push_back(t);
 }
 
@@ -311,27 +324,37 @@ void Graph::_advanceTrainPosition(Train& t, Line& line) {
 }
 
 void Graph::_alightPassengers(Train& train, Station& station) {
-    for (auto passenger = train.onboard.begin(); passenger != train.onboard.end();) {
-        bool done =
-            station.type == passenger->destination || station.id == passenger->targetStationId;
+    for (auto it = train.onboard.begin(); it != train.onboard.end();) {
+        Passenger& passenger = *it;
 
-        if (!done) {
-            ++passenger;
+        if (passenger.nextHop != station.id) {
+            throw std::logic_error("Passenger route desync during alight");
+        }
+
+        if (station.type == passenger.destination) {
+            it = train.onboard.erase(it);
+            PassengerFSM::onTrainToCompleted(passenger);
+            this->completedPassengers_++;
             continue;
         }
 
-        // clear travel commitment
-        passenger->currentLineId.reset();
-        passenger->targetStationId.reset();
-        passenger->state = PassengerState::WAITING;
+        std::optional hop = this->nextHop(station.id, passenger.destination);
+        if (!hop.has_value()) {
+            throw std::logic_error("Passenger has no where to go");
+        }
+        StationId nextStation = *hop;
+        passenger.nextHop = nextStation;
 
-        if (station.type != passenger->destination) {
-            station.waitingPassengers.push_back(*passenger); // transfer
-        } else {
-            this->completedPassengers_++;
+        // Case 2: train continues along route → STAY ON TRAIN
+        if (this->lineContainsStation(train.lineId, nextStation)) {
+            ++it;
+            continue;
         }
 
-        passenger = train.onboard.erase(passenger);
+        // Case 3: transfer required → ALIGHT
+        PassengerFSM::onTrainToTransferring(passenger, station.id);
+        station.waitingPassengers.push_back(passenger);
+        it = train.onboard.erase(it);
     }
 }
 
@@ -341,10 +364,10 @@ void Graph::_boardPassengers(Train& train, Station& station) {
     auto score = [&](const Passenger& p) {
         switch (boardingPolicy_) {
         case BoardingPolicy::FIFO:
-            return p.waitingTicks;
+            return p.age;
 
         case BoardingPolicy::AGING_PRIORITY:
-            return p.waitingTicks;
+            return p.age;
 
         case BoardingPolicy::SHORTEST_REMAINING_HOPS:
             return SIZE_MAX - estimateRemainingHops(station.id, p.destination);
@@ -354,24 +377,56 @@ void Graph::_boardPassengers(Train& train, Station& station) {
 
     std::stable_sort(waiting.begin(), waiting.end(),
                      [&](const Passenger& a, const Passenger& b) { return score(a) > score(b); });
+
     for (auto it = waiting.begin(); it != waiting.end() && train.onboard.size() < train.capacity;) {
 
-        if (!this->_canPassengerBoard(*it, station.id, train)) {
+        Passenger& passenger = *it;
+        bool canBoard = this->_canPassengerBoard(passenger, station.id, train);
+        std::cout << "Passenger id: " << passenger.passengerId << " can board: " << canBoard
+                  << " source: " << station.id << " dest type: " << passenger.destination
+                  << std::endl;
+        if (!canBoard) {
             ++it;
             continue;
         }
-        std::optional<std::uint32_t> hop = this->nextHop(station.id, it->destination);
 
-        Passenger p = *it;
-        p.targetStationId = *hop;
-        p.currentLineId = train.lineId;
-        p.state = ONTRAIN;
-        if (p.lastStationId == *hop) {
-            std::logic_error("Passenger is oscilating!");
+        if (!passenger.nextHop.has_value()) {
+            passenger.nextHop = this->nextHop(station.id, passenger.destination);
         }
-        p.lastStationId = station.id;
-        train.onboard.push_back(p);
+
+        // Must have a next step
+        if (!passenger.nextHop.has_value()) {
+            ++it;
+            continue;
+        }
+
+        if (passenger.state == PassengerState::WAITING)
+            PassengerFSM::waitingToOnTrain(passenger, train.trainId);
+        else
+            PassengerFSM::transferringToOnTrain(passenger, train.trainId);
+        train.onboard.push_back(passenger);
         it = waiting.erase(it);
+    }
+}
+
+void Graph::_assertPassengerInvariants(const Passenger& p) const {
+
+    switch (p.state) {
+    case PassengerState::WAITING:
+        assert(p.station.has_value());
+        assert(!p.train.has_value());
+        break;
+    case PassengerState::ON_TRAIN:
+        assert(p.train.has_value());
+        assert(!p.station.has_value());
+        break;
+    case PassengerState::TRANSFERRING:
+        assert(p.station.has_value());
+        break;
+    case PassengerState::COMPLETED:
+        assert(!p.train.has_value());
+        assert(!p.station.has_value());
+        break;
     }
 }
 
@@ -380,15 +435,13 @@ void Graph::_assertInvariants() const {
 
     for (const auto& [_, st] : stations_) {
         for (const auto& p : st.waitingPassengers) {
-            assert(!p.currentLineId.has_value());
-            assert(seen.insert(&p).second);
+            this->_assertPassengerInvariants(p);
         }
     }
 
     for (const auto& t : trains_) {
         for (const auto& p : t.onboard) {
-            assert(p.currentLineId.has_value());
-            assert(p.currentLineId == t.lineId);
+            this->_assertPassengerInvariants(p);
             assert(seen.insert(&p).second);
         }
     }
@@ -397,7 +450,7 @@ void Graph::_assertInvariants() const {
 void Graph::_ageWaitingPassengers() {
     for (auto& [_, station] : stations_) {
         for (auto& p : station.waitingPassengers) {
-            ++p.waitingTicks;
+            ++p.age;
         }
     }
 }

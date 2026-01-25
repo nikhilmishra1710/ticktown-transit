@@ -1,4 +1,7 @@
 #include "core/graph/Graph.hpp"
+#include "core/graph/Passenger.hpp"
+#include "core/graph/StationType.hpp"
+#include "core/graph/passenger_state_machine.hpp"
 #include <gtest/gtest.h>
 
 TEST(PassengerAging, WaitingPassengersAgeEachTick) {
@@ -14,7 +17,7 @@ TEST(PassengerAging, WaitingPassengersAgeEachTick) {
 
     const auto& waiting = g.getStation(A)->waitingPassengers;
     ASSERT_EQ(waiting.size(), 1);
-    EXPECT_EQ(waiting[0].waitingTicks, 2);
+    EXPECT_EQ(waiting[0].age, 2);
 }
 
 TEST(PassengerAging, OnboardPassengersDoNotAge) {
@@ -34,7 +37,7 @@ TEST(PassengerAging, OnboardPassengersDoNotAge) {
 
     const auto& t = g.getTrains()[0];
     ASSERT_EQ(t.onboard.size(), 1);
-    EXPECT_EQ(t.onboard[0].waitingTicks, 0);
+    EXPECT_EQ(t.onboard[0].age, 0);
 }
 
 TEST(BoardingPolicy, FIFOPreservesArrivalOrder) {
@@ -57,7 +60,7 @@ TEST(BoardingPolicy, FIFOPreservesArrivalOrder) {
 
     const auto& onboard = g.getTrains()[0].onboard;
     ASSERT_EQ(onboard.size(), 1);
-    EXPECT_GT(onboard[0].waitingTicks, 0);
+    EXPECT_GT(onboard[0].age, 0);
 }
 
 TEST(BoardingPolicy, ShortestRemainingHopWins) {
@@ -205,4 +208,11 @@ TEST(Week7Determinism, PolicyAndAgingDeterministic) {
     }
 
     EXPECT_EQ(g1.completedPassengers(), g2.completedPassengers());
+}
+
+TEST(PassengerFSM, IllegalTransitionFails) {
+    Passenger p = {1, StationType::Circle, StationType::Square, PassengerState::WAITING};
+    p.state = PassengerState::COMPLETED;
+
+    EXPECT_THROW(PassengerFSM::waitingToOnTrain(p, 1), std::logic_error);
 }

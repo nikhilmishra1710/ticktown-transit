@@ -1,8 +1,11 @@
 #pragma once
 #include "Line.hpp"
+#include "Passenger.hpp"
 #include "Station.hpp"
 #include "StationType.hpp"
 #include "Train.hpp"
+#include "route_info.hpp"
+#include "routing_cache.hpp"
 #include <optional>
 #include <unordered_map>
 #include <vector>
@@ -33,9 +36,10 @@ class Graph {
     bool lineContainsStation(std::uint32_t lineId, std::uint32_t stationId) const;
 
     std::size_t estimateRemainingHops(std::uint32_t fromStationId, StationType destination) const;
-    bool canRoute(std::uint32_t fromStationId, StationType destinationType) const;
-    bool canPassengerBeServed(std::uint32_t stationId, const Passenger& p) const;
-    std::optional<std::uint32_t> nextHop(std::uint32_t fromStationId, StationType destType) const;
+    bool canRoute(std::uint32_t fromStationId, StationType destinationType);
+    bool canPassengerBeServed(std::uint32_t stationId, const Passenger& p);
+    std::optional<std::uint32_t> nextHop(std::uint32_t fromStationId, StationType destType);
+    RouteInfo computeRoute(StationId source, StationType destination) const;
 
     void spawnPassengerAt(std::uint32_t stationId, StationType destination);
 
@@ -48,25 +52,27 @@ class Graph {
     bool isFailed() const;
 
   private:
-    bool _canPassengerBoard(const Passenger& p, std::uint32_t stationId, const Train& train) const;
-    bool _canBoard(const Passenger& p, std::uint32_t stationId, std::uint32_t lineId) const;
+    bool _canPassengerBoard(const Passenger& p, std::uint32_t stationId, const Train& train);
+    bool _canBoard(const Passenger& p, std::uint32_t stationId, std::uint32_t lineId);
     std::vector<std::uint32_t> _adjacentStations(std::uint32_t stationId) const;
     void _ageWaitingPassengers();
     void _advanceTrainPosition(Train& t, Line& line);
     void _alightPassengers(Train& t, Station& station);
     void _boardPassengers(Train& t, Station& station);
 
+    void _assertPassengerInvariants(const Passenger& p) const;
     void _assertInvariants() const;
 
     std::uint32_t nextStationId_{1};
     std::uint32_t nextLineId_{1};
+    std::uint32_t nextTrainId_{1};
     std::uint32_t nextPassengerId_{1};
     BoardingPolicy boardingPolicy_ = FIFO;
     bool failed_ = false;
 
     std::uint32_t completedPassengers_{0};
-
-    std::unordered_map<std::uint32_t, Station> stations_;
-    std::unordered_map<std::uint32_t, Line> lines_;
+    RoutingCache routingCache_;
+    std::unordered_map<StationId, Station> stations_;
+    std::unordered_map<LineId, Line> lines_;
     std::vector<Train> trains_;
 };

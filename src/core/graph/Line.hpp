@@ -2,7 +2,9 @@
 #include <cstdint>
 #include <vector>
 
+using LineId = std::uint32_t;
+
 struct Line {
-    std::uint32_t id;
+    LineId id;
     std::vector<std::uint32_t> stationIds;
 };
