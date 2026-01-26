@@ -12,6 +12,7 @@ using PassengerId = std::uint32_t;
 
 struct Passenger {
     PassengerId passengerId;
+    StationId source;
     StationType destination;
     PassengerState state;
 
@@ -29,7 +30,7 @@ struct Passenger {
     std::optional<std::uint32_t> targetStationId;
 
     Passenger(std::uint32_t id, StationType o, StationType d, PassengerState s)
-        : passengerId(id), station(o), destination(d), state(s) {
+        : source(id), passengerId(id), station(o), destination(d), state(s) {
         if (o == d) {
             throw std::logic_error("Passenger origin == destination");
         }

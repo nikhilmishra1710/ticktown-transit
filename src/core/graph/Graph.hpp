@@ -1,6 +1,7 @@
 #pragma once
 #include "Line.hpp"
 #include "Passenger.hpp"
+#include "SimulationSnapshot.hpp"
 #include "Station.hpp"
 #include "StationType.hpp"
 #include "Train.hpp"
@@ -50,6 +51,7 @@ class Graph {
     void tick();
     void stateFailed();
     bool isFailed() const;
+    SimulationSnapshot snapshot() const;
 
   private:
     bool _canPassengerBoard(const Passenger& p, std::uint32_t stationId, const Train& train);
@@ -67,6 +69,7 @@ class Graph {
     std::uint32_t nextLineId_{1};
     std::uint32_t nextTrainId_{1};
     std::uint32_t nextPassengerId_{1};
+    std::uint32_t tick_{1};
     BoardingPolicy boardingPolicy_ = FIFO;
     bool failed_ = false;
 

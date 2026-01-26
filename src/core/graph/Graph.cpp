@@ -1,6 +1,7 @@
 #include "Graph.hpp"
 #include "Line.hpp"
 #include "Passenger.hpp"
+#include "SimulationSnapshot.hpp"
 #include "Station.hpp"
 #include "StationType.hpp"
 #include "id.hpp"
@@ -463,6 +464,7 @@ void Graph::setBoardingPolicy(BoardingPolicy p) {
 void Graph::tick() {
     if (this->failed_)
         return;
+    this->tick_++;
     for (Train& t : this->trains_) {
         Line& line = this->lines_.at(t.lineId);
         std::uint32_t stationId = line.stationIds[t.stationIndex];
@@ -484,4 +486,34 @@ void Graph::stateFailed() {
 
 bool Graph::isFailed() const {
     return this->failed_;
+}
+
+SimulationSnapshot Graph::snapshot() const {
+    SimulationSnapshot snap;
+    snap.tick = this->tick_;
+
+    for (const auto& [id, s] : stations_) {
+        snap.stations.push_back({id, s.type, s.waitingPassengers.size()});
+    }
+
+    for (const auto& t : trains_) {
+        snap.trains.push_back({t.trainId, t.lineId, lines_.at(t.lineId).stationIds[t.stationIndex],
+                               t.direction == 1 ? true : false, t.capacity, t.onboard.size()});
+    }
+
+    for (const auto& [id, s] : stations_) {
+        for (const auto& p : s.waitingPassengers) {
+            snap.passengers.push_back(
+                {p.passengerId, p.source, p.destination, p.state, id, std::nullopt, p.age});
+        }
+    }
+
+    for (const auto& t : trains_) {
+        for (const auto& p : t.onboard) {
+            snap.passengers.push_back(
+                {p.passengerId, p.source, p.destination, p.state, std::nullopt, t.trainId, p.age});
+        }
+    }
+
+    return snap;
 }
