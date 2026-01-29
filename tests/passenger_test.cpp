@@ -48,7 +48,9 @@ TEST(PassengerPressure, TrainReducesQueue) {
     g.spawnPassengerAt(A, StationType::Square);
     g.spawnPassengerAt(A, StationType::Square);
 
-    g.tick();
+    g.tick(); // A Alighting
+    g.tick(); // A Boarding
+    g.tick(); // A -> B
 
     EXPECT_EQ(g.getStation(A)->waitingPassengers.size(), 0);
 }

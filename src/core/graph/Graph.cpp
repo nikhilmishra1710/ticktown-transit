@@ -4,15 +4,18 @@
 #include "SimulationSnapshot.hpp"
 #include "Station.hpp"
 #include "StationType.hpp"
+#include "Train.hpp"
 #include "id.hpp"
 #include "passenger_state_machine.hpp"
 #include "route_info.hpp"
+#include "train_state_machine.hpp"
 #include <algorithm>
 #include <cassert>
 #include <iostream>
 #include <optional>
 #include <queue>
 #include <stdexcept>
+#include <string>
 #include <unordered_set>
 #include <vector>
 
@@ -275,7 +278,7 @@ void Graph::addTrain(std::uint32_t lineId, std::uint32_t capacity) {
     if (line->stationIds.size() <= 0) {
         throw std::logic_error("Cannot add train to line with no stations");
     }
-    Train t = {this->nextTrainId_++, lineId, 0, 0, 1, {}, capacity};
+    Train t = {this->nextTrainId_++, lineId, 0, TrainState::ALIGHTING, 0, 1, {}, capacity};
     this->trains_.push_back(t);
 }
 
@@ -315,6 +318,10 @@ void Graph::_advanceTrainPosition(Train& t, Line& line) {
     if (last == 0)
         return;
 
+    t.progress += t.speed;
+    if (t.progress < 1.0f) {
+        return;
+    }
     if (t.direction == 1 && t.stationIndex == last) {
         t.direction = -1;
     } else if (t.direction == -1 && t.stationIndex == 0) {
@@ -323,6 +330,7 @@ void Graph::_advanceTrainPosition(Train& t, Line& line) {
 
     t.stationIndex += t.direction;
     t.currentStationId = line.stationIds[t.stationIndex];
+    TrainFSM::movingToAlighting(t);
 }
 
 void Graph::_alightPassengers(Train& train, Station& station) {
@@ -358,6 +366,8 @@ void Graph::_alightPassengers(Train& train, Station& station) {
         station.waitingPassengers.push_back(passenger);
         it = train.onboard.erase(it);
     }
+
+    TrainFSM::alightingToBoarding(train);
 }
 
 void Graph::_boardPassengers(Train& train, Station& station) {
@@ -409,6 +419,8 @@ void Graph::_boardPassengers(Train& train, Station& station) {
         train.onboard.push_back(passenger);
         it = waiting.erase(it);
     }
+
+    TrainFSM::boardingToMoving(train);
 }
 
 void Graph::_assertPassengerInvariants(const Passenger& p) const {
@@ -470,10 +482,19 @@ void Graph::tick() {
         std::uint32_t stationId = line.stationIds[t.stationIndex];
         Station& station = this->stations_.at(stationId);
 
-        this->_alightPassengers(t, station);
-        this->_boardPassengers(t, station);
-
-        this->_advanceTrainPosition(t, line);
+        switch (t.state) {
+        case TrainState::ALIGHTING:
+            this->_alightPassengers(t, station);
+            break;
+        case TrainState::BOARDING:
+            this->_boardPassengers(t, station);
+            break;
+        case TrainState::MOVING:
+            this->_advanceTrainPosition(t, line);
+            break;
+        default:
+            throw std::logic_error("Invalid Train State " + std::to_string(t.trainId));
+        }
 
         this->_assertInvariants();
     }
@@ -498,7 +519,7 @@ SimulationSnapshot Graph::snapshot() const {
 
     for (const auto& t : trains_) {
         snap.trains.push_back({t.trainId, t.lineId, lines_.at(t.lineId).stationIds[t.stationIndex],
-                               t.direction == 1 ? true : false, t.capacity, t.onboard.size()});
+                               t.direction == 1 ? true : false, t.capacity, t.onboard.size(), t.state});
     }
 
     for (const auto& [id, s] : stations_) {

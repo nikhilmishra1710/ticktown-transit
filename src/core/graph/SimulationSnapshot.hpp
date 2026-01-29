@@ -1,4 +1,5 @@
 #pragma once
+#include "Train.hpp"
 #include "core/graph/Passenger.hpp"
 #include "core/graph/StationType.hpp"
 #include "id.hpp"
@@ -22,6 +23,7 @@ struct TrainView {
     bool forward;
     std::size_t capacity;
     std::size_t onboard;
+    TrainState state;
 };
 
 struct StationView {

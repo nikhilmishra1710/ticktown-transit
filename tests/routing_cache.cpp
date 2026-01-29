@@ -43,7 +43,9 @@ TEST(Serviceability, PassengerDoesNotBoardIfNextHopNotServedByTrain) {
 
     g.spawnPassengerAt(A, StationType::Triangle);
 
-    g.tick();
+    g.tick(); // A Alighting
+    g.tick(); // A Boarding
+    g.tick(); // A -> B
 
     EXPECT_EQ(g.getStation(A)->waitingPassengers.size(), 1);
     EXPECT_EQ(g.getTrains()[0].onboard.size(), 0);
@@ -63,13 +65,18 @@ TEST(TopologyMutation, TrainDoesNotServeInsertedStationMidRoute) {
 
     g.addTrain(line, 1);
 
-    g.tick(); // train at B
+    g.tick(); // A Alighting
+    g.tick(); // A Boarding
+    g.tick(); // A -> B
+
+    g.tick(); // B Alighting
+    g.tick(); // B Boarding
 
     auto D = g.addStation(StationType::Star);
     g.addStationToLine(line, D);
+    g.tick(); // B -> C
 
-    g.tick(); // train must go to C, not D
-
+    std::cout << g.getTrains()[0].currentStationId << " " << B << std::endl;
     EXPECT_EQ(g.getTrains()[0].currentStationId, C);
 }
 
@@ -93,7 +100,7 @@ TEST(Monotonicity, PassengerNeverRevisitsStation) {
 
     g.spawnPassengerAt(A, StationType::Triangle);
 
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 20; ++i)
         g.tick();
 
     EXPECT_EQ(g.completedPassengers(), 1);

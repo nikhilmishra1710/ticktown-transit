@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "core/graph/Graph.hpp"
+#include "core/graph/StationType.hpp"
 
 TEST(TrainMovement, MovesForwardOneStation) {
     Graph g;
@@ -13,7 +14,9 @@ TEST(TrainMovement, MovesForwardOneStation) {
 
     g.addTrain(line, /*capacity=*/1);
 
-    g.tick();
+    g.tick(); // Alighting
+    g.tick(); // Boarding
+    g.tick(); // Moves forrward
 
     const Train& t = g.getTrains()[0];
     EXPECT_EQ(t.stationIndex, 1);
@@ -31,11 +34,19 @@ TEST(TrainMovement, ReversesAtLineEnd) {
 
     g.addTrain(line, 1);
 
+    g.tick(); // A Alighting
+    g.tick(); // A Boarding
     g.tick(); // A -> B
-    g.tick(); // reverse, B -> A
 
-    const Train& t = g.getTrains()[0];
-    EXPECT_EQ(t.stationIndex, 0);
+    const Train& t1 = g.getTrains()[0];
+    EXPECT_EQ(t1.stationIndex, 1);
+
+    g.tick(); // B Alighting
+    g.tick(); // B Boarding
+    g.tick(); // B -> A
+
+    const Train& t2 = g.getTrains()[0];
+    EXPECT_EQ(t2.stationIndex, 0);
 }
 
 TEST(PassengerBoarding, BoardsIfRouteExists) {
@@ -49,12 +60,15 @@ TEST(PassengerBoarding, BoardsIfRouteExists) {
     g.addStationToLine(line, B);
 
     g.spawnPassengerAt(A, StationType::Square);
+    g.spawnPassengerAt(A, StationType::Star);
     g.addTrain(line, 1);
 
-    g.tick();
+    g.tick(); // A Alighting
+    g.tick(); // A Boarding
 
     const Train& t = g.getTrains()[0];
     EXPECT_EQ(t.onboard.size(), 1);
+    EXPECT_EQ(g.getStation(A)->waitingPassengers.size(), 1);
 }
 
 TEST(PassengerBoarding, RespectsCapacity) {
@@ -72,7 +86,8 @@ TEST(PassengerBoarding, RespectsCapacity) {
 
     g.addTrain(line, 1);
 
-    g.tick();
+    g.tick(); // A Alighting
+    g.tick(); // A Boarding
 
     EXPECT_EQ(g.getTrains()[0].onboard.size(), 1);
     EXPECT_EQ(g.getStation(A)->waitingPassengers.size(), 1);
@@ -91,8 +106,10 @@ TEST(PassengerDropoff, DropsAtDestinationType) {
     g.spawnPassengerAt(A, StationType::Square);
     g.addTrain(line, 1);
 
-    g.tick(); // board + move to B
-    g.tick(); // drop
+    g.tick(); // A Alighting
+    g.tick(); // A Boarding
+    g.tick(); // A -> B
+    g.tick(); // B Alighting
 
     EXPECT_EQ(g.getTrains()[0].onboard.size(), 0);
 }
@@ -110,7 +127,9 @@ TEST(PassengerDropoff, DoesNotDropEarly) {
     g.spawnPassengerAt(A, StationType::Square);
     g.addTrain(line, 1);
 
-    g.tick();
+    g.tick(); // A Alighting
+    g.tick(); // A Boarding
+    g.tick(); // A -> B
 
     EXPECT_EQ(g.getTrains()[0].onboard.size(), 1);
 }

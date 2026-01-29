@@ -22,8 +22,8 @@ void DrawSnapshot(const SimulationSnapshot& snap) {
     y += 24;
 
     for (const auto& t : snap.trains) {
-        DrawText(TextFormat("Train %u line=%u station=%u onboard=%zu/%zu", t.id, t.lineId,
-                            t.stationId, t.onboard, t.capacity),
+        DrawText(TextFormat("Train %u line=%u station=%u onboard=%zu/%zu State=%u", t.id, t.lineId,
+                            t.stationId, t.onboard, t.capacity, (int) t.state),
                  40, y, 16, BLACK);
         y += 20;
     }

@@ -22,10 +22,8 @@ TEST(Transfer, PassengerTransfersLines) {
 
     g.spawnPassengerAt(A, Triangle);
 
-    g.tick(); // A -> X (T1: at A T2: at X)
-    g.tick(); // transfer (T1: at X T2: at B)
-    g.tick(); // Board at X (T1: at A T2: at X)
-    g.tick(); // X -> B (T1: at X T2: at B)
+    for (int i = 0; i < 20; i++)
+        g.tick();
 
     EXPECT_EQ(g.completedPassengers(), 1);
 }

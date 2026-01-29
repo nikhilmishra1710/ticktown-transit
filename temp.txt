@@ -1,0 +1,2244 @@
+.
+├── CMakeCache.txt
+├── CMakeFiles
+│   ├── 3.28.3
+│   │   ├── CMakeCCompiler.cmake
+│   │   ├── CMakeCXXCompiler.cmake
+│   │   ├── CMakeDetermineCompilerABI_C.bin
+│   │   ├── CMakeDetermineCompilerABI_CXX.bin
+│   │   ├── CMakeSystem.cmake
+│   │   ├── CompilerIdC
+│   │   │   ├── CMakeCCompilerId.c
+│   │   │   ├── a.out
+│   │   │   └── tmp
+│   │   └── CompilerIdCXX
+│   │       ├── CMakeCXXCompilerId.cpp
+│   │       ├── a.out
+│   │       └── tmp
+│   ├── CMakeConfigureLog.yaml
+│   ├── CMakeDirectoryInformation.cmake
+│   ├── CMakeRuleHashes.txt
+│   ├── Makefile.cmake
+│   ├── Makefile2
+│   ├── TargetDirectories.txt
+│   ├── cmake.check_cache
+│   ├── pkgRedirects
+│   └── progress.marks
+├── CMakeLists.txt
+├── CPackConfig.cmake
+├── CPackSourceConfig.cmake
+├── CTestTestfile.cmake
+├── Makefile
+├── _deps
+│   ├── googletest-build
+│   │   ├── CMakeFiles
+│   │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │   └── progress.marks
+│   │   ├── CTestTestfile.cmake
+│   │   ├── Makefile
+│   │   ├── cmake_install.cmake
+│   │   ├── googlemock
+│   │   │   ├── CMakeFiles
+│   │   │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │   │   ├── gmock.dir
+│   │   │   │   │   ├── DependInfo.cmake
+│   │   │   │   │   ├── build.make
+│   │   │   │   │   ├── cmake_clean.cmake
+│   │   │   │   │   ├── cmake_clean_target.cmake
+│   │   │   │   │   ├── compiler_depend.internal
+│   │   │   │   │   ├── compiler_depend.make
+│   │   │   │   │   ├── compiler_depend.ts
+│   │   │   │   │   ├── depend.make
+│   │   │   │   │   ├── flags.make
+│   │   │   │   │   ├── link.txt
+│   │   │   │   │   ├── progress.make
+│   │   │   │   │   └── src
+│   │   │   │   │       ├── gmock-all.cc.o
+│   │   │   │   │       └── gmock-all.cc.o.d
+│   │   │   │   ├── gmock_main.dir
+│   │   │   │   │   ├── DependInfo.cmake
+│   │   │   │   │   ├── build.make
+│   │   │   │   │   ├── cmake_clean.cmake
+│   │   │   │   │   ├── cmake_clean_target.cmake
+│   │   │   │   │   ├── compiler_depend.internal
+│   │   │   │   │   ├── compiler_depend.make
+│   │   │   │   │   ├── compiler_depend.ts
+│   │   │   │   │   ├── depend.make
+│   │   │   │   │   ├── flags.make
+│   │   │   │   │   ├── link.txt
+│   │   │   │   │   ├── progress.make
+│   │   │   │   │   └── src
+│   │   │   │   │       ├── gmock_main.cc.o
+│   │   │   │   │       └── gmock_main.cc.o.d
+│   │   │   │   └── progress.marks
+│   │   │   ├── CTestTestfile.cmake
+│   │   │   ├── Makefile
+│   │   │   └── cmake_install.cmake
+│   │   └── googletest
+│   │       ├── CMakeFiles
+│   │       │   ├── CMakeDirectoryInformation.cmake
+│   │       │   ├── Export
+│   │       │   │   └── 0c08b8e77dd885bfe55a19a9659d9fc1
+│   │       │   │       ├── GTestTargets-noconfig.cmake
+│   │       │   │       └── GTestTargets.cmake
+│   │       │   ├── gtest.dir
+│   │       │   │   ├── DependInfo.cmake
+│   │       │   │   ├── build.make
+│   │       │   │   ├── cmake_clean.cmake
+│   │       │   │   ├── cmake_clean_target.cmake
+│   │       │   │   ├── compiler_depend.internal
+│   │       │   │   ├── compiler_depend.make
+│   │       │   │   ├── compiler_depend.ts
+│   │       │   │   ├── depend.make
+│   │       │   │   ├── flags.make
+│   │       │   │   ├── link.txt
+│   │       │   │   ├── progress.make
+│   │       │   │   └── src
+│   │       │   │       ├── gtest-all.cc.o
+│   │       │   │       └── gtest-all.cc.o.d
+│   │       │   ├── gtest_main.dir
+│   │       │   │   ├── DependInfo.cmake
+│   │       │   │   ├── build.make
+│   │       │   │   ├── cmake_clean.cmake
+│   │       │   │   ├── cmake_clean_target.cmake
+│   │       │   │   ├── compiler_depend.internal
+│   │       │   │   ├── compiler_depend.make
+│   │       │   │   ├── compiler_depend.ts
+│   │       │   │   ├── depend.make
+│   │       │   │   ├── flags.make
+│   │       │   │   ├── link.txt
+│   │       │   │   ├── progress.make
+│   │       │   │   └── src
+│   │       │   │       ├── gtest_main.cc.o
+│   │       │   │       └── gtest_main.cc.o.d
+│   │       │   └── progress.marks
+│   │       ├── CTestTestfile.cmake
+│   │       ├── Makefile
+│   │       ├── cmake_install.cmake
+│   │       └── generated
+│   │           ├── GTestConfig.cmake
+│   │           ├── GTestConfigVersion.cmake
+│   │           ├── gmock.pc
+│   │           ├── gmock_main.pc
+│   │           ├── gtest.pc
+│   │           └── gtest_main.pc
+│   ├── googletest-src
+│   │   ├── BUILD.bazel
+│   │   ├── CMakeLists.txt
+│   │   ├── CONTRIBUTING.md
+│   │   ├── CONTRIBUTORS
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── WORKSPACE
+│   │   ├── ci
+│   │   │   ├── linux-presubmit.sh
+│   │   │   ├── macos-presubmit.sh
+│   │   │   └── windows-presubmit.bat
+│   │   ├── docs
+│   │   │   ├── _config.yml
+│   │   │   ├── _data
+│   │   │   │   └── navigation.yml
+│   │   │   ├── _layouts
+│   │   │   │   └── default.html
+│   │   │   ├── _sass
+│   │   │   │   └── main.scss
+│   │   │   ├── advanced.md
+│   │   │   ├── assets
+│   │   │   │   └── css
+│   │   │   │       └── style.scss
+│   │   │   ├── community_created_documentation.md
+│   │   │   ├── faq.md
+│   │   │   ├── gmock_cheat_sheet.md
+│   │   │   ├── gmock_cook_book.md
+│   │   │   ├── gmock_faq.md
+│   │   │   ├── gmock_for_dummies.md
+│   │   │   ├── index.md
+│   │   │   ├── pkgconfig.md
+│   │   │   ├── platforms.md
+│   │   │   ├── primer.md
+│   │   │   ├── quickstart-bazel.md
+│   │   │   ├── quickstart-cmake.md
+│   │   │   ├── reference
+│   │   │   │   ├── actions.md
+│   │   │   │   ├── assertions.md
+│   │   │   │   ├── matchers.md
+│   │   │   │   ├── mocking.md
+│   │   │   │   └── testing.md
+│   │   │   └── samples.md
+│   │   ├── googlemock
+│   │   │   ├── CMakeLists.txt
+│   │   │   ├── README.md
+│   │   │   ├── cmake
+│   │   │   │   ├── gmock.pc.in
+│   │   │   │   └── gmock_main.pc.in
+│   │   │   ├── docs
+│   │   │   │   └── README.md
+│   │   │   ├── include
+│   │   │   │   └── gmock
+│   │   │   │       ├── gmock-actions.h
+│   │   │   │       ├── gmock-cardinalities.h
+│   │   │   │       ├── gmock-function-mocker.h
+│   │   │   │       ├── gmock-matchers.h
+│   │   │   │       ├── gmock-more-actions.h
+│   │   │   │       ├── gmock-more-matchers.h
+│   │   │   │       ├── gmock-nice-strict.h
+│   │   │   │       ├── gmock-spec-builders.h
+│   │   │   │       ├── gmock.h
+│   │   │   │       └── internal
+│   │   │   │           ├── custom
+│   │   │   │           │   ├── README.md
+│   │   │   │           │   ├── gmock-generated-actions.h
+│   │   │   │           │   ├── gmock-matchers.h
+│   │   │   │           │   └── gmock-port.h
+│   │   │   │           ├── gmock-internal-utils.h
+│   │   │   │           ├── gmock-port.h
+│   │   │   │           └── gmock-pp.h
+│   │   │   ├── src
+│   │   │   │   ├── gmock-all.cc
+│   │   │   │   ├── gmock-cardinalities.cc
+│   │   │   │   ├── gmock-internal-utils.cc
+│   │   │   │   ├── gmock-matchers.cc
+│   │   │   │   ├── gmock-spec-builders.cc
+│   │   │   │   ├── gmock.cc
+│   │   │   │   └── gmock_main.cc
+│   │   │   └── test
+│   │   │       ├── BUILD.bazel
+│   │   │       ├── gmock-actions_test.cc
+│   │   │       ├── gmock-cardinalities_test.cc
+│   │   │       ├── gmock-function-mocker_test.cc
+│   │   │       ├── gmock-internal-utils_test.cc
+│   │   │       ├── gmock-matchers-arithmetic_test.cc
+│   │   │       ├── gmock-matchers-comparisons_test.cc
+│   │   │       ├── gmock-matchers-containers_test.cc
+│   │   │       ├── gmock-matchers-misc_test.cc
+│   │   │       ├── gmock-matchers_test.h
+│   │   │       ├── gmock-more-actions_test.cc
+│   │   │       ├── gmock-nice-strict_test.cc
+│   │   │       ├── gmock-port_test.cc
+│   │   │       ├── gmock-pp-string_test.cc
+│   │   │       ├── gmock-pp_test.cc
+│   │   │       ├── gmock-spec-builders_test.cc
+│   │   │       ├── gmock_all_test.cc
+│   │   │       ├── gmock_ex_test.cc
+│   │   │       ├── gmock_leak_test.py
+│   │   │       ├── gmock_leak_test_.cc
+│   │   │       ├── gmock_link2_test.cc
+│   │   │       ├── gmock_link_test.cc
+│   │   │       ├── gmock_link_test.h
+│   │   │       ├── gmock_output_test.py
+│   │   │       ├── gmock_output_test_.cc
+│   │   │       ├── gmock_output_test_golden.txt
+│   │   │       ├── gmock_stress_test.cc
+│   │   │       ├── gmock_test.cc
+│   │   │       └── gmock_test_utils.py
+│   │   ├── googletest
+│   │   │   ├── CMakeLists.txt
+│   │   │   ├── README.md
+│   │   │   ├── cmake
+│   │   │   │   ├── Config.cmake.in
+│   │   │   │   ├── gtest.pc.in
+│   │   │   │   ├── gtest_main.pc.in
+│   │   │   │   ├── internal_utils.cmake
+│   │   │   │   └── libgtest.la.in
+│   │   │   ├── docs
+│   │   │   │   └── README.md
+│   │   │   ├── include
+│   │   │   │   └── gtest
+│   │   │   │       ├── gtest-assertion-result.h
+│   │   │   │       ├── gtest-death-test.h
+│   │   │   │       ├── gtest-matchers.h
+│   │   │   │       ├── gtest-message.h
+│   │   │   │       ├── gtest-param-test.h
+│   │   │   │       ├── gtest-printers.h
+│   │   │   │       ├── gtest-spi.h
+│   │   │   │       ├── gtest-test-part.h
+│   │   │   │       ├── gtest-typed-test.h
+│   │   │   │       ├── gtest.h
+│   │   │   │       ├── gtest_pred_impl.h
+│   │   │   │       ├── gtest_prod.h
+│   │   │   │       └── internal
+│   │   │   │           ├── custom
+│   │   │   │           │   ├── README.md
+│   │   │   │           │   ├── gtest-port.h
+│   │   │   │           │   ├── gtest-printers.h
+│   │   │   │           │   └── gtest.h
+│   │   │   │           ├── gtest-death-test-internal.h
+│   │   │   │           ├── gtest-filepath.h
+│   │   │   │           ├── gtest-internal.h
+│   │   │   │           ├── gtest-param-util.h
+│   │   │   │           ├── gtest-port-arch.h
+│   │   │   │           ├── gtest-port.h
+│   │   │   │           ├── gtest-string.h
+│   │   │   │           └── gtest-type-util.h
+│   │   │   ├── samples
+│   │   │   │   ├── prime_tables.h
+│   │   │   │   ├── sample1.cc
+│   │   │   │   ├── sample1.h
+│   │   │   │   ├── sample10_unittest.cc
+│   │   │   │   ├── sample1_unittest.cc
+│   │   │   │   ├── sample2.cc
+│   │   │   │   ├── sample2.h
+│   │   │   │   ├── sample2_unittest.cc
+│   │   │   │   ├── sample3-inl.h
+│   │   │   │   ├── sample3_unittest.cc
+│   │   │   │   ├── sample4.cc
+│   │   │   │   ├── sample4.h
+│   │   │   │   ├── sample4_unittest.cc
+│   │   │   │   ├── sample5_unittest.cc
+│   │   │   │   ├── sample6_unittest.cc
+│   │   │   │   ├── sample7_unittest.cc
+│   │   │   │   ├── sample8_unittest.cc
+│   │   │   │   └── sample9_unittest.cc
+│   │   │   ├── src
+│   │   │   │   ├── gtest-all.cc
+│   │   │   │   ├── gtest-assertion-result.cc
+│   │   │   │   ├── gtest-death-test.cc
+│   │   │   │   ├── gtest-filepath.cc
+│   │   │   │   ├── gtest-internal-inl.h
+│   │   │   │   ├── gtest-matchers.cc
+│   │   │   │   ├── gtest-port.cc
+│   │   │   │   ├── gtest-printers.cc
+│   │   │   │   ├── gtest-test-part.cc
+│   │   │   │   ├── gtest-typed-test.cc
+│   │   │   │   ├── gtest.cc
+│   │   │   │   └── gtest_main.cc
+│   │   │   └── test
+│   │   │       ├── BUILD.bazel
+│   │   │       ├── googletest-break-on-failure-unittest.py
+│   │   │       ├── googletest-break-on-failure-unittest_.cc
+│   │   │       ├── googletest-catch-exceptions-test.py
+│   │   │       ├── googletest-catch-exceptions-test_.cc
+│   │   │       ├── googletest-color-test.py
+│   │   │       ├── googletest-color-test_.cc
+│   │   │       ├── googletest-death-test-test.cc
+│   │   │       ├── googletest-death-test_ex_test.cc
+│   │   │       ├── googletest-env-var-test.py
+│   │   │       ├── googletest-env-var-test_.cc
+│   │   │       ├── googletest-failfast-unittest.py
+│   │   │       ├── googletest-failfast-unittest_.cc
+│   │   │       ├── googletest-filepath-test.cc
+│   │   │       ├── googletest-filter-unittest.py
+│   │   │       ├── googletest-filter-unittest_.cc
+│   │   │       ├── googletest-global-environment-unittest.py
+│   │   │       ├── googletest-global-environment-unittest_.cc
+│   │   │       ├── googletest-json-outfiles-test.py
+│   │   │       ├── googletest-json-output-unittest.py
+│   │   │       ├── googletest-list-tests-unittest.py
+│   │   │       ├── googletest-list-tests-unittest_.cc
+│   │   │       ├── googletest-listener-test.cc
+│   │   │       ├── googletest-message-test.cc
+│   │   │       ├── googletest-options-test.cc
+│   │   │       ├── googletest-output-test-golden-lin.txt
+│   │   │       ├── googletest-output-test.py
+│   │   │       ├── googletest-output-test_.cc
+│   │   │       ├── googletest-param-test-invalid-name1-test.py
+│   │   │       ├── googletest-param-test-invalid-name1-test_.cc
+│   │   │       ├── googletest-param-test-invalid-name2-test.py
+│   │   │       ├── googletest-param-test-invalid-name2-test_.cc
+│   │   │       ├── googletest-param-test-test.cc
+│   │   │       ├── googletest-param-test-test.h
+│   │   │       ├── googletest-param-test2-test.cc
+│   │   │       ├── googletest-port-test.cc
+│   │   │       ├── googletest-printers-test.cc
+│   │   │       ├── googletest-setuptestsuite-test.py
+│   │   │       ├── googletest-setuptestsuite-test_.cc
+│   │   │       ├── googletest-shuffle-test.py
+│   │   │       ├── googletest-shuffle-test_.cc
+│   │   │       ├── googletest-test-part-test.cc
+│   │   │       ├── googletest-throw-on-failure-test.py
+│   │   │       ├── googletest-throw-on-failure-test_.cc
+│   │   │       ├── googletest-uninitialized-test.py
+│   │   │       ├── googletest-uninitialized-test_.cc
+│   │   │       ├── gtest-typed-test2_test.cc
+│   │   │       ├── gtest-typed-test_test.cc
+│   │   │       ├── gtest-typed-test_test.h
+│   │   │       ├── gtest-unittest-api_test.cc
+│   │   │       ├── gtest_all_test.cc
+│   │   │       ├── gtest_assert_by_exception_test.cc
+│   │   │       ├── gtest_dirs_test.cc
+│   │   │       ├── gtest_environment_test.cc
+│   │   │       ├── gtest_help_test.py
+│   │   │       ├── gtest_help_test_.cc
+│   │   │       ├── gtest_json_test_utils.py
+│   │   │       ├── gtest_list_output_unittest.py
+│   │   │       ├── gtest_list_output_unittest_.cc
+│   │   │       ├── gtest_main_unittest.cc
+│   │   │       ├── gtest_no_test_unittest.cc
+│   │   │       ├── gtest_pred_impl_unittest.cc
+│   │   │       ├── gtest_premature_exit_test.cc
+│   │   │       ├── gtest_prod_test.cc
+│   │   │       ├── gtest_repeat_test.cc
+│   │   │       ├── gtest_skip_check_output_test.py
+│   │   │       ├── gtest_skip_environment_check_output_test.py
+│   │   │       ├── gtest_skip_in_environment_setup_test.cc
+│   │   │       ├── gtest_skip_test.cc
+│   │   │       ├── gtest_sole_header_test.cc
+│   │   │       ├── gtest_stress_test.cc
+│   │   │       ├── gtest_test_macro_stack_footprint_test.cc
+│   │   │       ├── gtest_test_utils.py
+│   │   │       ├── gtest_testbridge_test.py
+│   │   │       ├── gtest_testbridge_test_.cc
+│   │   │       ├── gtest_throw_on_failure_ex_test.cc
+│   │   │       ├── gtest_unittest.cc
+│   │   │       ├── gtest_xml_outfile1_test_.cc
+│   │   │       ├── gtest_xml_outfile2_test_.cc
+│   │   │       ├── gtest_xml_outfiles_test.py
+│   │   │       ├── gtest_xml_output_unittest.py
+│   │   │       ├── gtest_xml_output_unittest_.cc
+│   │   │       ├── gtest_xml_test_utils.py
+│   │   │       ├── production.cc
+│   │   │       └── production.h
+│   │   └── googletest_deps.bzl
+│   ├── googletest-subbuild
+│   │   ├── CMakeCache.txt
+│   │   ├── CMakeFiles
+│   │   │   ├── 3.28.3
+│   │   │   │   └── CMakeSystem.cmake
+│   │   │   ├── CMakeConfigureLog.yaml
+│   │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │   ├── CMakeRuleHashes.txt
+│   │   │   ├── Makefile.cmake
+│   │   │   ├── Makefile2
+│   │   │   ├── TargetDirectories.txt
+│   │   │   ├── cmake.check_cache
+│   │   │   ├── googletest-populate-complete
+│   │   │   ├── googletest-populate.dir
+│   │   │   │   ├── DependInfo.cmake
+│   │   │   │   ├── Labels.json
+│   │   │   │   ├── Labels.txt
+│   │   │   │   ├── build.make
+│   │   │   │   ├── cmake_clean.cmake
+│   │   │   │   ├── compiler_depend.make
+│   │   │   │   ├── compiler_depend.ts
+│   │   │   │   └── progress.make
+│   │   │   ├── pkgRedirects
+│   │   │   └── progress.marks
+│   │   ├── CMakeLists.txt
+│   │   ├── Makefile
+│   │   ├── cmake_install.cmake
+│   │   └── googletest-populate-prefix
+│   │       ├── src
+│   │       │   ├── googletest-populate-stamp
+│   │       │   │   ├── download-googletest-populate.cmake
+│   │       │   │   ├── extract-googletest-populate.cmake
+│   │       │   │   ├── googletest-populate-build
+│   │       │   │   ├── googletest-populate-configure
+│   │       │   │   ├── googletest-populate-done
+│   │       │   │   ├── googletest-populate-download
+│   │       │   │   ├── googletest-populate-install
+│   │       │   │   ├── googletest-populate-mkdir
+│   │       │   │   ├── googletest-populate-patch
+│   │       │   │   ├── googletest-populate-patch-info.txt
+│   │       │   │   ├── googletest-populate-test
+│   │       │   │   ├── googletest-populate-update
+│   │       │   │   ├── googletest-populate-update-info.txt
+│   │       │   │   ├── googletest-populate-urlinfo.txt
+│   │       │   │   └── verify-googletest-populate.cmake
+│   │       │   └── v1.14.0.zip
+│   │       └── tmp
+│   │           ├── googletest-populate-cfgcmd.txt
+│   │           └── googletest-populate-mkdirs.cmake
+│   ├── raylib-build
+│   │   ├── CMakeFiles
+│   │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │   └── progress.marks
+│   │   ├── CTestTestfile.cmake
+│   │   ├── Makefile
+│   │   ├── cmake_install.cmake
+│   │   └── raylib
+│   │       ├── CMakeFiles
+│   │       │   ├── CMakeDirectoryInformation.cmake
+│   │       │   ├── progress.marks
+│   │       │   └── raylib.dir
+│   │       │       ├── DependInfo.cmake
+│   │       │       ├── build.make
+│   │       │       ├── cmake_clean.cmake
+│   │       │       ├── cmake_clean_target.cmake
+│   │       │       ├── compiler_depend.internal
+│   │       │       ├── compiler_depend.make
+│   │       │       ├── compiler_depend.ts
+│   │       │       ├── depend.make
+│   │       │       ├── flags.make
+│   │       │       ├── link.txt
+│   │       │       ├── progress.make
+│   │       │       ├── raudio.c.o
+│   │       │       ├── raudio.c.o.d
+│   │       │       ├── rcore.c.o
+│   │       │       ├── rcore.c.o.d
+│   │       │       ├── rmodels.c.o
+│   │       │       ├── rmodels.c.o.d
+│   │       │       ├── rshapes.c.o
+│   │       │       ├── rshapes.c.o.d
+│   │       │       ├── rtext.c.o
+│   │       │       ├── rtext.c.o.d
+│   │       │       ├── rtextures.c.o
+│   │       │       ├── rtextures.c.o.d
+│   │       │       ├── utils.c.o
+│   │       │       └── utils.c.o.d
+│   │       ├── CTestTestfile.cmake
+│   │       ├── Makefile
+│   │       ├── cmake_install.cmake
+│   │       ├── external
+│   │       │   └── glfw
+│   │       │       ├── CMakeFiles
+│   │       │       │   ├── CMakeDirectoryInformation.cmake
+│   │       │       │   └── progress.marks
+│   │       │       ├── Makefile
+│   │       │       ├── cmake_install.cmake
+│   │       │       └── src
+│   │       │           ├── CMakeFiles
+│   │       │           │   ├── CMakeDirectoryInformation.cmake
+│   │       │           │   ├── glfw.dir
+│   │       │           │   │   ├── DependInfo.cmake
+│   │       │           │   │   ├── build.make
+│   │       │           │   │   ├── cmake_clean.cmake
+│   │       │           │   │   ├── cmake_clean_target.cmake
+│   │       │           │   │   ├── compiler_depend.internal
+│   │       │           │   │   ├── compiler_depend.make
+│   │       │           │   │   ├── compiler_depend.ts
+│   │       │           │   │   ├── context.c.o
+│   │       │           │   │   ├── context.c.o.d
+│   │       │           │   │   ├── depend.make
+│   │       │           │   │   ├── egl_context.c.o
+│   │       │           │   │   ├── egl_context.c.o.d
+│   │       │           │   │   ├── flags.make
+│   │       │           │   │   ├── glx_context.c.o
+│   │       │           │   │   ├── glx_context.c.o.d
+│   │       │           │   │   ├── init.c.o
+│   │       │           │   │   ├── init.c.o.d
+│   │       │           │   │   ├── input.c.o
+│   │       │           │   │   ├── input.c.o.d
+│   │       │           │   │   ├── link.txt
+│   │       │           │   │   ├── linux_joystick.c.o
+│   │       │           │   │   ├── linux_joystick.c.o.d
+│   │       │           │   │   ├── monitor.c.o
+│   │       │           │   │   ├── monitor.c.o.d
+│   │       │           │   │   ├── null_init.c.o
+│   │       │           │   │   ├── null_init.c.o.d
+│   │       │           │   │   ├── null_joystick.c.o
+│   │       │           │   │   ├── null_joystick.c.o.d
+│   │       │           │   │   ├── null_monitor.c.o
+│   │       │           │   │   ├── null_monitor.c.o.d
+│   │       │           │   │   ├── null_window.c.o
+│   │       │           │   │   ├── null_window.c.o.d
+│   │       │           │   │   ├── osmesa_context.c.o
+│   │       │           │   │   ├── osmesa_context.c.o.d
+│   │       │           │   │   ├── platform.c.o
+│   │       │           │   │   ├── platform.c.o.d
+│   │       │           │   │   ├── posix_module.c.o
+│   │       │           │   │   ├── posix_module.c.o.d
+│   │       │           │   │   ├── posix_poll.c.o
+│   │       │           │   │   ├── posix_poll.c.o.d
+│   │       │           │   │   ├── posix_thread.c.o
+│   │       │           │   │   ├── posix_thread.c.o.d
+│   │       │           │   │   ├── posix_time.c.o
+│   │       │           │   │   ├── posix_time.c.o.d
+│   │       │           │   │   ├── progress.make
+│   │       │           │   │   ├── vulkan.c.o
+│   │       │           │   │   ├── vulkan.c.o.d
+│   │       │           │   │   ├── window.c.o
+│   │       │           │   │   ├── window.c.o.d
+│   │       │           │   │   ├── x11_init.c.o
+│   │       │           │   │   ├── x11_init.c.o.d
+│   │       │           │   │   ├── x11_monitor.c.o
+│   │       │           │   │   ├── x11_monitor.c.o.d
+│   │       │           │   │   ├── x11_window.c.o
+│   │       │           │   │   ├── x11_window.c.o.d
+│   │       │           │   │   ├── xkb_unicode.c.o
+│   │       │           │   │   └── xkb_unicode.c.o.d
+│   │       │           │   ├── progress.marks
+│   │       │           │   └── update_mappings.dir
+│   │       │           │       ├── DependInfo.cmake
+│   │       │           │       ├── build.make
+│   │       │           │       ├── cmake_clean.cmake
+│   │       │           │       ├── compiler_depend.make
+│   │       │           │       ├── compiler_depend.ts
+│   │       │           │       └── progress.make
+│   │       │           ├── Makefile
+│   │       │           ├── cmake_install.cmake
+│   │       │           ├── glfw3.pc
+│   │       │           ├── glfw3Config.cmake
+│   │       │           ├── glfw3ConfigVersion.cmake
+│   │       │           └── libglfw3.a
+│   │       ├── include
+│   │       │   ├── raylib.h
+│   │       │   ├── raymath.h
+│   │       │   └── rlgl.h
+│   │       ├── libraylib.a
+│   │       ├── raylib-config-version.cmake
+│   │       └── raylib.pc
+│   ├── raylib-src
+│   │   ├── BINDINGS.md
+│   │   ├── CHANGELOG
+│   │   ├── CMakeLists.txt
+│   │   ├── CMakeOptions.txt
+│   │   ├── CONTRIBUTING.md
+│   │   ├── CONVENTIONS.md
+│   │   ├── FAQ.md
+│   │   ├── HISTORY.md
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── ROADMAP.md
+│   │   ├── build.zig
+│   │   ├── cmake
+│   │   │   ├── AddIfFlagCompiles.cmake
+│   │   │   ├── BuildOptions.cmake
+│   │   │   ├── CompileDefinitions.cmake
+│   │   │   ├── CompilerFlags.cmake
+│   │   │   ├── EnumOption.cmake
+│   │   │   ├── GlfwImport.cmake
+│   │   │   ├── InstallConfigurations.cmake
+│   │   │   ├── JoinPaths.cmake
+│   │   │   ├── LibraryConfigurations.cmake
+│   │   │   ├── LibraryPathToLinkerFlags.cmake
+│   │   │   ├── PackConfigurations.cmake
+│   │   │   ├── PopulateConfigVariablesLocally.cmake
+│   │   │   ├── raylib-config-version.cmake
+│   │   │   └── raylib-config.cmake
+│   │   ├── examples
+│   │   │   ├── CMakeLists.txt
+│   │   │   ├── Makefile
+│   │   │   ├── Makefile.Android
+│   │   │   ├── Makefile.Web
+│   │   │   ├── README.md
+│   │   │   ├── audio
+│   │   │   │   ├── audio_mixed_processor.c
+│   │   │   │   ├── audio_mixed_processor.png
+│   │   │   │   ├── audio_module_playing.c
+│   │   │   │   ├── audio_module_playing.png
+│   │   │   │   ├── audio_music_stream.c
+│   │   │   │   ├── audio_music_stream.png
+│   │   │   │   ├── audio_raw_stream.c
+│   │   │   │   ├── audio_raw_stream.png
+│   │   │   │   ├── audio_sound_loading.c
+│   │   │   │   ├── audio_sound_loading.png
+│   │   │   │   ├── audio_stream_effects.c
+│   │   │   │   ├── audio_stream_effects.png
+│   │   │   │   └── resources
+│   │   │   │       ├── LICENSE.md
+│   │   │   │       ├── coin.wav
+│   │   │   │       ├── country.mp3
+│   │   │   │       ├── mini1111.xm
+│   │   │   │       ├── sound.wav
+│   │   │   │       ├── spring.wav
+│   │   │   │       ├── target.flac
+│   │   │   │       ├── target.ogg
+│   │   │   │       ├── target.qoa
+│   │   │   │       └── weird.wav
+│   │   │   ├── build.zig
+│   │   │   ├── core
+│   │   │   │   ├── core_2d_camera.c
+│   │   │   │   ├── core_2d_camera.png
+│   │   │   │   ├── core_2d_camera_mouse_zoom.c
+│   │   │   │   ├── core_2d_camera_mouse_zoom.png
+│   │   │   │   ├── core_2d_camera_platformer.c
+│   │   │   │   ├── core_2d_camera_platformer.png
+│   │   │   │   ├── core_2d_camera_smooth_pixelperfect.png
+│   │   │   │   ├── core_3d_camera_first_person.c
+│   │   │   │   ├── core_3d_camera_first_person.png
+│   │   │   │   ├── core_3d_camera_free.c
+│   │   │   │   ├── core_3d_camera_free.png
+│   │   │   │   ├── core_3d_camera_mode.c
+│   │   │   │   ├── core_3d_camera_mode.png
+│   │   │   │   ├── core_3d_picking.c
+│   │   │   │   ├── core_3d_picking.png
+│   │   │   │   ├── core_basic_screen_manager.c
+│   │   │   │   ├── core_basic_screen_manager.png
+│   │   │   │   ├── core_basic_window.c
+│   │   │   │   ├── core_basic_window.png
+│   │   │   │   ├── core_basic_window_web.c
+│   │   │   │   ├── core_custom_frame_control.c
+│   │   │   │   ├── core_custom_frame_control.png
+│   │   │   │   ├── core_custom_logging.c
+│   │   │   │   ├── core_custom_logging.png
+│   │   │   │   ├── core_drop_files.c
+│   │   │   │   ├── core_drop_files.png
+│   │   │   │   ├── core_input_gamepad.c
+│   │   │   │   ├── core_input_gamepad.png
+│   │   │   │   ├── core_input_gestures.c
+│   │   │   │   ├── core_input_gestures.png
+│   │   │   │   ├── core_input_keys.c
+│   │   │   │   ├── core_input_keys.png
+│   │   │   │   ├── core_input_mouse.c
+│   │   │   │   ├── core_input_mouse.png
+│   │   │   │   ├── core_input_mouse_wheel.c
+│   │   │   │   ├── core_input_mouse_wheel.png
+│   │   │   │   ├── core_input_multitouch.c
+│   │   │   │   ├── core_input_multitouch.png
+│   │   │   │   ├── core_loading_thread.c
+│   │   │   │   ├── core_loading_thread.png
+│   │   │   │   ├── core_random_values.c
+│   │   │   │   ├── core_random_values.png
+│   │   │   │   ├── core_scissor_test.c
+│   │   │   │   ├── core_scissor_test.png
+│   │   │   │   ├── core_smooth_pixelperfect.c
+│   │   │   │   ├── core_smooth_pixelperfect.png
+│   │   │   │   ├── core_split_screen.c
+│   │   │   │   ├── core_split_screen.png
+│   │   │   │   ├── core_storage_values.c
+│   │   │   │   ├── core_storage_values.png
+│   │   │   │   ├── core_vr_simulator.c
+│   │   │   │   ├── core_vr_simulator.png
+│   │   │   │   ├── core_window_flags.c
+│   │   │   │   ├── core_window_flags.png
+│   │   │   │   ├── core_window_letterbox.c
+│   │   │   │   ├── core_window_letterbox.png
+│   │   │   │   ├── core_window_should_close.c
+│   │   │   │   ├── core_window_should_close.png
+│   │   │   │   ├── core_world_screen.c
+│   │   │   │   ├── core_world_screen.png
+│   │   │   │   └── resources
+│   │   │   │       ├── LICENSE.md
+│   │   │   │       ├── distortion100.fs
+│   │   │   │       ├── distortion330.fs
+│   │   │   │       ├── ps3.png
+│   │   │   │       └── xbox.png
+│   │   │   ├── examples_template.c
+│   │   │   ├── models
+│   │   │   │   ├── models_animation.c
+│   │   │   │   ├── models_animation.png
+│   │   │   │   ├── models_billboard.c
+│   │   │   │   ├── models_billboard.png
+│   │   │   │   ├── models_box_collisions.c
+│   │   │   │   ├── models_box_collisions.png
+│   │   │   │   ├── models_cubicmap.c
+│   │   │   │   ├── models_cubicmap.png
+│   │   │   │   ├── models_draw_cube_texture.c
+│   │   │   │   ├── models_draw_cube_texture.png
+│   │   │   │   ├── models_first_person_maze.c
+│   │   │   │   ├── models_first_person_maze.png
+│   │   │   │   ├── models_geometric_shapes.c
+│   │   │   │   ├── models_geometric_shapes.png
+│   │   │   │   ├── models_heightmap.c
+│   │   │   │   ├── models_heightmap.png
+│   │   │   │   ├── models_loading.c
+│   │   │   │   ├── models_loading.png
+│   │   │   │   ├── models_loading_gltf.c
+│   │   │   │   ├── models_loading_gltf.png
+│   │   │   │   ├── models_loading_m3d.c
+│   │   │   │   ├── models_loading_m3d.png
+│   │   │   │   ├── models_loading_vox.c
+│   │   │   │   ├── models_loading_vox.png
+│   │   │   │   ├── models_mesh_generation.c
+│   │   │   │   ├── models_mesh_generation.png
+│   │   │   │   ├── models_mesh_picking.c
+│   │   │   │   ├── models_mesh_picking.png
+│   │   │   │   ├── models_orthographic_projection.c
+│   │   │   │   ├── models_orthographic_projection.png
+│   │   │   │   ├── models_rlgl_solar_system.c
+│   │   │   │   ├── models_rlgl_solar_system.png
+│   │   │   │   ├── models_skybox.c
+│   │   │   │   ├── models_skybox.png
+│   │   │   │   ├── models_waving_cubes.c
+│   │   │   │   ├── models_waving_cubes.png
+│   │   │   │   ├── models_yaw_pitch_roll.c
+│   │   │   │   ├── models_yaw_pitch_roll.png
+│   │   │   │   └── resources
+│   │   │   │       ├── LICENSE.md
+│   │   │   │       ├── billboard.png
+│   │   │   │       ├── cubicmap.png
+│   │   │   │       ├── cubicmap_atlas.png
+│   │   │   │       ├── dresden_square_1k.hdr
+│   │   │   │       ├── dresden_square_2k.hdr
+│   │   │   │       ├── heightmap.png
+│   │   │   │       ├── models
+│   │   │   │       │   ├── gltf
+│   │   │   │       │   │   ├── LICENSE
+│   │   │   │       │   │   ├── raylib_logo_3d.glb
+│   │   │   │       │   │   ├── robot.blend
+│   │   │   │       │   │   └── robot.glb
+│   │   │   │       │   ├── iqm
+│   │   │   │       │   │   ├── guy.blend
+│   │   │   │       │   │   ├── guy.iqm
+│   │   │   │       │   │   ├── guyanim.iqm
+│   │   │   │       │   │   └── guytex.png
+│   │   │   │       │   ├── m3d
+│   │   │   │       │   │   ├── cesium_man.m3d
+│   │   │   │       │   │   ├── seagull.m3d
+│   │   │   │       │   │   └── suzanne.m3d
+│   │   │   │       │   ├── obj
+│   │   │   │       │   │   ├── bridge.obj
+│   │   │   │       │   │   ├── bridge_diffuse.png
+│   │   │   │       │   │   ├── castle.obj
+│   │   │   │       │   │   ├── castle_diffuse.png
+│   │   │   │       │   │   ├── cube.obj
+│   │   │   │       │   │   ├── cube_diffuse.png
+│   │   │   │       │   │   ├── house.obj
+│   │   │   │       │   │   ├── house_diffuse.png
+│   │   │   │       │   │   ├── market.obj
+│   │   │   │       │   │   ├── market_diffuse.png
+│   │   │   │       │   │   ├── plane.obj
+│   │   │   │       │   │   ├── plane_diffuse.png
+│   │   │   │       │   │   ├── turret.obj
+│   │   │   │       │   │   ├── turret_diffuse.png
+│   │   │   │       │   │   ├── well.obj
+│   │   │   │       │   │   └── well_diffuse.png
+│   │   │   │       │   └── vox
+│   │   │   │       │       ├── LICENSE
+│   │   │   │       │       ├── chr_knight.vox
+│   │   │   │       │       ├── chr_sword.vox
+│   │   │   │       │       └── monu9.vox
+│   │   │   │       ├── shaders
+│   │   │   │       │   ├── glsl100
+│   │   │   │       │   │   ├── cubemap.fs
+│   │   │   │       │   │   ├── cubemap.vs
+│   │   │   │       │   │   ├── skybox.fs
+│   │   │   │       │   │   └── skybox.vs
+│   │   │   │       │   └── glsl330
+│   │   │   │       │       ├── cubemap.fs
+│   │   │   │       │       ├── cubemap.vs
+│   │   │   │       │       ├── skybox.fs
+│   │   │   │       │       └── skybox.vs
+│   │   │   │       └── skybox.png
+│   │   │   ├── others
+│   │   │   │   ├── easings_testbed.c
+│   │   │   │   ├── easings_testbed.png
+│   │   │   │   ├── embedded_files_loading.c
+│   │   │   │   ├── embedded_files_loading.png
+│   │   │   │   ├── external
+│   │   │   │   │   ├── include
+│   │   │   │   │   │   ├── GLFW
+│   │   │   │   │   │   │   ├── glfw3.h
+│   │   │   │   │   │   │   └── glfw3native.h
+│   │   │   │   │   │   ├── glad.h
+│   │   │   │   │   │   └── glad_gles2.h
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── libglfw3.a
+│   │   │   │   ├── raylib_opengl_interop.c
+│   │   │   │   ├── raylib_opengl_interop.png
+│   │   │   │   ├── reasings.h
+│   │   │   │   ├── resources
+│   │   │   │   │   ├── audio_data.h
+│   │   │   │   │   ├── image_data.h
+│   │   │   │   │   └── shaders
+│   │   │   │   │       ├── glsl100
+│   │   │   │   │       │   ├── point_particle.fs
+│   │   │   │   │       │   └── point_particle.vs
+│   │   │   │   │       ├── glsl330
+│   │   │   │   │       │   ├── point_particle.fs
+│   │   │   │   │       │   └── point_particle.vs
+│   │   │   │   │       └── glsl430
+│   │   │   │   │           ├── gol.glsl
+│   │   │   │   │           ├── gol_render.glsl
+│   │   │   │   │           └── gol_transfert.glsl
+│   │   │   │   ├── rlgl_compute_shader.c
+│   │   │   │   ├── rlgl_compute_shader.png
+│   │   │   │   ├── rlgl_standalone.c
+│   │   │   │   └── rlgl_standalone.png
+│   │   │   ├── raylib_compile_execute.bat
+│   │   │   ├── raylib_makefile_example.bat
+│   │   │   ├── shaders
+│   │   │   │   ├── resources
+│   │   │   │   │   ├── LICENSE.md
+│   │   │   │   │   ├── fudesumi.png
+│   │   │   │   │   ├── mask.png
+│   │   │   │   │   ├── models
+│   │   │   │   │   │   ├── barracks.obj
+│   │   │   │   │   │   ├── barracks_diffuse.png
+│   │   │   │   │   │   ├── church.obj
+│   │   │   │   │   │   ├── church_diffuse.png
+│   │   │   │   │   │   ├── watermill.obj
+│   │   │   │   │   │   └── watermill_diffuse.png
+│   │   │   │   │   ├── plasma.png
+│   │   │   │   │   ├── raysan.png
+│   │   │   │   │   ├── shaders
+│   │   │   │   │   │   ├── glsl100
+│   │   │   │   │   │   │   ├── base.fs
+│   │   │   │   │   │   │   ├── base.vs
+│   │   │   │   │   │   │   ├── bloom.fs
+│   │   │   │   │   │   │   ├── blur.fs
+│   │   │   │   │   │   │   ├── color_mix.fs
+│   │   │   │   │   │   │   ├── cross_hatching.fs
+│   │   │   │   │   │   │   ├── cross_stitching.fs
+│   │   │   │   │   │   │   ├── cubes_panning.fs
+│   │   │   │   │   │   │   ├── depth.fs
+│   │   │   │   │   │   │   ├── distortion.fs
+│   │   │   │   │   │   │   ├── dream_vision.fs
+│   │   │   │   │   │   │   ├── eratosthenes.fs
+│   │   │   │   │   │   │   ├── fisheye.fs
+│   │   │   │   │   │   │   ├── fog.fs
+│   │   │   │   │   │   │   ├── grayscale.fs
+│   │   │   │   │   │   │   ├── hybrid_raster.fs
+│   │   │   │   │   │   │   ├── hybrid_raymarch.fs
+│   │   │   │   │   │   │   ├── julia_set.fs
+│   │   │   │   │   │   │   ├── lighting.fs
+│   │   │   │   │   │   │   ├── lighting.vs
+│   │   │   │   │   │   │   ├── lighting_instancing.vs
+│   │   │   │   │   │   │   ├── mask.fs
+│   │   │   │   │   │   │   ├── outline.fs
+│   │   │   │   │   │   │   ├── palette_switch.fs
+│   │   │   │   │   │   │   ├── pixelizer.fs
+│   │   │   │   │   │   │   ├── posterization.fs
+│   │   │   │   │   │   │   ├── predator.fs
+│   │   │   │   │   │   │   ├── raymarching.fs
+│   │   │   │   │   │   │   ├── reload.fs
+│   │   │   │   │   │   │   ├── scanlines.fs
+│   │   │   │   │   │   │   ├── sobel.fs
+│   │   │   │   │   │   │   ├── spotlight.fs
+│   │   │   │   │   │   │   ├── swirl.fs
+│   │   │   │   │   │   │   ├── wave.fs
+│   │   │   │   │   │   │   └── write_depth.fs
+│   │   │   │   │   │   ├── glsl120
+│   │   │   │   │   │   │   ├── base.fs
+│   │   │   │   │   │   │   ├── base.vs
+│   │   │   │   │   │   │   ├── bloom.fs
+│   │   │   │   │   │   │   ├── blur.fs
+│   │   │   │   │   │   │   ├── cross_hatching.fs
+│   │   │   │   │   │   │   ├── cross_stitching.fs
+│   │   │   │   │   │   │   ├── distortion.fs
+│   │   │   │   │   │   │   ├── dream_vision.fs
+│   │   │   │   │   │   │   ├── fisheye.fs
+│   │   │   │   │   │   │   ├── fog.fs
+│   │   │   │   │   │   │   ├── grayscale.fs
+│   │   │   │   │   │   │   ├── lighting.fs
+│   │   │   │   │   │   │   ├── lighting.vs
+│   │   │   │   │   │   │   ├── palette_switch.fs
+│   │   │   │   │   │   │   ├── pixelizer.fs
+│   │   │   │   │   │   │   ├── posterization.fs
+│   │   │   │   │   │   │   ├── predator.fs
+│   │   │   │   │   │   │   ├── scanlines.fs
+│   │   │   │   │   │   │   ├── sobel.fs
+│   │   │   │   │   │   │   └── swirl.fs
+│   │   │   │   │   │   └── glsl330
+│   │   │   │   │   │       ├── base.fs
+│   │   │   │   │   │       ├── base.vs
+│   │   │   │   │   │       ├── bloom.fs
+│   │   │   │   │   │       ├── blur.fs
+│   │   │   │   │   │       ├── color_mix.fs
+│   │   │   │   │   │       ├── cross_hatching.fs
+│   │   │   │   │   │       ├── cross_stitching.fs
+│   │   │   │   │   │       ├── cubes_panning.fs
+│   │   │   │   │   │       ├── depth.fs
+│   │   │   │   │   │       ├── distortion.fs
+│   │   │   │   │   │       ├── dream_vision.fs
+│   │   │   │   │   │       ├── eratosthenes.fs
+│   │   │   │   │   │       ├── fisheye.fs
+│   │   │   │   │   │       ├── fog.fs
+│   │   │   │   │   │       ├── grayscale.fs
+│   │   │   │   │   │       ├── hybrid_raster.fs
+│   │   │   │   │   │       ├── hybrid_raymarch.fs
+│   │   │   │   │   │       ├── julia_set.fs
+│   │   │   │   │   │       ├── lighting.fs
+│   │   │   │   │   │       ├── lighting.vs
+│   │   │   │   │   │       ├── lighting_instancing.vs
+│   │   │   │   │   │       ├── mask.fs
+│   │   │   │   │   │       ├── outline.fs
+│   │   │   │   │   │       ├── overdraw.fs
+│   │   │   │   │   │       ├── palette_switch.fs
+│   │   │   │   │   │       ├── pixelizer.fs
+│   │   │   │   │   │       ├── posterization.fs
+│   │   │   │   │   │       ├── predator.fs
+│   │   │   │   │   │       ├── raymarching.fs
+│   │   │   │   │   │       ├── reload.fs
+│   │   │   │   │   │       ├── scanlines.fs
+│   │   │   │   │   │       ├── sobel.fs
+│   │   │   │   │   │       ├── spotlight.fs
+│   │   │   │   │   │       ├── swirl.fs
+│   │   │   │   │   │       ├── wave.fs
+│   │   │   │   │   │       └── write_depth.fs
+│   │   │   │   │   ├── space.png
+│   │   │   │   │   └── texel_checker.png
+│   │   │   │   ├── rlights.h
+│   │   │   │   ├── shaders_basic_lighting.c
+│   │   │   │   ├── shaders_basic_lighting.png
+│   │   │   │   ├── shaders_custom_uniform.c
+│   │   │   │   ├── shaders_custom_uniform.png
+│   │   │   │   ├── shaders_eratosthenes.c
+│   │   │   │   ├── shaders_eratosthenes.png
+│   │   │   │   ├── shaders_fog.c
+│   │   │   │   ├── shaders_fog.png
+│   │   │   │   ├── shaders_hot_reloading.c
+│   │   │   │   ├── shaders_hot_reloading.png
+│   │   │   │   ├── shaders_hybrid_render.c
+│   │   │   │   ├── shaders_hybrid_render.png
+│   │   │   │   ├── shaders_julia_set.c
+│   │   │   │   ├── shaders_julia_set.png
+│   │   │   │   ├── shaders_mesh_instancing.c
+│   │   │   │   ├── shaders_mesh_instancing.png
+│   │   │   │   ├── shaders_model_shader.c
+│   │   │   │   ├── shaders_model_shader.png
+│   │   │   │   ├── shaders_multi_sample2d.c
+│   │   │   │   ├── shaders_multi_sample2d.png
+│   │   │   │   ├── shaders_palette_switch.c
+│   │   │   │   ├── shaders_palette_switch.png
+│   │   │   │   ├── shaders_postprocessing.c
+│   │   │   │   ├── shaders_postprocessing.png
+│   │   │   │   ├── shaders_raymarching.c
+│   │   │   │   ├── shaders_raymarching.png
+│   │   │   │   ├── shaders_shapes_textures.c
+│   │   │   │   ├── shaders_shapes_textures.png
+│   │   │   │   ├── shaders_simple_mask.c
+│   │   │   │   ├── shaders_simple_mask.png
+│   │   │   │   ├── shaders_spotlight.c
+│   │   │   │   ├── shaders_spotlight.png
+│   │   │   │   ├── shaders_texture_drawing.c
+│   │   │   │   ├── shaders_texture_drawing.png
+│   │   │   │   ├── shaders_texture_outline.c
+│   │   │   │   ├── shaders_texture_outline.png
+│   │   │   │   ├── shaders_texture_waves.c
+│   │   │   │   ├── shaders_texture_waves.png
+│   │   │   │   ├── shaders_write_depth.c
+│   │   │   │   └── shaders_write_depth.png
+│   │   │   ├── shapes
+│   │   │   │   ├── raygui.h
+│   │   │   │   ├── reasings.h
+│   │   │   │   ├── resources
+│   │   │   │   ├── shapes_basic_shapes.c
+│   │   │   │   ├── shapes_basic_shapes.png
+│   │   │   │   ├── shapes_bouncing_ball.c
+│   │   │   │   ├── shapes_bouncing_ball.png
+│   │   │   │   ├── shapes_collision_area.c
+│   │   │   │   ├── shapes_collision_area.png
+│   │   │   │   ├── shapes_colors_palette.c
+│   │   │   │   ├── shapes_colors_palette.png
+│   │   │   │   ├── shapes_draw_circle_sector.c
+│   │   │   │   ├── shapes_draw_circle_sector.png
+│   │   │   │   ├── shapes_draw_rectangle_rounded.c
+│   │   │   │   ├── shapes_draw_rectangle_rounded.png
+│   │   │   │   ├── shapes_draw_ring.c
+│   │   │   │   ├── shapes_draw_ring.png
+│   │   │   │   ├── shapes_easings_ball_anim.c
+│   │   │   │   ├── shapes_easings_ball_anim.png
+│   │   │   │   ├── shapes_easings_box_anim.c
+│   │   │   │   ├── shapes_easings_box_anim.png
+│   │   │   │   ├── shapes_easings_rectangle_array.c
+│   │   │   │   ├── shapes_easings_rectangle_array.png
+│   │   │   │   ├── shapes_following_eyes.c
+│   │   │   │   ├── shapes_following_eyes.png
+│   │   │   │   ├── shapes_lines_bezier.c
+│   │   │   │   ├── shapes_lines_bezier.png
+│   │   │   │   ├── shapes_logo_raylib.c
+│   │   │   │   ├── shapes_logo_raylib.png
+│   │   │   │   ├── shapes_logo_raylib_anim.c
+│   │   │   │   ├── shapes_logo_raylib_anim.png
+│   │   │   │   ├── shapes_rectangle_scaling.c
+│   │   │   │   ├── shapes_rectangle_scaling.png
+│   │   │   │   ├── shapes_top_down_lights.c
+│   │   │   │   └── shapes_top_down_lights.png
+│   │   │   ├── text
+│   │   │   │   ├── resources
+│   │   │   │   │   ├── DotGothic16-Regular.ttf
+│   │   │   │   │   ├── DotGothic16-Regular_OFL.txt
+│   │   │   │   │   ├── KAISG.ttf
+│   │   │   │   │   ├── LICENSE.md
+│   │   │   │   │   ├── anonymous_pro_bold.ttf
+│   │   │   │   │   ├── custom_alagard.png
+│   │   │   │   │   ├── custom_jupiter_crash.png
+│   │   │   │   │   ├── custom_mecha.png
+│   │   │   │   │   ├── dejavu.fnt
+│   │   │   │   │   ├── dejavu.png
+│   │   │   │   │   ├── fonts
+│   │   │   │   │   │   ├── alagard.png
+│   │   │   │   │   │   ├── alpha_beta.png
+│   │   │   │   │   │   ├── jupiter_crash.png
+│   │   │   │   │   │   ├── mecha.png
+│   │   │   │   │   │   ├── pixantiqua.png
+│   │   │   │   │   │   ├── pixelplay.png
+│   │   │   │   │   │   ├── romulus.png
+│   │   │   │   │   │   └── setback.png
+│   │   │   │   │   ├── noto_cjk.fnt
+│   │   │   │   │   ├── noto_cjk.png
+│   │   │   │   │   ├── pixantiqua.fnt
+│   │   │   │   │   ├── pixantiqua.png
+│   │   │   │   │   ├── pixantiqua.ttf
+│   │   │   │   │   ├── shaders
+│   │   │   │   │   │   ├── glsl100
+│   │   │   │   │   │   │   ├── alpha_discard.fs
+│   │   │   │   │   │   │   └── sdf.fs
+│   │   │   │   │   │   └── glsl330
+│   │   │   │   │   │       ├── alpha_discard.fs
+│   │   │   │   │   │       └── sdf.fs
+│   │   │   │   │   ├── symbola.fnt
+│   │   │   │   │   └── symbola.png
+│   │   │   │   ├── text_codepoints_loading.c
+│   │   │   │   ├── text_codepoints_loading.png
+│   │   │   │   ├── text_draw_3d.c
+│   │   │   │   ├── text_draw_3d.png
+│   │   │   │   ├── text_font_filters.c
+│   │   │   │   ├── text_font_filters.png
+│   │   │   │   ├── text_font_loading.c
+│   │   │   │   ├── text_font_loading.png
+│   │   │   │   ├── text_font_sdf.c
+│   │   │   │   ├── text_font_sdf.png
+│   │   │   │   ├── text_font_spritefont.c
+│   │   │   │   ├── text_font_spritefont.png
+│   │   │   │   ├── text_format_text.c
+│   │   │   │   ├── text_format_text.png
+│   │   │   │   ├── text_input_box.c
+│   │   │   │   ├── text_input_box.png
+│   │   │   │   ├── text_raylib_fonts.c
+│   │   │   │   ├── text_raylib_fonts.png
+│   │   │   │   ├── text_rectangle_bounds.c
+│   │   │   │   ├── text_rectangle_bounds.png
+│   │   │   │   ├── text_unicode.c
+│   │   │   │   ├── text_unicode.png
+│   │   │   │   ├── text_writing_anim.c
+│   │   │   │   └── text_writing_anim.png
+│   │   │   └── textures
+│   │   │       ├── resources
+│   │   │       │   ├── KAISG.ttf
+│   │   │       │   ├── LICENSE.md
+│   │   │       │   ├── boom.wav
+│   │   │       │   ├── button.png
+│   │   │       │   ├── buttonfx.wav
+│   │   │       │   ├── cat.png
+│   │   │       │   ├── custom_jupiter_crash.png
+│   │   │       │   ├── cyberpunk_street_background.png
+│   │   │       │   ├── cyberpunk_street_foreground.png
+│   │   │       │   ├── cyberpunk_street_midground.png
+│   │   │       │   ├── explosion.png
+│   │   │       │   ├── fudesumi.png
+│   │   │       │   ├── fudesumi.raw
+│   │   │       │   ├── ninepatch_button.png
+│   │   │       │   ├── parrots.png
+│   │   │       │   ├── patterns.png
+│   │   │       │   ├── raylib_logo.png
+│   │   │       │   ├── road.png
+│   │   │       │   ├── scarfy.png
+│   │   │       │   ├── scarfy_run.gif
+│   │   │       │   ├── spark_flame.png
+│   │   │       │   └── wabbit_alpha.png
+│   │   │       ├── textures_background_scrolling.c
+│   │   │       ├── textures_background_scrolling.png
+│   │   │       ├── textures_blend_modes.c
+│   │   │       ├── textures_blend_modes.png
+│   │   │       ├── textures_bunnymark.c
+│   │   │       ├── textures_bunnymark.png
+│   │   │       ├── textures_draw_tiled.c
+│   │   │       ├── textures_draw_tiled.png
+│   │   │       ├── textures_fog_of_war.c
+│   │   │       ├── textures_fog_of_war.png
+│   │   │       ├── textures_gif_player.c
+│   │   │       ├── textures_gif_player.png
+│   │   │       ├── textures_image_drawing.c
+│   │   │       ├── textures_image_drawing.png
+│   │   │       ├── textures_image_generation.c
+│   │   │       ├── textures_image_generation.png
+│   │   │       ├── textures_image_loading.c
+│   │   │       ├── textures_image_loading.png
+│   │   │       ├── textures_image_processing.c
+│   │   │       ├── textures_image_processing.png
+│   │   │       ├── textures_image_text.c
+│   │   │       ├── textures_image_text.png
+│   │   │       ├── textures_logo_raylib.c
+│   │   │       ├── textures_logo_raylib.png
+│   │   │       ├── textures_mouse_painting.c
+│   │   │       ├── textures_mouse_painting.png
+│   │   │       ├── textures_npatch_drawing.c
+│   │   │       ├── textures_npatch_drawing.png
+│   │   │       ├── textures_particles_blending.c
+│   │   │       ├── textures_particles_blending.png
+│   │   │       ├── textures_polygon.c
+│   │   │       ├── textures_polygon.png
+│   │   │       ├── textures_raw_data.c
+│   │   │       ├── textures_raw_data.png
+│   │   │       ├── textures_sprite_anim.c
+│   │   │       ├── textures_sprite_anim.png
+│   │   │       ├── textures_sprite_button.c
+│   │   │       ├── textures_sprite_button.png
+│   │   │       ├── textures_sprite_explosion.c
+│   │   │       ├── textures_sprite_explosion.png
+│   │   │       ├── textures_srcrec_dstrec.c
+│   │   │       ├── textures_srcrec_dstrec.png
+│   │   │       ├── textures_textured_curve.c
+│   │   │       ├── textures_textured_curve.png
+│   │   │       ├── textures_to_image.c
+│   │   │       └── textures_to_image.png
+│   │   ├── logo
+│   │   │   ├── raylib.ico
+│   │   │   ├── raylib_128x128.png
+│   │   │   ├── raylib_144x144.png
+│   │   │   ├── raylib_16x16.png
+│   │   │   ├── raylib_180x180.png
+│   │   │   ├── raylib_24x24.png
+│   │   │   ├── raylib_256x256.png
+│   │   │   ├── raylib_32x32.png
+│   │   │   ├── raylib_36x36.png
+│   │   │   ├── raylib_48x48.png
+│   │   │   ├── raylib_512x512.png
+│   │   │   ├── raylib_64x64.png
+│   │   │   ├── raylib_72x72.png
+│   │   │   ├── raylib_96x96.png
+│   │   │   └── raylib_logo_animation.gif
+│   │   ├── parser
+│   │   │   ├── LICENSE
+│   │   │   ├── Makefile
+│   │   │   ├── README.md
+│   │   │   ├── output
+│   │   │   │   ├── raylib_api.json
+│   │   │   │   ├── raylib_api.lua
+│   │   │   │   ├── raylib_api.txt
+│   │   │   │   └── raylib_api.xml
+│   │   │   └── raylib_parser.c
+│   │   ├── projects
+│   │   │   ├── 4coder
+│   │   │   │   ├── Makefile
+│   │   │   │   ├── Makefile.Android
+│   │   │   │   ├── main.c
+│   │   │   │   └── project.4coder
+│   │   │   ├── Builder
+│   │   │   │   ├── README.md
+│   │   │   │   ├── examples
+│   │   │   │   │   ├── README.md
+│   │   │   │   │   └── meson.build
+│   │   │   │   └── meson.build
+│   │   │   ├── CMake
+│   │   │   │   ├── CMakeLists.txt
+│   │   │   │   ├── README.md
+│   │   │   │   └── core_basic_window.c
+│   │   │   ├── CodeBlocks
+│   │   │   │   ├── README.md
+│   │   │   │   ├── compiler_settings.png
+│   │   │   │   ├── core_basic_window.c
+│   │   │   │   └── core_basic_window.cbp
+│   │   │   ├── Geany
+│   │   │   │   ├── core_basic_window.c
+│   │   │   │   ├── raylib.c.tags
+│   │   │   │   ├── raylib_compile_execute.bat
+│   │   │   │   ├── raylib_compile_sources.bat
+│   │   │   │   └── raylib_project.geany
+│   │   │   ├── Notepad++
+│   │   │   │   ├── README.md
+│   │   │   │   ├── npes_saved_mingw.txt
+│   │   │   │   ├── npes_saved_tcc.txt
+│   │   │   │   ├── npes_saved_w64devkit.txt
+│   │   │   │   ├── npes_saved_zig.txt
+│   │   │   │   └── raylib_npp_parser
+│   │   │   │       ├── raylib_npp.xml
+│   │   │   │       ├── raylib_npp_parser.c
+│   │   │   │       └── raylib_to_parse.h
+│   │   │   ├── README.md
+│   │   │   ├── SublimeText
+│   │   │   │   ├── README.md
+│   │   │   │   ├── raylib.sublime-build
+│   │   │   │   └── raylib.sublime-project
+│   │   │   ├── VS2019-Android
+│   │   │   │   ├── raylib_android
+│   │   │   │   │   ├── raylib_android.NativeActivity
+│   │   │   │   │   │   ├── android_native_app_glue.c
+│   │   │   │   │   │   ├── android_native_app_glue.h
+│   │   │   │   │   │   ├── main.c
+│   │   │   │   │   │   ├── raylib_android.NativeActivity.vcxproj
+│   │   │   │   │   │   ├── raylib_android.NativeActivity.vcxproj.filters
+│   │   │   │   │   │   └── raylib_android.NativeActivity.vcxproj.user
+│   │   │   │   │   └── raylib_android.Packaging
+│   │   │   │   │       ├── AndroidManifest.xml
+│   │   │   │   │       ├── build.xml
+│   │   │   │   │       ├── project.properties
+│   │   │   │   │       ├── raylib_android.Packaging.androidproj
+│   │   │   │   │       └── res
+│   │   │   │   │           └── values
+│   │   │   │   │               └── strings.xml
+│   │   │   │   └── raylib_android.sln
+│   │   │   ├── VS2022
+│   │   │   │   ├── examples
+│   │   │   │   │   ├── audio_module_playing.vcxproj
+│   │   │   │   │   ├── audio_music_stream.vcxproj
+│   │   │   │   │   ├── audio_raw_stream.vcxproj
+│   │   │   │   │   ├── audio_sound_loading.vcxproj
+│   │   │   │   │   ├── audio_stream_effects.vcxproj
+│   │   │   │   │   ├── core_2d_camera.vcxproj
+│   │   │   │   │   ├── core_2d_camera_mouse_zoom.vcxproj
+│   │   │   │   │   ├── core_2d_camera_platformer.vcxproj
+│   │   │   │   │   ├── core_3d_camera_first_person.vcxproj
+│   │   │   │   │   ├── core_3d_camera_free.vcxproj
+│   │   │   │   │   ├── core_3d_camera_mode.vcxproj
+│   │   │   │   │   ├── core_3d_picking.vcxproj
+│   │   │   │   │   ├── core_basic_screen_manager.vcxproj
+│   │   │   │   │   ├── core_basic_window.vcxproj
+│   │   │   │   │   ├── core_custom_frame_control.vcxproj
+│   │   │   │   │   ├── core_custom_logging.vcxproj
+│   │   │   │   │   ├── core_drop_files.vcxproj
+│   │   │   │   │   ├── core_input_gamepad.vcxproj
+│   │   │   │   │   ├── core_input_gestures.vcxproj
+│   │   │   │   │   ├── core_input_keys.vcxproj
+│   │   │   │   │   ├── core_input_mouse.vcxproj
+│   │   │   │   │   ├── core_input_mouse_wheel.vcxproj
+│   │   │   │   │   ├── core_input_multitouch.vcxproj
+│   │   │   │   │   ├── core_loading_thread.vcxproj
+│   │   │   │   │   ├── core_random_values.vcxproj
+│   │   │   │   │   ├── core_scissor_test.vcxproj
+│   │   │   │   │   ├── core_split_screen.vcxproj
+│   │   │   │   │   ├── core_storage_values.vcxproj
+│   │   │   │   │   ├── core_vr_simulator.vcxproj
+│   │   │   │   │   ├── core_window_flags.vcxproj
+│   │   │   │   │   ├── core_window_letterbox.vcxproj
+│   │   │   │   │   ├── core_window_should_close.vcxproj
+│   │   │   │   │   ├── core_world_screen.vcxproj
+│   │   │   │   │   ├── easings_testbed.vcxproj
+│   │   │   │   │   ├── embedded_files_loading.vcxproj
+│   │   │   │   │   ├── models_animation.vcxproj
+│   │   │   │   │   ├── models_billboard.vcxproj
+│   │   │   │   │   ├── models_box_collisions.vcxproj
+│   │   │   │   │   ├── models_cubicmap.vcxproj
+│   │   │   │   │   ├── models_first_person_maze.vcxproj
+│   │   │   │   │   ├── models_geometric_shapes.vcxproj
+│   │   │   │   │   ├── models_heightmap.vcxproj
+│   │   │   │   │   ├── models_loading.vcxproj
+│   │   │   │   │   ├── models_loading_gltf.vcxproj
+│   │   │   │   │   ├── models_loading_m3d.vcxproj
+│   │   │   │   │   ├── models_loading_vox.vcxproj
+│   │   │   │   │   ├── models_mesh_generation.vcxproj
+│   │   │   │   │   ├── models_mesh_picking.vcxproj
+│   │   │   │   │   ├── models_orthographic_projection.vcxproj
+│   │   │   │   │   ├── models_rlgl_solar_system.vcxproj
+│   │   │   │   │   ├── models_skybox.vcxproj
+│   │   │   │   │   ├── models_waving_cubes.vcxproj
+│   │   │   │   │   ├── models_yaw_pitch_roll.vcxproj
+│   │   │   │   │   ├── rlgl_compute_shaders.vcxproj
+│   │   │   │   │   ├── rlgl_standalone.vcxproj
+│   │   │   │   │   ├── shaders_basic_lighting.vcxproj
+│   │   │   │   │   ├── shaders_custom_uniform.vcxproj
+│   │   │   │   │   ├── shaders_eratosthenes.vcxproj
+│   │   │   │   │   ├── shaders_fog.vcxproj
+│   │   │   │   │   ├── shaders_hot_reloading.vcxproj
+│   │   │   │   │   ├── shaders_hybrid_render.vcxproj
+│   │   │   │   │   ├── shaders_julia_set.vcxproj
+│   │   │   │   │   ├── shaders_mesh_instancing.vcxproj
+│   │   │   │   │   ├── shaders_model_shader.vcxproj
+│   │   │   │   │   ├── shaders_multi_sample2d.vcxproj
+│   │   │   │   │   ├── shaders_palette_switch.vcxproj
+│   │   │   │   │   ├── shaders_postprocessing.vcxproj
+│   │   │   │   │   ├── shaders_raymarching.vcxproj
+│   │   │   │   │   ├── shaders_shapes_textures.vcxproj
+│   │   │   │   │   ├── shaders_simple_mask.vcxproj
+│   │   │   │   │   ├── shaders_spotlight.vcxproj
+│   │   │   │   │   ├── shaders_texture_drawing.vcxproj
+│   │   │   │   │   ├── shaders_texture_waves.vcxproj
+│   │   │   │   │   ├── shaders_write_depth.vcxproj
+│   │   │   │   │   ├── shapes_basic_shapes.vcxproj
+│   │   │   │   │   ├── shapes_bouncing_ball.vcxproj
+│   │   │   │   │   ├── shapes_collision_area.vcxproj
+│   │   │   │   │   ├── shapes_colors_palette.vcxproj
+│   │   │   │   │   ├── shapes_draw_circle_sector.vcxproj
+│   │   │   │   │   ├── shapes_draw_rectangle_rounded.vcxproj
+│   │   │   │   │   ├── shapes_draw_ring.vcxproj
+│   │   │   │   │   ├── shapes_easings_ball_anim.vcxproj
+│   │   │   │   │   ├── shapes_easings_box_anim.vcxproj
+│   │   │   │   │   ├── shapes_easings_rectangle_array.vcxproj
+│   │   │   │   │   ├── shapes_following_eyes.vcxproj
+│   │   │   │   │   ├── shapes_lines_bezier.vcxproj
+│   │   │   │   │   ├── shapes_logo_raylib.vcxproj
+│   │   │   │   │   ├── shapes_logo_raylib_anim.vcxproj
+│   │   │   │   │   ├── shapes_rectangle_scaling.vcxproj
+│   │   │   │   │   ├── text_codepoints_loading.vcxproj
+│   │   │   │   │   ├── text_draw_3d.vcxproj
+│   │   │   │   │   ├── text_font_filters.vcxproj
+│   │   │   │   │   ├── text_font_loading.vcxproj
+│   │   │   │   │   ├── text_font_sdf.vcxproj
+│   │   │   │   │   ├── text_font_spritefont.vcxproj
+│   │   │   │   │   ├── text_format_text.vcxproj
+│   │   │   │   │   ├── text_input_box.vcxproj
+│   │   │   │   │   ├── text_raylib_fonts.vcxproj
+│   │   │   │   │   ├── text_rectangle_bounds.vcxproj
+│   │   │   │   │   ├── text_unicode.vcxproj
+│   │   │   │   │   ├── text_writing_anim.vcxproj
+│   │   │   │   │   ├── textures_background_scrolling.vcxproj
+│   │   │   │   │   ├── textures_blend_modes.vcxproj
+│   │   │   │   │   ├── textures_bunnymark.vcxproj
+│   │   │   │   │   ├── textures_draw_tiled.vcxproj
+│   │   │   │   │   ├── textures_fog_of_war.vcxproj
+│   │   │   │   │   ├── textures_gif_player.vcxproj
+│   │   │   │   │   ├── textures_image_drawing.vcxproj
+│   │   │   │   │   ├── textures_image_generation.vcxproj
+│   │   │   │   │   ├── textures_image_loading.vcxproj
+│   │   │   │   │   ├── textures_image_processing.vcxproj
+│   │   │   │   │   ├── textures_image_text.vcxproj
+│   │   │   │   │   ├── textures_logo_raylib.vcxproj
+│   │   │   │   │   ├── textures_mouse_painting.vcxproj
+│   │   │   │   │   ├── textures_npatch_drawing.vcxproj
+│   │   │   │   │   ├── textures_particles_blending.vcxproj
+│   │   │   │   │   ├── textures_polygon.vcxproj
+│   │   │   │   │   ├── textures_raw_data.vcxproj
+│   │   │   │   │   ├── textures_sprite_anim.vcxproj
+│   │   │   │   │   ├── textures_sprite_button.vcxproj
+│   │   │   │   │   ├── textures_sprite_explosion.vcxproj
+│   │   │   │   │   ├── textures_srcrec_dstrec.vcxproj
+│   │   │   │   │   ├── textures_textured_curve.vcxproj
+│   │   │   │   │   └── textures_to_image.vcxproj
+│   │   │   │   ├── raylib
+│   │   │   │   │   └── raylib.vcxproj
+│   │   │   │   └── raylib.sln
+│   │   │   ├── VSCode
+│   │   │   │   ├── Makefile
+│   │   │   │   ├── Makefile.Android
+│   │   │   │   ├── main.c
+│   │   │   │   ├── main.code-workspace
+│   │   │   │   └── resources
+│   │   │   │       └── LICENSE
+│   │   │   └── scripts
+│   │   │       ├── README.md
+│   │   │       ├── build-linux.sh
+│   │   │       ├── build-osx.sh
+│   │   │       ├── build-rpi.sh
+│   │   │       ├── build-windows.bat
+│   │   │       └── core_basic_window.c
+│   │   ├── raylib.pc.in
+│   │   └── src
+│   │       ├── CMakeLists.txt
+│   │       ├── Makefile
+│   │       ├── build.zig
+│   │       ├── config.h
+│   │       ├── external
+│   │       │   ├── cgltf.h
+│   │       │   ├── dirent.h
+│   │       │   ├── dr_flac.h
+│   │       │   ├── dr_mp3.h
+│   │       │   ├── dr_wav.h
+│   │       │   ├── glad.h
+│   │       │   ├── glad_gles2.h
+│   │       │   ├── glfw
+│   │       │   │   ├── CMake
+│   │       │   │   │   ├── GenerateMappings.cmake
+│   │       │   │   │   ├── Info.plist.in
+│   │       │   │   │   ├── cmake_uninstall.cmake.in
+│   │       │   │   │   ├── glfw3.pc.in
+│   │       │   │   │   ├── glfw3Config.cmake.in
+│   │       │   │   │   ├── i686-w64-mingw32-clang.cmake
+│   │       │   │   │   ├── i686-w64-mingw32.cmake
+│   │       │   │   │   ├── modules
+│   │       │   │   │   │   ├── FindEpollShim.cmake
+│   │       │   │   │   │   └── FindOSMesa.cmake
+│   │       │   │   │   ├── x86_64-w64-mingw32-clang.cmake
+│   │       │   │   │   └── x86_64-w64-mingw32.cmake
+│   │       │   │   ├── CMakeLists.txt
+│   │       │   │   ├── CONTRIBUTORS.md
+│   │       │   │   ├── LICENSE.md
+│   │       │   │   ├── README.md
+│   │       │   │   ├── deps
+│   │       │   │   │   ├── getopt.c
+│   │       │   │   │   ├── getopt.h
+│   │       │   │   │   ├── glad
+│   │       │   │   │   │   ├── gl.h
+│   │       │   │   │   │   ├── gles2.h
+│   │       │   │   │   │   └── vulkan.h
+│   │       │   │   │   ├── mingw
+│   │       │   │   │   │   ├── _mingw_dxhelper.h
+│   │       │   │   │   │   ├── dinput.h
+│   │       │   │   │   │   └── xinput.h
+│   │       │   │   │   └── vs2008
+│   │       │   │   │       └── stdint.h
+│   │       │   │   ├── include
+│   │       │   │   │   └── GLFW
+│   │       │   │   │       ├── glfw3.h
+│   │       │   │   │       └── glfw3native.h
+│   │       │   │   └── src
+│   │       │   │       ├── CMakeLists.txt
+│   │       │   │       ├── cocoa_init.m
+│   │       │   │       ├── cocoa_joystick.h
+│   │       │   │       ├── cocoa_joystick.m
+│   │       │   │       ├── cocoa_monitor.m
+│   │       │   │       ├── cocoa_platform.h
+│   │       │   │       ├── cocoa_time.c
+│   │       │   │       ├── cocoa_time.h
+│   │       │   │       ├── cocoa_window.m
+│   │       │   │       ├── context.c
+│   │       │   │       ├── egl_context.c
+│   │       │   │       ├── glfw.rc.in
+│   │       │   │       ├── glx_context.c
+│   │       │   │       ├── init.c
+│   │       │   │       ├── input.c
+│   │       │   │       ├── internal.h
+│   │       │   │       ├── linux_joystick.c
+│   │       │   │       ├── linux_joystick.h
+│   │       │   │       ├── mappings.h
+│   │       │   │       ├── mappings.h.in
+│   │       │   │       ├── monitor.c
+│   │       │   │       ├── nsgl_context.m
+│   │       │   │       ├── null_init.c
+│   │       │   │       ├── null_joystick.c
+│   │       │   │       ├── null_joystick.h
+│   │       │   │       ├── null_monitor.c
+│   │       │   │       ├── null_platform.h
+│   │       │   │       ├── null_window.c
+│   │       │   │       ├── osmesa_context.c
+│   │       │   │       ├── platform.c
+│   │       │   │       ├── platform.h
+│   │       │   │       ├── posix_module.c
+│   │       │   │       ├── posix_poll.c
+│   │       │   │       ├── posix_poll.h
+│   │       │   │       ├── posix_thread.c
+│   │       │   │       ├── posix_thread.h
+│   │       │   │       ├── posix_time.c
+│   │       │   │       ├── posix_time.h
+│   │       │   │       ├── vulkan.c
+│   │       │   │       ├── wgl_context.c
+│   │       │   │       ├── win32_init.c
+│   │       │   │       ├── win32_joystick.c
+│   │       │   │       ├── win32_joystick.h
+│   │       │   │       ├── win32_module.c
+│   │       │   │       ├── win32_monitor.c
+│   │       │   │       ├── win32_platform.h
+│   │       │   │       ├── win32_thread.c
+│   │       │   │       ├── win32_thread.h
+│   │       │   │       ├── win32_time.c
+│   │       │   │       ├── win32_time.h
+│   │       │   │       ├── win32_window.c
+│   │       │   │       ├── window.c
+│   │       │   │       ├── wl_init.c
+│   │       │   │       ├── wl_monitor.c
+│   │       │   │       ├── wl_platform.h
+│   │       │   │       ├── wl_window.c
+│   │       │   │       ├── x11_init.c
+│   │       │   │       ├── x11_monitor.c
+│   │       │   │       ├── x11_platform.h
+│   │       │   │       ├── x11_window.c
+│   │       │   │       ├── xkb_unicode.c
+│   │       │   │       └── xkb_unicode.h
+│   │       │   ├── jar_mod.h
+│   │       │   ├── jar_xm.h
+│   │       │   ├── m3d.h
+│   │       │   ├── miniaudio.h
+│   │       │   ├── msf_gif.h
+│   │       │   ├── par_shapes.h
+│   │       │   ├── qoa.h
+│   │       │   ├── qoaplay.c
+│   │       │   ├── qoi.h
+│   │       │   ├── rl_gputex.h
+│   │       │   ├── sdefl.h
+│   │       │   ├── sinfl.h
+│   │       │   ├── stb_image.h
+│   │       │   ├── stb_image_resize.h
+│   │       │   ├── stb_image_write.h
+│   │       │   ├── stb_perlin.h
+│   │       │   ├── stb_rect_pack.h
+│   │       │   ├── stb_truetype.h
+│   │       │   ├── stb_vorbis.c
+│   │       │   ├── tinyobj_loader_c.h
+│   │       │   └── vox_loader.h
+│   │       ├── minshell.html
+│   │       ├── raudio.c
+│   │       ├── raylib.dll.rc
+│   │       ├── raylib.dll.rc.data
+│   │       ├── raylib.h
+│   │       ├── raylib.ico
+│   │       ├── raylib.rc
+│   │       ├── raylib.rc.data
+│   │       ├── raymath.h
+│   │       ├── rcamera.h
+│   │       ├── rcore.c
+│   │       ├── rgestures.h
+│   │       ├── rglfw.c
+│   │       ├── rlgl.h
+│   │       ├── rmodels.c
+│   │       ├── rshapes.c
+│   │       ├── rtext.c
+│   │       ├── rtextures.c
+│   │       ├── shell.html
+│   │       ├── utils.c
+│   │       └── utils.h
+│   └── raylib-subbuild
+│       ├── CMakeCache.txt
+│       ├── CMakeFiles
+│       │   ├── 3.28.3
+│       │   │   └── CMakeSystem.cmake
+│       │   ├── CMakeConfigureLog.yaml
+│       │   ├── CMakeDirectoryInformation.cmake
+│       │   ├── CMakeRuleHashes.txt
+│       │   ├── Makefile.cmake
+│       │   ├── Makefile2
+│       │   ├── TargetDirectories.txt
+│       │   ├── cmake.check_cache
+│       │   ├── pkgRedirects
+│       │   ├── progress.marks
+│       │   ├── raylib-populate-complete
+│       │   └── raylib-populate.dir
+│       │       ├── DependInfo.cmake
+│       │       ├── Labels.json
+│       │       ├── Labels.txt
+│       │       ├── build.make
+│       │       ├── cmake_clean.cmake
+│       │       ├── compiler_depend.make
+│       │       ├── compiler_depend.ts
+│       │       └── progress.make
+│       ├── CMakeLists.txt
+│       ├── Makefile
+│       ├── cmake_install.cmake
+│       └── raylib-populate-prefix
+│           ├── src
+│           │   ├── 4.5.0.tar.gz
+│           │   └── raylib-populate-stamp
+│           │       ├── download-raylib-populate.cmake
+│           │       ├── extract-raylib-populate.cmake
+│           │       ├── raylib-populate-build
+│           │       ├── raylib-populate-configure
+│           │       ├── raylib-populate-done
+│           │       ├── raylib-populate-download
+│           │       ├── raylib-populate-install
+│           │       ├── raylib-populate-mkdir
+│           │       ├── raylib-populate-patch
+│           │       ├── raylib-populate-patch-info.txt
+│           │       ├── raylib-populate-test
+│           │       ├── raylib-populate-update
+│           │       ├── raylib-populate-update-info.txt
+│           │       ├── raylib-populate-urlinfo.txt
+│           │       └── verify-raylib-populate.cmake
+│           └── tmp
+│               ├── raylib-populate-cfgcmd.txt
+│               └── raylib-populate-mkdirs.cmake
+├── app
+│   ├── CMakeFiles
+│   │   ├── CMakeDirectoryInformation.cmake
+│   │   ├── metro_sim.dir
+│   │   │   ├── DependInfo.cmake
+│   │   │   ├── build.make
+│   │   │   ├── cmake_clean.cmake
+│   │   │   ├── compiler_depend.internal
+│   │   │   ├── compiler_depend.make
+│   │   │   ├── compiler_depend.ts
+│   │   │   ├── depend.make
+│   │   │   ├── flags.make
+│   │   │   ├── link.txt
+│   │   │   ├── main.cpp.o
+│   │   │   ├── main.cpp.o.d
+│   │   │   └── progress.make
+│   │   └── progress.marks
+│   ├── CMakeLists.txt
+│   ├── Makefile
+│   ├── cmake_install.cmake
+│   ├── main.cpp
+│   └── metro_sim
+├── bin
+├── build
+│   ├── CMakeCache.txt
+│   ├── CMakeFiles
+│   │   ├── 3.28.3
+│   │   │   ├── CMakeCCompiler.cmake
+│   │   │   ├── CMakeCXXCompiler.cmake
+│   │   │   ├── CMakeDetermineCompilerABI_C.bin
+│   │   │   ├── CMakeDetermineCompilerABI_CXX.bin
+│   │   │   ├── CMakeSystem.cmake
+│   │   │   ├── CompilerIdC
+│   │   │   │   ├── CMakeCCompilerId.c
+│   │   │   │   ├── a.out
+│   │   │   │   └── tmp
+│   │   │   └── CompilerIdCXX
+│   │   │       ├── CMakeCXXCompilerId.cpp
+│   │   │       ├── a.out
+│   │   │       └── tmp
+│   │   ├── CMakeConfigureLog.yaml
+│   │   ├── CMakeDirectoryInformation.cmake
+│   │   ├── CMakeScratch
+│   │   ├── Makefile.cmake
+│   │   ├── Makefile2
+│   │   ├── Progress
+│   │   │   ├── 1
+│   │   │   ├── 15
+│   │   │   ├── 16
+│   │   │   ├── 17
+│   │   │   ├── 18
+│   │   │   ├── 2
+│   │   │   ├── 3
+│   │   │   ├── 4
+│   │   │   ├── 5
+│   │   │   ├── 6
+│   │   │   ├── 7
+│   │   │   ├── 8
+│   │   │   ├── 9
+│   │   │   └── count.txt
+│   │   ├── TargetDirectories.txt
+│   │   ├── cmake.check_cache
+│   │   ├── pkgRedirects
+│   │   └── progress.marks
+│   ├── CTestTestfile.cmake
+│   ├── Makefile
+│   ├── _deps
+│   │   ├── googletest-build
+│   │   │   ├── CMakeFiles
+│   │   │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │   │   └── progress.marks
+│   │   │   ├── CTestTestfile.cmake
+│   │   │   ├── Makefile
+│   │   │   ├── cmake_install.cmake
+│   │   │   ├── googlemock
+│   │   │   │   ├── CMakeFiles
+│   │   │   │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │   │   │   ├── gmock.dir
+│   │   │   │   │   │   ├── DependInfo.cmake
+│   │   │   │   │   │   ├── build.make
+│   │   │   │   │   │   ├── cmake_clean.cmake
+│   │   │   │   │   │   ├── cmake_clean_target.cmake
+│   │   │   │   │   │   ├── compiler_depend.make
+│   │   │   │   │   │   ├── compiler_depend.ts
+│   │   │   │   │   │   ├── depend.make
+│   │   │   │   │   │   ├── flags.make
+│   │   │   │   │   │   ├── link.txt
+│   │   │   │   │   │   ├── progress.make
+│   │   │   │   │   │   └── src
+│   │   │   │   │   ├── gmock_main.dir
+│   │   │   │   │   │   ├── DependInfo.cmake
+│   │   │   │   │   │   ├── build.make
+│   │   │   │   │   │   ├── cmake_clean.cmake
+│   │   │   │   │   │   ├── cmake_clean_target.cmake
+│   │   │   │   │   │   ├── compiler_depend.make
+│   │   │   │   │   │   ├── compiler_depend.ts
+│   │   │   │   │   │   ├── depend.make
+│   │   │   │   │   │   ├── flags.make
+│   │   │   │   │   │   ├── link.txt
+│   │   │   │   │   │   ├── progress.make
+│   │   │   │   │   │   └── src
+│   │   │   │   │   └── progress.marks
+│   │   │   │   ├── CTestTestfile.cmake
+│   │   │   │   ├── Makefile
+│   │   │   │   └── cmake_install.cmake
+│   │   │   └── googletest
+│   │   │       ├── CMakeFiles
+│   │   │       │   ├── CMakeDirectoryInformation.cmake
+│   │   │       │   ├── Export
+│   │   │       │   │   └── 0c08b8e77dd885bfe55a19a9659d9fc1
+│   │   │       │   │       ├── GTestTargets-noconfig.cmake
+│   │   │       │   │       └── GTestTargets.cmake
+│   │   │       │   ├── gtest.dir
+│   │   │       │   │   ├── DependInfo.cmake
+│   │   │       │   │   ├── build.make
+│   │   │       │   │   ├── cmake_clean.cmake
+│   │   │       │   │   ├── cmake_clean_target.cmake
+│   │   │       │   │   ├── compiler_depend.make
+│   │   │       │   │   ├── compiler_depend.ts
+│   │   │       │   │   ├── depend.make
+│   │   │       │   │   ├── flags.make
+│   │   │       │   │   ├── link.txt
+│   │   │       │   │   ├── progress.make
+│   │   │       │   │   └── src
+│   │   │       │   │       ├── gtest-all.cc.o
+│   │   │       │   │       └── gtest-all.cc.o.d
+│   │   │       │   ├── gtest_main.dir
+│   │   │       │   │   ├── DependInfo.cmake
+│   │   │       │   │   ├── build.make
+│   │   │       │   │   ├── cmake_clean.cmake
+│   │   │       │   │   ├── cmake_clean_target.cmake
+│   │   │       │   │   ├── compiler_depend.make
+│   │   │       │   │   ├── compiler_depend.ts
+│   │   │       │   │   ├── depend.make
+│   │   │       │   │   ├── flags.make
+│   │   │       │   │   ├── link.txt
+│   │   │       │   │   ├── progress.make
+│   │   │       │   │   └── src
+│   │   │       │   │       ├── gtest_main.cc.o
+│   │   │       │   │       └── gtest_main.cc.o.d
+│   │   │       │   └── progress.marks
+│   │   │       ├── CTestTestfile.cmake
+│   │   │       ├── Makefile
+│   │   │       ├── cmake_install.cmake
+│   │   │       └── generated
+│   │   │           ├── GTestConfig.cmake
+│   │   │           ├── GTestConfigVersion.cmake
+│   │   │           ├── gmock.pc
+│   │   │           ├── gmock_main.pc
+│   │   │           ├── gtest.pc
+│   │   │           └── gtest_main.pc
+│   │   ├── googletest-src
+│   │   │   ├── BUILD.bazel
+│   │   │   ├── CMakeLists.txt
+│   │   │   ├── CONTRIBUTING.md
+│   │   │   ├── CONTRIBUTORS
+│   │   │   ├── LICENSE
+│   │   │   ├── README.md
+│   │   │   ├── WORKSPACE
+│   │   │   ├── ci
+│   │   │   │   ├── linux-presubmit.sh
+│   │   │   │   ├── macos-presubmit.sh
+│   │   │   │   └── windows-presubmit.bat
+│   │   │   ├── docs
+│   │   │   │   ├── _config.yml
+│   │   │   │   ├── _data
+│   │   │   │   │   └── navigation.yml
+│   │   │   │   ├── _layouts
+│   │   │   │   │   └── default.html
+│   │   │   │   ├── _sass
+│   │   │   │   │   └── main.scss
+│   │   │   │   ├── advanced.md
+│   │   │   │   ├── assets
+│   │   │   │   │   └── css
+│   │   │   │   │       └── style.scss
+│   │   │   │   ├── community_created_documentation.md
+│   │   │   │   ├── faq.md
+│   │   │   │   ├── gmock_cheat_sheet.md
+│   │   │   │   ├── gmock_cook_book.md
+│   │   │   │   ├── gmock_faq.md
+│   │   │   │   ├── gmock_for_dummies.md
+│   │   │   │   ├── index.md
+│   │   │   │   ├── pkgconfig.md
+│   │   │   │   ├── platforms.md
+│   │   │   │   ├── primer.md
+│   │   │   │   ├── quickstart-bazel.md
+│   │   │   │   ├── quickstart-cmake.md
+│   │   │   │   ├── reference
+│   │   │   │   │   ├── actions.md
+│   │   │   │   │   ├── assertions.md
+│   │   │   │   │   ├── matchers.md
+│   │   │   │   │   ├── mocking.md
+│   │   │   │   │   └── testing.md
+│   │   │   │   └── samples.md
+│   │   │   ├── googlemock
+│   │   │   │   ├── CMakeLists.txt
+│   │   │   │   ├── README.md
+│   │   │   │   ├── cmake
+│   │   │   │   │   ├── gmock.pc.in
+│   │   │   │   │   └── gmock_main.pc.in
+│   │   │   │   ├── docs
+│   │   │   │   │   └── README.md
+│   │   │   │   ├── include
+│   │   │   │   │   └── gmock
+│   │   │   │   │       ├── gmock-actions.h
+│   │   │   │   │       ├── gmock-cardinalities.h
+│   │   │   │   │       ├── gmock-function-mocker.h
+│   │   │   │   │       ├── gmock-matchers.h
+│   │   │   │   │       ├── gmock-more-actions.h
+│   │   │   │   │       ├── gmock-more-matchers.h
+│   │   │   │   │       ├── gmock-nice-strict.h
+│   │   │   │   │       ├── gmock-spec-builders.h
+│   │   │   │   │       ├── gmock.h
+│   │   │   │   │       └── internal
+│   │   │   │   │           ├── custom
+│   │   │   │   │           │   ├── README.md
+│   │   │   │   │           │   ├── gmock-generated-actions.h
+│   │   │   │   │           │   ├── gmock-matchers.h
+│   │   │   │   │           │   └── gmock-port.h
+│   │   │   │   │           ├── gmock-internal-utils.h
+│   │   │   │   │           ├── gmock-port.h
+│   │   │   │   │           └── gmock-pp.h
+│   │   │   │   ├── src
+│   │   │   │   │   ├── gmock-all.cc
+│   │   │   │   │   ├── gmock-cardinalities.cc
+│   │   │   │   │   ├── gmock-internal-utils.cc
+│   │   │   │   │   ├── gmock-matchers.cc
+│   │   │   │   │   ├── gmock-spec-builders.cc
+│   │   │   │   │   ├── gmock.cc
+│   │   │   │   │   └── gmock_main.cc
+│   │   │   │   └── test
+│   │   │   │       ├── BUILD.bazel
+│   │   │   │       ├── gmock-actions_test.cc
+│   │   │   │       ├── gmock-cardinalities_test.cc
+│   │   │   │       ├── gmock-function-mocker_test.cc
+│   │   │   │       ├── gmock-internal-utils_test.cc
+│   │   │   │       ├── gmock-matchers-arithmetic_test.cc
+│   │   │   │       ├── gmock-matchers-comparisons_test.cc
+│   │   │   │       ├── gmock-matchers-containers_test.cc
+│   │   │   │       ├── gmock-matchers-misc_test.cc
+│   │   │   │       ├── gmock-matchers_test.h
+│   │   │   │       ├── gmock-more-actions_test.cc
+│   │   │   │       ├── gmock-nice-strict_test.cc
+│   │   │   │       ├── gmock-port_test.cc
+│   │   │   │       ├── gmock-pp-string_test.cc
+│   │   │   │       ├── gmock-pp_test.cc
+│   │   │   │       ├── gmock-spec-builders_test.cc
+│   │   │   │       ├── gmock_all_test.cc
+│   │   │   │       ├── gmock_ex_test.cc
+│   │   │   │       ├── gmock_leak_test.py
+│   │   │   │       ├── gmock_leak_test_.cc
+│   │   │   │       ├── gmock_link2_test.cc
+│   │   │   │       ├── gmock_link_test.cc
+│   │   │   │       ├── gmock_link_test.h
+│   │   │   │       ├── gmock_output_test.py
+│   │   │   │       ├── gmock_output_test_.cc
+│   │   │   │       ├── gmock_output_test_golden.txt
+│   │   │   │       ├── gmock_stress_test.cc
+│   │   │   │       ├── gmock_test.cc
+│   │   │   │       └── gmock_test_utils.py
+│   │   │   ├── googletest
+│   │   │   │   ├── CMakeLists.txt
+│   │   │   │   ├── README.md
+│   │   │   │   ├── cmake
+│   │   │   │   │   ├── Config.cmake.in
+│   │   │   │   │   ├── gtest.pc.in
+│   │   │   │   │   ├── gtest_main.pc.in
+│   │   │   │   │   ├── internal_utils.cmake
+│   │   │   │   │   └── libgtest.la.in
+│   │   │   │   ├── docs
+│   │   │   │   │   └── README.md
+│   │   │   │   ├── include
+│   │   │   │   │   └── gtest
+│   │   │   │   │       ├── gtest-assertion-result.h
+│   │   │   │   │       ├── gtest-death-test.h
+│   │   │   │   │       ├── gtest-matchers.h
+│   │   │   │   │       ├── gtest-message.h
+│   │   │   │   │       ├── gtest-param-test.h
+│   │   │   │   │       ├── gtest-printers.h
+│   │   │   │   │       ├── gtest-spi.h
+│   │   │   │   │       ├── gtest-test-part.h
+│   │   │   │   │       ├── gtest-typed-test.h
+│   │   │   │   │       ├── gtest.h
+│   │   │   │   │       ├── gtest_pred_impl.h
+│   │   │   │   │       ├── gtest_prod.h
+│   │   │   │   │       └── internal
+│   │   │   │   │           ├── custom
+│   │   │   │   │           │   ├── README.md
+│   │   │   │   │           │   ├── gtest-port.h
+│   │   │   │   │           │   ├── gtest-printers.h
+│   │   │   │   │           │   └── gtest.h
+│   │   │   │   │           ├── gtest-death-test-internal.h
+│   │   │   │   │           ├── gtest-filepath.h
+│   │   │   │   │           ├── gtest-internal.h
+│   │   │   │   │           ├── gtest-param-util.h
+│   │   │   │   │           ├── gtest-port-arch.h
+│   │   │   │   │           ├── gtest-port.h
+│   │   │   │   │           ├── gtest-string.h
+│   │   │   │   │           └── gtest-type-util.h
+│   │   │   │   ├── samples
+│   │   │   │   │   ├── prime_tables.h
+│   │   │   │   │   ├── sample1.cc
+│   │   │   │   │   ├── sample1.h
+│   │   │   │   │   ├── sample10_unittest.cc
+│   │   │   │   │   ├── sample1_unittest.cc
+│   │   │   │   │   ├── sample2.cc
+│   │   │   │   │   ├── sample2.h
+│   │   │   │   │   ├── sample2_unittest.cc
+│   │   │   │   │   ├── sample3-inl.h
+│   │   │   │   │   ├── sample3_unittest.cc
+│   │   │   │   │   ├── sample4.cc
+│   │   │   │   │   ├── sample4.h
+│   │   │   │   │   ├── sample4_unittest.cc
+│   │   │   │   │   ├── sample5_unittest.cc
+│   │   │   │   │   ├── sample6_unittest.cc
+│   │   │   │   │   ├── sample7_unittest.cc
+│   │   │   │   │   ├── sample8_unittest.cc
+│   │   │   │   │   └── sample9_unittest.cc
+│   │   │   │   ├── src
+│   │   │   │   │   ├── gtest-all.cc
+│   │   │   │   │   ├── gtest-assertion-result.cc
+│   │   │   │   │   ├── gtest-death-test.cc
+│   │   │   │   │   ├── gtest-filepath.cc
+│   │   │   │   │   ├── gtest-internal-inl.h
+│   │   │   │   │   ├── gtest-matchers.cc
+│   │   │   │   │   ├── gtest-port.cc
+│   │   │   │   │   ├── gtest-printers.cc
+│   │   │   │   │   ├── gtest-test-part.cc
+│   │   │   │   │   ├── gtest-typed-test.cc
+│   │   │   │   │   ├── gtest.cc
+│   │   │   │   │   └── gtest_main.cc
+│   │   │   │   └── test
+│   │   │   │       ├── BUILD.bazel
+│   │   │   │       ├── googletest-break-on-failure-unittest.py
+│   │   │   │       ├── googletest-break-on-failure-unittest_.cc
+│   │   │   │       ├── googletest-catch-exceptions-test.py
+│   │   │   │       ├── googletest-catch-exceptions-test_.cc
+│   │   │   │       ├── googletest-color-test.py
+│   │   │   │       ├── googletest-color-test_.cc
+│   │   │   │       ├── googletest-death-test-test.cc
+│   │   │   │       ├── googletest-death-test_ex_test.cc
+│   │   │   │       ├── googletest-env-var-test.py
+│   │   │   │       ├── googletest-env-var-test_.cc
+│   │   │   │       ├── googletest-failfast-unittest.py
+│   │   │   │       ├── googletest-failfast-unittest_.cc
+│   │   │   │       ├── googletest-filepath-test.cc
+│   │   │   │       ├── googletest-filter-unittest.py
+│   │   │   │       ├── googletest-filter-unittest_.cc
+│   │   │   │       ├── googletest-global-environment-unittest.py
+│   │   │   │       ├── googletest-global-environment-unittest_.cc
+│   │   │   │       ├── googletest-json-outfiles-test.py
+│   │   │   │       ├── googletest-json-output-unittest.py
+│   │   │   │       ├── googletest-list-tests-unittest.py
+│   │   │   │       ├── googletest-list-tests-unittest_.cc
+│   │   │   │       ├── googletest-listener-test.cc
+│   │   │   │       ├── googletest-message-test.cc
+│   │   │   │       ├── googletest-options-test.cc
+│   │   │   │       ├── googletest-output-test-golden-lin.txt
+│   │   │   │       ├── googletest-output-test.py
+│   │   │   │       ├── googletest-output-test_.cc
+│   │   │   │       ├── googletest-param-test-invalid-name1-test.py
+│   │   │   │       ├── googletest-param-test-invalid-name1-test_.cc
+│   │   │   │       ├── googletest-param-test-invalid-name2-test.py
+│   │   │   │       ├── googletest-param-test-invalid-name2-test_.cc
+│   │   │   │       ├── googletest-param-test-test.cc
+│   │   │   │       ├── googletest-param-test-test.h
+│   │   │   │       ├── googletest-param-test2-test.cc
+│   │   │   │       ├── googletest-port-test.cc
+│   │   │   │       ├── googletest-printers-test.cc
+│   │   │   │       ├── googletest-setuptestsuite-test.py
+│   │   │   │       ├── googletest-setuptestsuite-test_.cc
+│   │   │   │       ├── googletest-shuffle-test.py
+│   │   │   │       ├── googletest-shuffle-test_.cc
+│   │   │   │       ├── googletest-test-part-test.cc
+│   │   │   │       ├── googletest-throw-on-failure-test.py
+│   │   │   │       ├── googletest-throw-on-failure-test_.cc
+│   │   │   │       ├── googletest-uninitialized-test.py
+│   │   │   │       ├── googletest-uninitialized-test_.cc
+│   │   │   │       ├── gtest-typed-test2_test.cc
+│   │   │   │       ├── gtest-typed-test_test.cc
+│   │   │   │       ├── gtest-typed-test_test.h
+│   │   │   │       ├── gtest-unittest-api_test.cc
+│   │   │   │       ├── gtest_all_test.cc
+│   │   │   │       ├── gtest_assert_by_exception_test.cc
+│   │   │   │       ├── gtest_dirs_test.cc
+│   │   │   │       ├── gtest_environment_test.cc
+│   │   │   │       ├── gtest_help_test.py
+│   │   │   │       ├── gtest_help_test_.cc
+│   │   │   │       ├── gtest_json_test_utils.py
+│   │   │   │       ├── gtest_list_output_unittest.py
+│   │   │   │       ├── gtest_list_output_unittest_.cc
+│   │   │   │       ├── gtest_main_unittest.cc
+│   │   │   │       ├── gtest_no_test_unittest.cc
+│   │   │   │       ├── gtest_pred_impl_unittest.cc
+│   │   │   │       ├── gtest_premature_exit_test.cc
+│   │   │   │       ├── gtest_prod_test.cc
+│   │   │   │       ├── gtest_repeat_test.cc
+│   │   │   │       ├── gtest_skip_check_output_test.py
+│   │   │   │       ├── gtest_skip_environment_check_output_test.py
+│   │   │   │       ├── gtest_skip_in_environment_setup_test.cc
+│   │   │   │       ├── gtest_skip_test.cc
+│   │   │   │       ├── gtest_sole_header_test.cc
+│   │   │   │       ├── gtest_stress_test.cc
+│   │   │   │       ├── gtest_test_macro_stack_footprint_test.cc
+│   │   │   │       ├── gtest_test_utils.py
+│   │   │   │       ├── gtest_testbridge_test.py
+│   │   │   │       ├── gtest_testbridge_test_.cc
+│   │   │   │       ├── gtest_throw_on_failure_ex_test.cc
+│   │   │   │       ├── gtest_unittest.cc
+│   │   │   │       ├── gtest_xml_outfile1_test_.cc
+│   │   │   │       ├── gtest_xml_outfile2_test_.cc
+│   │   │   │       ├── gtest_xml_outfiles_test.py
+│   │   │   │       ├── gtest_xml_output_unittest.py
+│   │   │   │       ├── gtest_xml_output_unittest_.cc
+│   │   │   │       ├── gtest_xml_test_utils.py
+│   │   │   │       ├── production.cc
+│   │   │   │       └── production.h
+│   │   │   └── googletest_deps.bzl
+│   │   └── googletest-subbuild
+│   │       ├── CMakeCache.txt
+│   │       ├── CMakeFiles
+│   │       │   ├── 3.28.3
+│   │       │   │   └── CMakeSystem.cmake
+│   │       │   ├── CMakeConfigureLog.yaml
+│   │       │   ├── CMakeDirectoryInformation.cmake
+│   │       │   ├── CMakeRuleHashes.txt
+│   │       │   ├── Makefile.cmake
+│   │       │   ├── Makefile2
+│   │       │   ├── TargetDirectories.txt
+│   │       │   ├── cmake.check_cache
+│   │       │   ├── googletest-populate-complete
+│   │       │   ├── googletest-populate.dir
+│   │       │   │   ├── DependInfo.cmake
+│   │       │   │   ├── Labels.json
+│   │       │   │   ├── Labels.txt
+│   │       │   │   ├── build.make
+│   │       │   │   ├── cmake_clean.cmake
+│   │       │   │   ├── compiler_depend.make
+│   │       │   │   ├── compiler_depend.ts
+│   │       │   │   └── progress.make
+│   │       │   ├── pkgRedirects
+│   │       │   └── progress.marks
+│   │       ├── CMakeLists.txt
+│   │       ├── Makefile
+│   │       ├── cmake_install.cmake
+│   │       └── googletest-populate-prefix
+│   │           ├── src
+│   │           │   ├── googletest-populate-stamp
+│   │           │   │   ├── download-googletest-populate.cmake
+│   │           │   │   ├── extract-googletest-populate.cmake
+│   │           │   │   ├── googletest-populate-build
+│   │           │   │   ├── googletest-populate-configure
+│   │           │   │   ├── googletest-populate-done
+│   │           │   │   ├── googletest-populate-download
+│   │           │   │   ├── googletest-populate-install
+│   │           │   │   ├── googletest-populate-mkdir
+│   │           │   │   ├── googletest-populate-patch
+│   │           │   │   ├── googletest-populate-patch-info.txt
+│   │           │   │   ├── googletest-populate-test
+│   │           │   │   ├── googletest-populate-update
+│   │           │   │   ├── googletest-populate-update-info.txt
+│   │           │   │   ├── googletest-populate-urlinfo.txt
+│   │           │   │   └── verify-googletest-populate.cmake
+│   │           │   └── v1.14.0.zip
+│   │           └── tmp
+│   │               ├── googletest-populate-cfgcmd.txt
+│   │               └── googletest-populate-mkdirs.cmake
+│   ├── app
+│   │   ├── CMakeFiles
+│   │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │   ├── metro_sim.dir
+│   │   │   │   ├── DependInfo.cmake
+│   │   │   │   ├── build.make
+│   │   │   │   ├── cmake_clean.cmake
+│   │   │   │   ├── compiler_depend.make
+│   │   │   │   ├── compiler_depend.ts
+│   │   │   │   ├── depend.make
+│   │   │   │   ├── flags.make
+│   │   │   │   ├── link.txt
+│   │   │   │   └── progress.make
+│   │   │   └── progress.marks
+│   │   ├── Makefile
+│   │   └── cmake_install.cmake
+│   ├── bin
+│   ├── cmake_install.cmake
+│   ├── compile_commands.json
+│   ├── lib
+│   │   ├── libgtest.a
+│   │   └── libgtest_main.a
+│   ├── src
+│   │   ├── CMakeFiles
+│   │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │   ├── core.dir
+│   │   │   │   ├── DependInfo.cmake
+│   │   │   │   ├── build.make
+│   │   │   │   ├── cmake_clean.cmake
+│   │   │   │   ├── cmake_clean_target.cmake
+│   │   │   │   ├── compiler_depend.make
+│   │   │   │   ├── compiler_depend.ts
+│   │   │   │   ├── core
+│   │   │   │   │   ├── graph
+│   │   │   │   │   │   ├── Graph.cpp.o
+│   │   │   │   │   │   └── Graph.cpp.o.d
+│   │   │   │   │   └── simulation
+│   │   │   │   │       ├── Simulation.cpp.o
+│   │   │   │   │       ├── Simulation.cpp.o.d
+│   │   │   │   │       ├── TickClock.cpp.o
+│   │   │   │   │       └── TickClock.cpp.o.d
+│   │   │   │   ├── depend.make
+│   │   │   │   ├── flags.make
+│   │   │   │   ├── link.txt
+│   │   │   │   └── progress.make
+│   │   │   └── progress.marks
+│   │   ├── Makefile
+│   │   ├── cmake_install.cmake
+│   │   └── libcore.a
+│   └── tests
+│       ├── CMakeFiles
+│       │   ├── CMakeDirectoryInformation.cmake
+│       │   ├── core_tests.dir
+│       │   │   ├── DependInfo.cmake
+│       │   │   ├── build.make
+│       │   │   ├── cmake_clean.cmake
+│       │   │   ├── compiler_depend.make
+│       │   │   ├── compiler_depend.ts
+│       │   │   ├── depend.make
+│       │   │   ├── determinism_tests.cpp.o
+│       │   │   ├── determinism_tests.cpp.o.d
+│       │   │   ├── flags.make
+│       │   │   ├── graph_tests.cpp.o
+│       │   │   ├── graph_tests.cpp.o.d
+│       │   │   ├── link.txt
+│       │   │   ├── passenger_test.cpp.o.d
+│       │   │   ├── progress.make
+│       │   │   ├── route_test.cpp.o
+│       │   │   ├── route_test.cpp.o.d
+│       │   │   ├── train_simulation_test.cpp.o
+│       │   │   └── train_simulation_test.cpp.o.d
+│       │   └── progress.marks
+│       ├── Makefile
+│       ├── cmake_install.cmake
+│       └── core_tests[1]_include.cmake
+├── cmake_install.cmake
+├── compile_commands.json
+├── lib
+│   ├── libgmock.a
+│   ├── libgmock_main.a
+│   ├── libgtest.a
+│   └── libgtest_main.a
+├── src
+│   ├── CMakeFiles
+│   │   ├── CMakeDirectoryInformation.cmake
+│   │   ├── core.dir
+│   │   │   ├── DependInfo.cmake
+│   │   │   ├── build.make
+│   │   │   ├── cmake_clean.cmake
+│   │   │   ├── cmake_clean_target.cmake
+│   │   │   ├── compiler_depend.internal
+│   │   │   ├── compiler_depend.make
+│   │   │   ├── compiler_depend.ts
+│   │   │   ├── core
+│   │   │   │   ├── graph
+│   │   │   │   │   ├── Graph.cpp.o
+│   │   │   │   │   ├── Graph.cpp.o.d
+│   │   │   │   │   ├── passenger_state_machine.cpp.o
+│   │   │   │   │   ├── passenger_state_machine.cpp.o.d
+│   │   │   │   │   ├── routing_cache.cpp.o
+│   │   │   │   │   ├── routing_cache.cpp.o.d
+│   │   │   │   │   ├── train_state_machine.cpp.o
+│   │   │   │   │   └── train_state_machine.cpp.o.d
+│   │   │   │   ├── simulation
+│   │   │   │   │   ├── Simulation.cpp.o
+│   │   │   │   │   ├── Simulation.cpp.o.d
+│   │   │   │   │   ├── TickClock.cpp.o
+│   │   │   │   │   └── TickClock.cpp.o.d
+│   │   │   │   └── ui
+│   │   │   │       ├── DrawSnapshot.cpp.o
+│   │   │   │       ├── DrawSnapshot.cpp.o.d
+│   │   │   │       ├── RaylibApp.cpp.o
+│   │   │   │       └── RaylibApp.cpp.o.d
+│   │   │   ├── depend.make
+│   │   │   ├── flags.make
+│   │   │   ├── link.txt
+│   │   │   └── progress.make
+│   │   └── progress.marks
+│   ├── CMakeLists.txt
+│   ├── Makefile
+│   ├── cmake_install.cmake
+│   ├── core
+│   │   ├── graph
+│   │   │   ├── Graph.cpp
+│   │   │   ├── Graph.hpp
+│   │   │   ├── Line.hpp
+│   │   │   ├── Passenger.hpp
+│   │   │   ├── SimulationSnapshot.hpp
+│   │   │   ├── Station.hpp
+│   │   │   ├── StationType.hpp
+│   │   │   ├── Train.hpp
+│   │   │   ├── id.hpp
+│   │   │   ├── passenger_state_machine.cpp
+│   │   │   ├── passenger_state_machine.hpp
+│   │   │   ├── route_info.hpp
+│   │   │   ├── routing_cache.cpp
+│   │   │   ├── routing_cache.hpp
+│   │   │   ├── train_state_machine.cpp
+│   │   │   └── train_state_machine.hpp
+│   │   ├── simulation
+│   │   │   ├── Simulation.cpp
+│   │   │   ├── Simulation.hpp
+│   │   │   ├── TickClock.cpp
+│   │   │   └── TickClock.hpp
+│   │   └── ui
+│   │       ├── DrawSnapshot.cpp
+│   │       ├── DrawSnapshot.hpp
+│   │       ├── RaylibApp.cpp
+│   │       └── RaylibApp.hpp
+│   └── libcore.a
+├── temp.txt
+└── tests
+    ├── CMakeFiles
+    │   ├── CMakeDirectoryInformation.cmake
+    │   ├── core_tests.dir
+    │   │   ├── DependInfo.cmake
+    │   │   ├── build.make
+    │   │   ├── cmake_clean.cmake
+    │   │   ├── compiler_depend.internal
+    │   │   ├── compiler_depend.make
+    │   │   ├── compiler_depend.ts
+    │   │   ├── depend.make
+    │   │   ├── determinism_tests.cpp.o
+    │   │   ├── determinism_tests.cpp.o.d
+    │   │   ├── flags.make
+    │   │   ├── graph_tests.cpp.o
+    │   │   ├── graph_tests.cpp.o.d
+    │   │   ├── link.txt
+    │   │   ├── passenger_heutristic.cpp.o
+    │   │   ├── passenger_heutristic.cpp.o.d
+    │   │   ├── passenger_test.cpp.o
+    │   │   ├── passenger_test.cpp.o.d
+    │   │   ├── progress.make
+    │   │   ├── route_test.cpp.o
+    │   │   ├── route_test.cpp.o.d
+    │   │   ├── routing_cache.cpp.o
+    │   │   ├── routing_cache.cpp.o.d
+    │   │   ├── train_simulation_test.cpp.o
+    │   │   ├── train_simulation_test.cpp.o.d
+    │   │   ├── transfer_test.cpp.o
+    │   │   └── transfer_test.cpp.o.d
+    │   └── progress.marks
+    ├── CMakeLists.txt
+    ├── CTestTestfile.cmake
+    ├── Makefile
+    ├── cmake_install.cmake
+    ├── core_tests
+    ├── core_tests[1]_include.cmake
+    ├── core_tests[1]_tests.cmake
+    ├── determinism_tests.cpp
+    ├── graph_tests.cpp
+    ├── passenger_heutristic.cpp
+    ├── passenger_test.cpp
+    ├── route_test.cpp
+    ├── routing_cache.cpp
+    ├── train_simulation_test.cpp
+    └── transfer_test.cpp
+
+265 directories, 1977 files

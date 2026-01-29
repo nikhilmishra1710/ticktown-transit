@@ -33,11 +33,13 @@ TEST(PassengerAging, OnboardPassengersDoNotAge) {
     g.addTrain(line, 1);
     g.spawnPassengerAt(A, StationType::Square);
 
-    g.tick(); // boards passenger
+    g.tick(); // A Alighting
+    g.tick(); // A Boarding
+    g.tick(); // A -> B
 
     const auto& t = g.getTrains()[0];
     ASSERT_EQ(t.onboard.size(), 1);
-    EXPECT_EQ(t.onboard[0].age, 0);
+    EXPECT_EQ(t.onboard[0].age, 1); // 1 Alighting tick
 }
 
 TEST(BoardingPolicy, FIFOPreservesArrivalOrder) {
@@ -52,9 +54,9 @@ TEST(BoardingPolicy, FIFOPreservesArrivalOrder) {
     g.addStationToLine(line, B);
     g.addTrain(line, 1);
 
-    g.spawnPassengerAt(B, StationType::Circle);
+    g.spawnPassengerAt(A, StationType::Square);
     g.tick(); // age first passenger
-    g.spawnPassengerAt(B, StationType::Circle);
+    g.spawnPassengerAt(A, StationType::Square);
 
     g.tick(); // boarding
 
@@ -85,7 +87,9 @@ TEST(BoardingPolicy, ShortestRemainingHopWins) {
     g.spawnPassengerAt(A, StationType::Triangle); // 2 hops
     g.spawnPassengerAt(A, StationType::Square);   // 1 hop
 
-    g.tick();
+    g.tick(); // A Alighting
+    g.tick(); // A Boarding
+    g.tick(); // A -> B
 
     const auto& onboard = g.getTrains()[0].onboard;
     ASSERT_EQ(onboard.size(), 1);
@@ -112,7 +116,10 @@ TEST(Fairness, AgingEventuallyOverridesDistance) {
     g.spawnPassengerAt(A, StationType::Square); // closer
 
     g.addTrain(line, 1);
-    g.tick();
+    
+    g.tick(); // A Alighting
+    g.tick(); // A Boarding
+    g.tick(); // A -> B
 
     const auto& onboard = g.getTrains()[0].onboard;
     ASSERT_EQ(onboard.size(), 1);
@@ -133,7 +140,9 @@ TEST(Invariant, PassengerOwnershipIsExclusive) {
     g.spawnPassengerAt(A, StationType::Square);
     g.spawnPassengerAt(A, StationType::Square);
 
-    g.tick();
+    g.tick(); // A Alighting
+    g.tick(); // A Boarding
+    g.tick(); // A -> B
 
     EXPECT_EQ(g.getStation(A)->waitingPassengers.size(), 0);
     EXPECT_EQ(g.getTrains()[0].onboard.size(), 2);
@@ -159,7 +168,7 @@ TEST(TransferSafety, PassengerTransfersOnce) {
 
     g.spawnPassengerAt(A, StationType::Triangle);
 
-    for (int i = 0; i < 5; ++i)
+    for (int i = 0; i < 10; ++i)
         g.tick();
 
     EXPECT_EQ(g.completedPassengers(), 1);

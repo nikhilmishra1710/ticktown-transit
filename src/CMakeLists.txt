@@ -15,6 +15,7 @@ add_library(core
     core/graph/Graph.cpp
     core/graph/passenger_state_machine.cpp
     core/graph/routing_cache.cpp
+    core/graph/train_state_machine.cpp
     core/ui/DrawSnapshot.cpp
     core/ui/RaylibApp.cpp
 )
