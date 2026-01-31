@@ -1,5 +1,5 @@
 #pragma once
-#include "core/graph/Train.hpp"
+#include "Train.hpp"
 
 class TrainFSM {
   public:

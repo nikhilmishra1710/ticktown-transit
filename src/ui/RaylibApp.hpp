@@ -1,5 +1,5 @@
 #pragma once
-#include "core/graph/Graph.hpp"
+#include "../core/graph/Graph.hpp"
 
 class RaylibApp {
   public:

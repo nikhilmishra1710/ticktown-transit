@@ -1,31 +1,27 @@
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# --- LIBRARY 1: METRO CORE (Logic only) ---
+# Collect all source files in core/ subdirectories
+file(GLOB_RECURSE CORE_SOURCES "core/*.cpp")
 
-include(FetchContent)
-FetchContent_Declare(
-    raylib
-    URL https://github.com/raysan5/raylib/archive/refs/tags/4.5.0.tar.gz
-    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
-)
-FetchContent_MakeAvailable(raylib)
+add_library(metro_core ${CORE_SOURCES})
 
-add_library(core
-    core/simulation/Simulation.cpp
-    core/simulation/TickClock.cpp
-    core/graph/Graph.cpp
-    core/graph/passenger_state_machine.cpp
-    core/graph/routing_cache.cpp
-    core/graph/train_state_machine.cpp
-    core/ui/DrawSnapshot.cpp
-    core/ui/RaylibApp.cpp
-)
+# Include directories so other targets can see headers in src/core
+target_include_directories(metro_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_include_directories(core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
-# Link raylib to core library (if core uses raylib)
-target_link_libraries(core raylib)
-
-# Platform-specific linking
-if(WIN32)
-    target_link_libraries(core winmm)
+# Apply Coverage Flags ONLY to metro_core
+if(ENABLE_COVERAGE)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(metro_core PRIVATE --coverage -O0 -g)
+        target_link_options(metro_core PUBLIC --coverage)
+        message(STATUS "Coverage enabled for metro_core")
+    endif()
 endif()
+
+# --- LIBRARY 2: METRO UI (Raylib / Visualization) ---
+# Collect all source files in ui/ subdirectories
+file(GLOB_RECURSE UI_SOURCES "ui/*.cpp")
+
+add_library(metro_ui ${UI_SOURCES})
+
+# UI depends on Core (to read simulation state) AND Raylib
+target_link_libraries(metro_ui PUBLIC metro_core raylib)
+target_include_directories(metro_ui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

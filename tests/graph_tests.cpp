@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "core/graph/Graph.hpp"
+#include "../src/core/graph/Graph.hpp"
 
 TEST(Graph, StationLifecycle) {
     Graph g;

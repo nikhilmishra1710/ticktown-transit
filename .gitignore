@@ -17,3 +17,25 @@ tests/core_tests
 build/
 .cache/
 compile_commands.json
+
+# Ignore build directories
+build/
+out/
+
+# Ignore IDE settings
+.vscode/
+.idea/
+.vs/
+*.user
+
+# Ignore artifacts if they accidentally get created
+*.exe
+*.o
+*.a
+*.so
+*.dylib
+compile_commands.json
+
+coverage_clean.info
+coverage.info
+coverage_html

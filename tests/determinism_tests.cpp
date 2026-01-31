@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "core/simulation/Simulation.hpp"
+#include "../src/core/simulation/Simulation.hpp"
 
 TEST(Simulation, DeterministicState) {
     Simulation a(123);

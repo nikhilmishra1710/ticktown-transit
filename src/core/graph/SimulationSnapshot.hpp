@@ -1,7 +1,7 @@
 #pragma once
 #include "Train.hpp"
-#include "core/graph/Passenger.hpp"
-#include "core/graph/StationType.hpp"
+#include "Passenger.hpp"
+#include "StationType.hpp"
 #include "id.hpp"
 #include <optional>
 #include <vector>
