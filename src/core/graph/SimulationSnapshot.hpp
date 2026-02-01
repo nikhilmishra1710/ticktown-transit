@@ -24,12 +24,19 @@ struct TrainView {
     std::size_t capacity;
     std::size_t onboard;
     TrainState state;
+    std::vector<PassengerView> passengers;
 };
 
 struct StationView {
     uint32_t id;
     StationType type;
     std::size_t waiting;
+    std::vector<PassengerView> passengers;
+};
+
+struct LineView {
+    uint32_t id;
+    std::vector<uint32_t> stationIds;
 };
 
 struct SimulationSnapshot {

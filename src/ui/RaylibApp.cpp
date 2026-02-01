@@ -1,48 +1,53 @@
-#include "RaylibApp.hpp"
-#include "DrawSnapshot.hpp"
+#include "ui/RaylibApp.hpp"
+#include "ui/screens/InGame.hpp"
+#include "ui/screens/LevelSelect.hpp"
+#include "ui/screens/MainMenu.hpp"
+#include "ui/screens/PauseMenu.hpp"
 #include <raylib.h>
 
-RaylibApp::RaylibApp() {
-    InitWindow(1200, 800, "Metro Simulation");
+RaylibApp::RaylibApp() : state_(AppState::MAIN_MENU), activeLevel_(-1) {
+    InitWindow(1280, 720, "MetroSim");
     SetTargetFPS(60);
+    switchState(state_);
+}
 
-    auto A = graph_.addStation(StationType::Circle);
-    auto B = graph_.addStation(StationType::Square);
-
-    auto line = graph_.addLine();
-    graph_.addStationToLine(line, A);
-    graph_.addStationToLine(line, B);
-
-    graph_.addTrain(line, 2);
-    graph_.spawnPassengerAt(A, StationType::Square);
+bool shouldClose() {
+    return (WindowShouldClose() && !IsKeyPressed(KEY_ESCAPE)) || IsKeyPressed(KEY_Q);
 }
 
 void RaylibApp::run() {
-    while (!WindowShouldClose()) {
+    while (!shouldClose() && state_ != AppState::EXIT) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        if (IsKeyPressed(KEY_SPACE))
-            paused_ = !paused_;
-
-        if (IsKeyPressed(KEY_N))
-            graph_.tick();
-
-        if (!paused_) {
-            tickAccumulator_ += GetFrameTime();
-            if (tickAccumulator_ > 1.0f) {
-                graph_.tick();
-                tickAccumulator_ = 0.0f;
-            }
+        auto result = screen_->update();
+        if (result.nextState != state_) {
+            if (result.selectedLevel != -1)
+                activeLevel_ = result.selectedLevel;
+            switchState(result.nextState);
         }
-
-        DrawSnapshot(graph_.snapshot());
-
-        DrawText(paused_ ? "PAUSED" : "RUNNING", 20, 20, 20, DARKGRAY);
-        DrawText("SPACE = Play/Pause, N = Step", 20, 50, 16, GRAY);
 
         EndDrawing();
     }
-
     CloseWindow();
+}
+
+void RaylibApp::switchState(AppState next) {
+    state_ = next;
+    switch (state_) {
+    case AppState::MAIN_MENU:
+        screen_ = std::make_unique<MainMenu>();
+        break;
+    case AppState::LEVEL_SELECT:
+        screen_ = std::make_unique<LevelSelect>();
+        break;
+    case AppState::IN_GAME:
+        screen_ = std::make_unique<InGame>(activeLevel_);
+        break;
+    case AppState::PAUSED:
+        screen_ = std::make_unique<PauseMenu>();
+        break;
+    case AppState::EXIT:
+        break;
+    }
 }

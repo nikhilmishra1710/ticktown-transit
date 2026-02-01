@@ -1,5 +1,5 @@
-#include "DrawSnapshot.hpp"
 #include "core/graph/SimulationSnapshot.hpp"
+#include "ui/DrawSnapshot.hpp"
 #include <raylib.h>
 
 void DrawSnapshot(const SimulationSnapshot& snap) {

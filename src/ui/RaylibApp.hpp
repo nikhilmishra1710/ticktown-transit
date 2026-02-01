@@ -1,5 +1,7 @@
 #pragma once
-#include "../core/graph/Graph.hpp"
+#include "ui/AppState.hpp"
+#include "ui/Screen.hpp"
+#include <memory>
 
 class RaylibApp {
   public:
@@ -7,7 +9,10 @@ class RaylibApp {
     void run();
 
   private:
-    Graph graph_;
-    bool paused_ = true;
-    float tickAccumulator_ = 0.0f;
+    AppState state_;
+    int activeLevel_;
+
+    std::unique_ptr<Screen> screen_;
+
+    void switchState(AppState next);
 };

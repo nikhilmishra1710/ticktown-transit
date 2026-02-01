@@ -514,26 +514,32 @@ SimulationSnapshot Graph::snapshot() const {
     snap.tick = this->tick_;
 
     for (const auto& [id, s] : stations_) {
-        snap.stations.push_back({id, s.type, s.waitingPassengers.size()});
-    }
-
-    for (const auto& t : trains_) {
-        snap.trains.push_back({t.trainId, t.lineId, lines_.at(t.lineId).stationIds[t.stationIndex],
-                               t.direction == 1 ? true : false, t.capacity, t.onboard.size(), t.state});
-    }
-
-    for (const auto& [id, s] : stations_) {
+        StationView stationView = {id, s.type, s.waitingPassengers.size(), {}};
         for (const auto& p : s.waitingPassengers) {
+            stationView.passengers.push_back(
+                {p.passengerId, p.source, p.destination, p.state, id, std::nullopt, p.age});
             snap.passengers.push_back(
                 {p.passengerId, p.source, p.destination, p.state, id, std::nullopt, p.age});
         }
+        snap.stations.push_back(stationView);
     }
 
     for (const auto& t : trains_) {
+        TrainView trainView = {t.trainId,
+                               t.lineId,
+                               lines_.at(t.lineId).stationIds[t.stationIndex],
+                               t.direction == 1 ? true : false,
+                               t.capacity,
+                               t.onboard.size(),
+                               t.state,
+                               {}};
         for (const auto& p : t.onboard) {
+            trainView.passengers.push_back(
+                {p.passengerId, p.source, p.destination, p.state, std::nullopt, t.trainId, p.age});
             snap.passengers.push_back(
                 {p.passengerId, p.source, p.destination, p.state, std::nullopt, t.trainId, p.age});
         }
+        snap.trains.push_back(trainView);
     }
 
     return snap;
