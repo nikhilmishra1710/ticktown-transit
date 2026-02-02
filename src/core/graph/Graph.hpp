@@ -16,6 +16,7 @@ enum BoardingPolicy { FIFO, SHORTEST_REMAINING_HOPS, AGING_PRIORITY };
 class Graph {
   public:
     std::uint32_t addStation(StationType type);
+    std::uint32_t addStationAtPosition(float x, float y, StationType type = StationType::Circle);
     void removeStation(std::uint32_t stationId);
 
     std::uint32_t addLine();

@@ -1,15 +1,38 @@
 #include "ui/screens/InGame.hpp"
+#include "core/simulation/LevelRegistry.hpp"
 #include "raylib.h"
+#include "ui/DrawSnapshot.hpp"
 
-InGame::InGame(int level) : level_(level) {
+InGame::InGame(int levelId)
+    : sim_([&] {
+          auto cfg = getLevelConfig(levelId);
+          Simulation s(cfg.randomSeed);
+
+          // Level bootstrapping
+          for (uint32_t i = 0; i < cfg.initialStations; ++i) {
+              s.enqueueCommand(AddStationCmd{.x = 200.0f + i * 200.0f, .y = 360.0f});
+          }
+
+          for (uint32_t i = 0; i < cfg.initialLines; ++i) {
+              s.enqueueCommand(AddLineCmd{i});
+          }
+
+          return s;
+      }()) {
 }
 
+
 ScreenResult InGame::update() {
-    DrawText("IN GAME", 40, 40, 30, BLACK);
-    DrawText(TextFormat("Level %d", level_), 40, 80, 20, DARKGRAY);
+    if (IsKeyPressed(KEY_P)) {
+        return { AppState::PAUSED };
+    }
 
-    if (IsKeyPressed(KEY_ESCAPE))
-        return {AppState::PAUSED};
+    if (!paused_) {
+        sim_.step(std::chrono::milliseconds(16));
+    }
 
-    return {AppState::IN_GAME};
+    auto snapshot = sim_.snapshot();
+    DrawSnapshot(snapshot);
+
+    return { AppState::IN_GAME };
 }

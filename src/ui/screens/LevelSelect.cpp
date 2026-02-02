@@ -7,7 +7,7 @@ ScreenResult LevelSelect::update() {
 
     for (int i = 0; i < 3; ++i) {
         if (DrawButton(TextFormat("Level %d", i + 1), {520, 250 + (float) i * 60, 240, 50}))
-            return {AppState::IN_GAME, i};
+            return {AppState::IN_GAME, i+1};
     }
 
     if (DrawButton("Back", {520, 450, 240, 50}))

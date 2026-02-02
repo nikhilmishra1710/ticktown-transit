@@ -26,6 +26,13 @@ std::uint32_t Graph::addStation(StationType type) {
     return this->nextStationId_++;
 }
 
+StationId Graph::addStationAtPosition(float x, float y, StationType type) {
+    Station newStation = {this->nextStationId_, type, {}, x, y};
+    this->stations_[this->nextStationId_] = newStation;
+    routingCache_.invalidate();
+    return this->nextStationId_++;
+}
+
 void Graph::removeStation(std::uint32_t stationId) {
     auto stationFind = this->stations_.find(stationId);
     if (!this->stationExists(stationId)) {
@@ -514,6 +521,7 @@ SimulationSnapshot Graph::snapshot() const {
     snap.tick = this->tick_;
 
     for (const auto& [id, s] : stations_) {
+        snap.stationPositions.emplace(id, std::make_pair(s.x, s.y));
         StationView stationView = {id, s.type, s.waitingPassengers.size(), {}};
         for (const auto& p : s.waitingPassengers) {
             stationView.passengers.push_back(

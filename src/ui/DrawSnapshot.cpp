@@ -38,4 +38,10 @@ void DrawSnapshot(const SimulationSnapshot& snap) {
                  40, y, 16, BLACK);
         y += 18;
     }
+
+    for (const auto& [stationId, pos] : snap.stationPositions) {
+        DrawCircleV({pos.first, pos.second}, 20.0f, BLUE);
+        DrawText(TextFormat("%u", stationId), pos.first - 10.0f, pos.second - 10.0f, 12, WHITE);
+    }
+
 }

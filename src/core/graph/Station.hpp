@@ -9,5 +9,7 @@ struct Station {
     StationType type;
     std::vector<Passenger> waitingPassengers;
 
+    float x = 0.0f;
+    float y = 0.0f;
     std::size_t maxCapacity = 6;
 };

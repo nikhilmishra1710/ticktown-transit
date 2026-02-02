@@ -1,10 +1,13 @@
 #pragma once
-#include "Train.hpp"
 #include "Passenger.hpp"
 #include "StationType.hpp"
+#include "Train.hpp"
 #include "id.hpp"
 #include <optional>
+#include <unordered_map>
+#include <utility>
 #include <vector>
+
 
 struct PassengerView {
     uint32_t id;
@@ -44,4 +47,5 @@ struct SimulationSnapshot {
     std::vector<StationView> stations;
     std::vector<TrainView> trains;
     std::vector<PassengerView> passengers;
+    std::unordered_map<StationId, std::pair<float, float>> stationPositions;
 };
