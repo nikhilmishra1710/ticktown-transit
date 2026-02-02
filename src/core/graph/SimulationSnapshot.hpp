@@ -47,5 +47,5 @@ struct SimulationSnapshot {
     std::vector<StationView> stations;
     std::vector<TrainView> trains;
     std::vector<PassengerView> passengers;
-    std::unordered_map<StationId, std::pair<float, float>> stationPositions;
+    std::unordered_map<StationId, std::pair<std::pair<float, float>, StationView>> stationPositions;
 };

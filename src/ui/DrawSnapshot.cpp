@@ -1,6 +1,7 @@
-#include "core/graph/SimulationSnapshot.hpp"
 #include "ui/DrawSnapshot.hpp"
+#include "core/graph/SimulationSnapshot.hpp"
 #include <raylib.h>
+
 
 void DrawSnapshot(const SimulationSnapshot& snap) {
     int y = 100;
@@ -39,9 +40,13 @@ void DrawSnapshot(const SimulationSnapshot& snap) {
         y += 18;
     }
 
-    for (const auto& [stationId, pos] : snap.stationPositions) {
-        DrawCircleV({pos.first, pos.second}, 20.0f, BLUE);
-        DrawText(TextFormat("%u", stationId), pos.first - 10.0f, pos.second - 10.0f, 12, WHITE);
+    for (const auto& [stationId, pair] : snap.stationPositions) {
+        DrawCircleV({pair.first.first, pair.first.second}, 20.0f, BLUE);
+        DrawText(TextFormat("%u", stationId), pair.first.first - 10.0f, pair.first.second - 10.0f,
+                 12, WHITE);
+        for (auto& p : pair.second.passengers) {
+            DrawLineV({pair.first.first, pair.first.second},
+                      {pair.first.first + 30.0f, pair.first.second + 30.0f}, RED);
+        }
     }
-
 }

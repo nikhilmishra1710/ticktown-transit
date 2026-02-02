@@ -521,7 +521,6 @@ SimulationSnapshot Graph::snapshot() const {
     snap.tick = this->tick_;
 
     for (const auto& [id, s] : stations_) {
-        snap.stationPositions.emplace(id, std::make_pair(s.x, s.y));
         StationView stationView = {id, s.type, s.waitingPassengers.size(), {}};
         for (const auto& p : s.waitingPassengers) {
             stationView.passengers.push_back(
@@ -530,6 +529,7 @@ SimulationSnapshot Graph::snapshot() const {
                 {p.passengerId, p.source, p.destination, p.state, id, std::nullopt, p.age});
         }
         snap.stations.push_back(stationView);
+        snap.stationPositions.emplace(id, std::make_pair(std::make_pair(s.x, s.y), stationView));
     }
 
     for (const auto& t : trains_) {

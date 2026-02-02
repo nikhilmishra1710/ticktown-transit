@@ -11,4 +11,8 @@ struct AddLineCmd {
     uint32_t lineId;
 };
 
-using SimulationCommand = std::variant<AddStationCmd, AddLineCmd>;
+struct AddPassengerCmd {
+    uint32_t stationId;
+};
+
+using SimulationCommand = std::variant<AddStationCmd, AddLineCmd, AddPassengerCmd>;
