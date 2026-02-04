@@ -42,6 +42,15 @@
                 "CMAKE_BUILD_TYPE": "Debug",
                 "ENABLE_COVERAGE": "ON"
             }
+        },
+        {
+            "name": "test",
+            "inherits": "base",
+            "displayName": "Test Build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "ENABLE_COVERAGE": "OFF"
+            }
         }
     ],
     "buildPresets": [
@@ -56,6 +65,10 @@
         {
             "name": "coverage",
             "configurePreset": "coverage"
+        },
+        {
+            "name": "test",
+            "configurePreset": "test"
         }
     ],
     "testPresets": [

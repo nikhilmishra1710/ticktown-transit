@@ -14,9 +14,9 @@ if [ "$fresh" = true ]; then
     rm -rf build/debug
 fi
 
-echo "=== Building Debug Mode ==="
-cmake --preset debug
-cmake --build --preset debug
+echo "=== Building Test Mode ==="
+cmake --preset test
+cmake --build --preset test
 
-echo "=== Launching Application ==="
-./build/debug/app/metro_app
+echo "=== Launching Test ==="
+ctest --preset test

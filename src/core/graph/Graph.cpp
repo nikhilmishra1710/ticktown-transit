@@ -274,7 +274,7 @@ bool Graph::_canBoard(const Passenger& p, std::uint32_t stationId, std::uint32_t
     return std::find(line.stationIds.begin(), line.stationIds.end(), *hop) != line.stationIds.end();
 }
 
-void Graph::addTrain(std::uint32_t lineId, std::uint32_t capacity) {
+void Graph::addTrain(std::uint32_t lineId, std::uint32_t capacity, float speed) {
     if (!this->lineExists(lineId)) {
         throw std::logic_error("Line doesn't exist in addTrain");
     }
@@ -282,10 +282,20 @@ void Graph::addTrain(std::uint32_t lineId, std::uint32_t capacity) {
         throw std::logic_error("Capacity below 0");
     }
     const Line* line = this->getLine(lineId);
-    if (line->stationIds.size() <= 0) {
+    if (line->stationIds.size() < 2) {
         throw std::logic_error("Cannot add train to line with no stations");
     }
-    Train t = {this->nextTrainId_++, lineId, 0, TrainState::ALIGHTING, 0, 1, {}, capacity};
+    Train t = {this->nextTrainId_++,
+               lineId,
+               line->stationIds[0],
+               line->stationIds[1],
+               TrainState::ALIGHTING,
+               0,
+               1,
+               {},
+               capacity,
+               0.0f,
+               speed};
     this->trains_.push_back(t);
 }
 
@@ -329,14 +339,19 @@ void Graph::_advanceTrainPosition(Train& t, Line& line) {
     if (t.progress < 1.0f) {
         return;
     }
+    t.stationIndex += t.direction;
+    t.currentStationId = t.nextStationId;
+
     if (t.direction == 1 && t.stationIndex == last) {
         t.direction = -1;
     } else if (t.direction == -1 && t.stationIndex == 0) {
         t.direction = 1;
     }
 
-    t.stationIndex += t.direction;
-    t.currentStationId = line.stationIds[t.stationIndex];
+    t.nextStationId = line.stationIds[t.stationIndex + t.direction];
+    std::cout << "Train " << t.trainId << " arrived at station " << t.currentStationId
+              << " next station " << t.nextStationId << " progress: " << t.progress
+              << " Current state: " << (int) t.state << std::endl;
     TrainFSM::movingToAlighting(t);
 }
 
@@ -535,11 +550,13 @@ SimulationSnapshot Graph::snapshot() const {
     for (const auto& t : trains_) {
         TrainView trainView = {t.trainId,
                                t.lineId,
-                               lines_.at(t.lineId).stationIds[t.stationIndex],
+                               t.currentStationId,
+                               t.nextStationId,
                                t.direction == 1 ? true : false,
                                t.capacity,
                                t.onboard.size(),
                                t.state,
+                               t.progress,
                                {}};
         for (const auto& p : t.onboard) {
             trainView.passengers.push_back(
@@ -548,6 +565,11 @@ SimulationSnapshot Graph::snapshot() const {
                 {p.passengerId, p.source, p.destination, p.state, std::nullopt, t.trainId, p.age});
         }
         snap.trains.push_back(trainView);
+    }
+
+    for (const auto& [id, line] : lines_) {
+        LineView lineView = {id, line.stationIds};
+        snap.lines.push_back(lineView);
     }
 
     return snap;

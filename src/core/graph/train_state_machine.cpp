@@ -1,10 +1,13 @@
 #include "train_state_machine.hpp"
 #include "Train.hpp"
+#include <iostream>
 #include <stdexcept>
 #include <string>
 
 void TrainFSM::movingToAlighting(Train& t) {
-    if (t.state != TrainState::MOVING || t.progress != 1.0f) {
+    std::cout << "Transitioning Train " << t.trainId << " from MOVING to ALIGHTING "
+              << t.currentStationId << " " << t.nextStationId << std::endl;
+    if (t.state != TrainState::MOVING || t.progress < 1.0f) {
         throw std::logic_error("Invalid Train State in MOVING->ALIGHTING " +
                                std::to_string(t.trainId));
     }
@@ -22,7 +25,7 @@ void TrainFSM::alightingToBoarding(Train& t) {
 
 void TrainFSM::boardingToMoving(Train& t) {
     if (t.state != TrainState::BOARDING || t.progress != 0.0f) {
-        throw std::logic_error("Invalid Train State in ALIGHTING->BOARDING " +
+        throw std::logic_error("Invalid Train State in BOARDING->MOVING " +
                                std::to_string(t.trainId));
     }
     t.state = TrainState::MOVING;

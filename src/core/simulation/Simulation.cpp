@@ -1,5 +1,6 @@
 #include "Simulation.hpp"
 #include "core/graph/SimulationSnapshot.hpp"
+#include "core/graph/StationType.hpp"
 #include <iostream>
 
 Simulation::Simulation(std::uint64_t seed) : seed_(seed) {
@@ -54,6 +55,17 @@ void Simulation::_applyCommands() {
                     }
 
                     graph_.spawnPassengerAt(c.stationId, destType);
+                }
+
+                if constexpr (std::is_same_v<T, AddStationToLineCmd>) {
+                    std::cout << "Adding station " << c.stationId << " to line " << c.lineId
+                              << std::endl;
+                    graph_.addStationToLine(c.lineId, c.stationId);
+                }
+
+                if constexpr (std::is_same_v<T, AddTrainToLineCmd>) {
+                    std::cout << "Adding train to line " << c.lineId << std::endl;
+                    graph_.addTrain(c.lineId, 10, 0.1f);
                 }
             },
             cmd);

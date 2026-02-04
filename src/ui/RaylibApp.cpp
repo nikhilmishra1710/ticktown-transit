@@ -7,6 +7,10 @@
 
 RaylibApp::RaylibApp() : state_(AppState::MAIN_MENU), activeLevel_(-1) {
     InitWindow(1280, 720, "MetroSim");
+    if (!IsWindowReady()) {
+        TraceLog(LOG_ERROR, "Window failed to initialize");
+    }
+
     SetTargetFPS(60);
     switchState(state_);
 }

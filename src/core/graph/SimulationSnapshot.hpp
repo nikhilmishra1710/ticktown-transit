@@ -8,7 +8,6 @@
 #include <utility>
 #include <vector>
 
-
 struct PassengerView {
     uint32_t id;
     StationId origin;
@@ -23,10 +22,12 @@ struct TrainView {
     uint32_t id;
     uint32_t lineId;
     uint32_t stationId;
+    uint32_t nextStationId;
     bool forward;
     std::size_t capacity;
     std::size_t onboard;
     TrainState state;
+    float progress;
     std::vector<PassengerView> passengers;
 };
 
@@ -48,4 +49,5 @@ struct SimulationSnapshot {
     std::vector<TrainView> trains;
     std::vector<PassengerView> passengers;
     std::unordered_map<StationId, std::pair<std::pair<float, float>, StationView>> stationPositions;
+    std::vector<LineView> lines;
 };

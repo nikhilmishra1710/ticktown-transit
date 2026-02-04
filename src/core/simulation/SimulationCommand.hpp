@@ -15,4 +15,14 @@ struct AddPassengerCmd {
     uint32_t stationId;
 };
 
-using SimulationCommand = std::variant<AddStationCmd, AddLineCmd, AddPassengerCmd>;
+struct AddStationToLineCmd {
+    uint32_t lineId;
+    uint32_t stationId;
+};
+
+struct AddTrainToLineCmd {
+    uint32_t lineId;
+};
+
+using SimulationCommand = std::variant<AddStationCmd, AddLineCmd, AddPassengerCmd,
+                                       AddStationToLineCmd, AddTrainToLineCmd>;

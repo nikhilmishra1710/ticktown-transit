@@ -10,6 +10,7 @@ struct Train {
     TrainId trainId;
     LineId lineId;
     StationId currentStationId;
+    StationId nextStationId;
     TrainState state;
     std::size_t stationIndex;
     

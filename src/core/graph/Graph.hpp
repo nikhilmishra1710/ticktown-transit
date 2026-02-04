@@ -45,7 +45,7 @@ class Graph {
 
     void spawnPassengerAt(std::uint32_t stationId, StationType destination);
 
-    void addTrain(std::uint32_t line, std::uint32_t capacity);
+    void addTrain(std::uint32_t line, std::uint32_t capacity, float speed = 1.0f);
     const std::vector<Train>& getTrains() const;
 
     void setBoardingPolicy(BoardingPolicy p);
