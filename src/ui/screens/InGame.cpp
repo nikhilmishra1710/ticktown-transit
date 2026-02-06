@@ -1,4 +1,5 @@
 #include "ui/screens/InGame.hpp"
+#include "core/graph/id.hpp"
 #include "core/simulation/LevelRegistry.hpp"
 #include "core/simulation/SimulationCommand.hpp"
 #include "raylib.h"
@@ -6,7 +7,9 @@
 #include "ui/constants.hpp"
 #include "ui/widgets/Button.hpp"
 #include "ui/widgets/Station.hpp"
+#include <cstdint>
 #include <iostream>
+#include <utility>
 
 InGame::InGame(int levelId)
     : sim_([&] {
@@ -41,9 +44,114 @@ ScreenResult InGame::update() {
     }
 
     auto snapshot = sim_.snapshot();
+    Vector2 mouse = GetMousePosition();
+
+    if (!isDragging_ && IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+        for (const auto& [stationId, pair] : snapshot.stationPositions) {
+            Vector2 pos = {pair.first.first, pair.first.second};
+            if (CheckCollisionPointCircle(mouse, pos, 15.0f)) {
+                std::vector<LineId> zeroStationLines;
+                std::cout << "Line numbers: " << snapshot.lines.size() << std::endl;
+                for (const auto& line : snapshot.lines) {
+                    if (line.stationIds.empty()) {
+                        std::cout << "Line " << line.id
+                                  << " has no stations, adding to zeroStationLines" << std::endl;
+                        zeroStationLines.push_back(line.id);
+                    } else if (line.stationIds.front() == stationId ||
+                               line.stationIds.back() == stationId) {
+                        selectedLine_ = line.id;
+                        isDragging_ = true;
+                        draggingStationId_ = stationId;
+                        addAtEnd_ = (line.stationIds.back() == stationId);
+                        break;
+                    }
+                }
+                if (selectedLine_ == -1) {
+                    if (!zeroStationLines.empty()) {
+                        selectedLine_ = zeroStationLines.front();
+                        isDragging_ = true;
+                        draggingStationId_ = stationId;
+                        zeroStationLine_ = true;
+                        addAtEnd_ = true;
+                        std::cout << "Selected empty line " << selectedLine_
+                                  << " for dragging from station " << stationId << std::endl;
+                    }
+                }
+            }
+        }
+    }
+
+    if (isDragging_ && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+        for (const auto& [stationId, pair] : snapshot.stationPositions) {
+            Vector2 pos = {pair.first.first, pair.first.second};
+            if (CheckCollisionPointCircle(mouse, pos, 15.0f) && stationId != draggingStationId_) {
+                std::size_t index = addAtEnd_ ? SIZE_MAX : 0;
+                if (zeroStationLine_) {
+                    sim_.enqueueCommand(AddStationToLineCmd{.lineId = (uint32_t) selectedLine_,
+                                                            .stationId = draggingStationId_,
+                                                            .index = index});
+                }
+                sim_.enqueueCommand(AddStationToLineCmd{
+                    .lineId = (uint32_t) selectedLine_, .stationId = stationId, .index = index});
+                break;
+            }
+        }
+        isDragging_ = false;
+        selectedLine_ = -1;
+        zeroStationLine_ = false;
+    }
+
     this->DrawSnapshot(snapshot);
 
     return {AppState::IN_GAME};
+}
+
+void InGame::_renderPassenger(const PassengerView& snap, Vector2 pos) {
+    float size = 5.0f;
+    Color color = MAROON;
+
+    switch (snap.destination) {
+    case StationType::Circle:
+        color = RED;
+        break;
+    case StationType::Square:
+        color = GREEN;
+        break;
+    case StationType::Triangle:
+        color = BLUE;
+        break;
+    default:
+        color = MAROON;
+        break;
+    }
+    DrawCircleV(pos, size, color);
+}
+
+void InGame::_renderStation(const StationView& snap, Vector2 pos) {
+    float size = 15.0f;
+    Color color =
+        (CheckCollisionPointCircle(GetMousePosition(), pos, size + 5)) ? SKYBLUE : DARKGRAY;
+
+    switch (snap.type) {
+    case StationType::Circle:
+        DrawCircleV(pos, size, color);
+        break;
+    case StationType::Square:
+        DrawRectangleV({pos.x - size, pos.y - size}, {size * 2, size * 2}, color);
+        break;
+    case StationType::Triangle:
+        DrawPoly(pos, 3, size + 2, 0, color);
+        break;
+    default:
+        DrawCircleV(pos, size, color);
+        break;
+    }
+
+    float offset = 20.0f;
+    for (size_t i = 0; i < snap.waiting; ++i) {
+        _renderPassenger(snap.passengers[i],
+                         (Vector2){pos.x + offset + (i % 5) * 8, pos.y - 10 + (i / 5) * 8});
+    }
 }
 
 void InGame::DrawSnapshot(const SimulationSnapshot& snap) {
@@ -51,7 +159,7 @@ void InGame::DrawSnapshot(const SimulationSnapshot& snap) {
 
     DrawText(TextFormat("Tick: %llu", snap.tick), 20, y, 20, BLACK);
     y += 40;
-    DrawText(TextFormat("Selected Line: %d", _selectedLine), 20, y, 20, BLACK);
+    DrawText(TextFormat("Selected Line: %d", selectedLine_), 20, y, 20, BLACK);
     y += 40;
 
     DrawText("Stations:", 20, y, 18, DARKBLUE);
@@ -60,6 +168,9 @@ void InGame::DrawSnapshot(const SimulationSnapshot& snap) {
     for (const auto& s : snap.stations) {
         DrawText(TextFormat("Station %u type=%d waiting=%zu", s.id, (int) s.type, s.waiting), 40, y,
                  16, BLACK);
+
+        std::pair<float, float> pos = snap.stationPositions.at(s.id).first;
+        _renderStation(s, (Vector2){pos.first, pos.second});
         y += 20;
     }
 
@@ -86,18 +197,19 @@ void InGame::DrawSnapshot(const SimulationSnapshot& snap) {
         y += 18;
     }
 
-    for (const auto& [stationId, pair] : snap.stationPositions) {
-        if (DrawStation(stationId, {pair.first.first, pair.first.second}, 14)) {
-            if (_selectedLine != -1) {
-                sim_.enqueueCommand(AddStationToLineCmd{.lineId = (uint32_t) _selectedLine,
-                                                        .stationId = stationId});
-            }
-        }
-        float i = 0.0f;
-        for (auto& p : pair.second.passengers) {
-            DrawLineV({pair.first.first + i, pair.first.second},
-                      {pair.first.first + i, pair.first.second + 30.0f}, RED);
-            i += 5.0f;
+    if (isDragging_ && selectedLine_ != -1) {
+        // Find the position of the station we started dragging from
+        auto it = snap.stationPositions.find(draggingStationId_);
+        if (it != snap.stationPositions.end()) {
+            Vector2 startPos = {it->second.first.first, it->second.first.second};
+            Vector2 mousePos = GetMousePosition();
+
+            // Draw a thick, semi-transparent ghost line
+            Color lineCol = ColorFromHSV((selectedLine_ * 60), 0.7f, 0.9f);
+            DrawLineEx(startPos, mousePos, 6.0f, Fade(lineCol, 0.5f));
+
+            // Draw a small indicator at the mouse to show "docking" status
+            DrawCircleV(mousePos, 5.0f, lineCol);
         }
     }
 
@@ -116,7 +228,7 @@ void InGame::DrawSnapshot(const SimulationSnapshot& snap) {
         }
         if (DrawButton(TextFormat("L%d", line.id),
                        {WINDOW_WIDTH - 50, WINDOW_HEIGHT / 2 - 100 + (float) (i * 20), 40, 10})) {
-            _selectedLine = line.id;
+            selectedLine_ = line.id;
             lineSelected = true;
         }
     }
@@ -138,15 +250,15 @@ void InGame::DrawSnapshot(const SimulationSnapshot& snap) {
     }
 
     if (DrawButton("Add Train", {WINDOW_WIDTH - 150, 20, 100, 40})) {
-        if (_selectedLine != -1) {
-            sim_.enqueueCommand(AddTrainToLineCmd{.lineId = (uint32_t) _selectedLine});
+        if (selectedLine_ != -1) {
+            sim_.enqueueCommand(AddTrainToLineCmd{.lineId = (uint32_t) selectedLine_});
         }
     }
 
     if (lineSelected && IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
         Vector2 mouse = GetMousePosition();
         if (mouse.x < WINDOW_WIDTH - 50) {
-            _selectedLine = -1;
+            selectedLine_ = -1;
         }
     }
 }

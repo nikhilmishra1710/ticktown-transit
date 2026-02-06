@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <vector>
 
-enum class TrainState { ALIGHTING, BOARDING, MOVING };
+enum class TrainState { IDLE, ALIGHTING, BOARDING, MOVING };
 
 struct Train {
     TrainId trainId;

@@ -60,7 +60,7 @@ void Simulation::_applyCommands() {
                 if constexpr (std::is_same_v<T, AddStationToLineCmd>) {
                     std::cout << "Adding station " << c.stationId << " to line " << c.lineId
                               << std::endl;
-                    graph_.addStationToLine(c.lineId, c.stationId);
+                    graph_.addStationToLineAtIndex(c.lineId, c.stationId, c.index);
                 }
 
                 if constexpr (std::is_same_v<T, AddTrainToLineCmd>) {

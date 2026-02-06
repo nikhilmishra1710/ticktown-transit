@@ -1,6 +1,7 @@
 #pragma once
 #include "ui/AppState.hpp"
 #include "ui/Screen.hpp"
+#include <cstddef>
 #include <memory>
 
 class RaylibApp {
@@ -13,6 +14,7 @@ class RaylibApp {
     int activeLevel_;
 
     std::unique_ptr<Screen> screen_;
+    std::unique_ptr<Screen> prevScreen_ = NULL;
 
     void switchState(AppState next);
 };

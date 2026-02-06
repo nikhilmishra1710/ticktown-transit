@@ -1,4 +1,5 @@
 #include "ui/RaylibApp.hpp"
+#include "ui/AppState.hpp"
 #include "ui/screens/InGame.hpp"
 #include "ui/screens/LevelSelect.hpp"
 #include "ui/screens/MainMenu.hpp"
@@ -28,7 +29,13 @@ void RaylibApp::run() {
         if (result.nextState != state_) {
             if (result.selectedLevel != -1)
                 activeLevel_ = result.selectedLevel;
-            switchState(result.nextState);
+            if (state_ == AppState::IN_GAME && result.nextState == AppState::PAUSED) {
+                prevScreen_ = std::move(screen_);
+            } else if (state_ == AppState::PAUSED && result.nextState == AppState::IN_GAME) {
+                screen_ = std::move(prevScreen_);
+            } else {
+                switchState(result.nextState);
+            }
         }
 
         EndDrawing();

@@ -64,6 +64,23 @@ void Graph::addStationToLine(std::uint32_t lineId, std::uint32_t stationId) {
     this->lines_[lineId].stationIds.push_back(stationId);
     routingCache_.invalidate();
 }
+
+void Graph::addStationToLineAtIndex(std::uint32_t lineId, std::uint32_t stationId,
+                                    std::size_t index) {
+    if (!this->lineExists(lineId) || !this->stationExists(stationId)) {
+        throw std::logic_error("StationId or LineId doesn't exists in addStationToLine");
+    }
+    if (lineContainsStation(lineId, stationId)) {
+        throw std::logic_error("Station already exists on line");
+    }
+    if (index == SIZE_MAX) {
+        index = this->lines_[lineId].stationIds.size();
+    }
+    this->lines_[lineId].stationIds.insert(this->lines_[lineId].stationIds.begin() + index,
+                                           stationId);
+    routingCache_.invalidate();
+}
+
 void Graph::removeLine(std::uint32_t lineId) {
     if (!this->lineExists(lineId)) {
         throw std::logic_error("Line doesn't exist");
@@ -274,7 +291,8 @@ bool Graph::_canBoard(const Passenger& p, std::uint32_t stationId, std::uint32_t
     return std::find(line.stationIds.begin(), line.stationIds.end(), *hop) != line.stationIds.end();
 }
 
-void Graph::addTrain(std::uint32_t lineId, std::uint32_t capacity, float speed) {
+void Graph::addTrain(std::uint32_t lineId, std::uint32_t capacity, float speed,
+                     TrainState initialState) {
     if (!this->lineExists(lineId)) {
         throw std::logic_error("Line doesn't exist in addTrain");
     }
@@ -289,7 +307,7 @@ void Graph::addTrain(std::uint32_t lineId, std::uint32_t capacity, float speed) 
                lineId,
                line->stationIds[0],
                line->stationIds[1],
-               TrainState::ALIGHTING,
+               initialState,
                0,
                1,
                {},
@@ -297,6 +315,16 @@ void Graph::addTrain(std::uint32_t lineId, std::uint32_t capacity, float speed) 
                0.0f,
                speed};
     this->trains_.push_back(t);
+}
+
+void Graph::startTrain(std::uint32_t trainId) {
+    auto it = std::find_if(trains_.begin(), trains_.end(),
+                           [trainId](const Train& t) { return t.trainId == trainId; });
+    if (it == trains_.end()) {
+        throw std::logic_error("Train doesn't exist in startTrain");
+    }
+    Train& t = *it;
+    TrainFSM::idleToAlighting(t);
 }
 
 const std::vector<Train>& Graph::getTrains() const {
@@ -514,6 +542,8 @@ void Graph::tick() {
         case TrainState::MOVING:
             this->_advanceTrainPosition(t, line);
             break;
+        case TrainState::IDLE:
+            break;
         default:
             throw std::logic_error("Invalid Train State " + std::to_string(t.trainId));
         }
@@ -534,6 +564,7 @@ bool Graph::isFailed() const {
 SimulationSnapshot Graph::snapshot() const {
     SimulationSnapshot snap;
     snap.tick = this->tick_;
+    snap.score = this->completedPassengers_;
 
     for (const auto& [id, s] : stations_) {
         StationView stationView = {id, s.type, s.waitingPassengers.size(), {}};

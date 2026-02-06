@@ -21,6 +21,7 @@ class Graph {
 
     std::uint32_t addLine();
     void addStationToLine(std::uint32_t lineId, std::uint32_t stationId);
+    void addStationToLineAtIndex(std::uint32_t lineId, std::uint32_t stationId, std::size_t index);
     void removeLine(std::uint32_t lineId);
 
     const Station* getStation(std::uint32_t id) const;
@@ -45,7 +46,9 @@ class Graph {
 
     void spawnPassengerAt(std::uint32_t stationId, StationType destination);
 
-    void addTrain(std::uint32_t line, std::uint32_t capacity, float speed = 1.0f);
+    void addTrain(std::uint32_t line, std::uint32_t capacity, float speed = 1.0f,
+                  TrainState initialState = TrainState::ALIGHTING);
+    void startTrain(std::uint32_t trainId);
     const std::vector<Train>& getTrains() const;
 
     void setBoardingPolicy(BoardingPolicy p);

@@ -48,6 +48,7 @@ struct SimulationSnapshot {
     std::vector<StationView> stations;
     std::vector<TrainView> trains;
     std::vector<PassengerView> passengers;
-    std::unordered_map<StationId, std::pair<std::pair<float, float>, StationView>> stationPositions;
     std::vector<LineView> lines;
+    std::unordered_map<StationId, std::pair<std::pair<float, float>, StationView>> stationPositions;
+    std::uint32_t score;
 };

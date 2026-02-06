@@ -1,4 +1,6 @@
+#include "core/graph/SimulationSnapshot.hpp"
 #include "core/simulation/Simulation.hpp"
+#include "raylib.h"
 #include "ui/Screen.hpp"
 
 class InGame : public Screen {
@@ -6,8 +8,15 @@ class InGame : public Screen {
     int level_;
     Simulation sim_;
     bool paused_;
+    bool isDragging_ = false;
+    int selectedLine_ = -1;
+    bool zeroStationLine_ = false;
+    bool addAtEnd_ = true;
+    StationId draggingStationId_;
+
+    void _renderPassenger(const PassengerView& snap, Vector2 pos);
+    void _renderStation(const StationView& snap, Vector2 pos);
     void DrawSnapshot(const SimulationSnapshot& snap);
-    int _selectedLine = -1;
 
   public:
     InGame(int level);

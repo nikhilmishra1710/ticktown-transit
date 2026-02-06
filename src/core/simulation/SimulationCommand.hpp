@@ -1,4 +1,5 @@
 #pragma once
+#include <cstddef>
 #include <cstdint>
 #include <variant>
 
@@ -18,6 +19,7 @@ struct AddPassengerCmd {
 struct AddStationToLineCmd {
     uint32_t lineId;
     uint32_t stationId;
+    size_t index;
 };
 
 struct AddTrainToLineCmd {
