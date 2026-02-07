@@ -1,3 +1,3 @@
 #pragma once
 
-enum StationType { Circle, Square, Triangle, Star };
+enum StationType { CIRCLE, SQUARE, TRIANGLE, STAR, COUNT };

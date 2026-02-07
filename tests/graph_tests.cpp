@@ -3,7 +3,7 @@
 
 TEST(Graph, StationLifecycle) {
     Graph g;
-    auto id = g.addStation(StationType::Circle);
+    auto id = g.addStation(StationType::CIRCLE);
     EXPECT_EQ(g.stationCount(), 1u);
     g.removeStation(id);
     EXPECT_EQ(g.stationCount(), 0u);
@@ -11,8 +11,8 @@ TEST(Graph, StationLifecycle) {
 
 TEST(Graph, StationRemovalCleansLines) {
     Graph g;
-    auto s1 = g.addStation(StationType::Circle);
-    auto s2 = g.addStation(StationType::Square);
+    auto s1 = g.addStation(StationType::CIRCLE);
+    auto s2 = g.addStation(StationType::SQUARE);
 
     auto line = g.addLine();
     g.addStationToLine(line, s1);
@@ -30,7 +30,7 @@ TEST(Graph, InvalidStationRemovalThrows) {
     Graph g;
     EXPECT_THROW(g.removeStation(999), std::logic_error);
     EXPECT_THROW(g.removeLine(999), std::logic_error);
-    auto s1 = g.addStation(StationType::Circle);
+    auto s1 = g.addStation(StationType::CIRCLE);
     auto line = g.addLine();
     g.addStationToLine(line, s1);
     EXPECT_THROW(g.addStationToLine(line, s1), std::logic_error);
@@ -40,8 +40,8 @@ TEST(Graph, InvalidStationRemovalThrows) {
 TEST(GraphInvariant, RemovingStationCleansAllLines) {
     Graph g;
 
-    auto s1 = g.addStation(StationType::Circle);
-    auto s2 = g.addStation(StationType::Square);
+    auto s1 = g.addStation(StationType::CIRCLE);
+    auto s2 = g.addStation(StationType::SQUARE);
 
     auto l1 = g.addLine();
     auto l2 = g.addLine();
@@ -72,7 +72,7 @@ TEST(GraphInvariant, RemovingStationCleansAllLines) {
 TEST(GraphInvariant, DoubleRemovalThrows) {
     Graph g;
 
-    auto s1 = g.addStation(StationType::Circle);
+    auto s1 = g.addStation(StationType::CIRCLE);
     g.removeStation(s1);
 
     EXPECT_THROW(

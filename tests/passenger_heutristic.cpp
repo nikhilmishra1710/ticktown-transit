@@ -7,10 +7,10 @@
 TEST(PassengerAging, WaitingPassengersAgeEachTick) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
 
-    g.spawnPassengerAt(A, StationType::Square);
+    g.spawnPassengerAt(A, StationType::SQUARE);
 
     g.tick();
     g.tick();
@@ -23,15 +23,15 @@ TEST(PassengerAging, WaitingPassengersAgeEachTick) {
 TEST(PassengerAging, OnboardPassengersDoNotAge) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
     g.addStationToLine(line, B);
 
     g.addTrain(line, 1);
-    g.spawnPassengerAt(A, StationType::Square);
+    g.spawnPassengerAt(A, StationType::SQUARE);
 
     g.tick(); // A Alighting
     g.tick(); // A Boarding
@@ -46,17 +46,17 @@ TEST(BoardingPolicy, FIFOPreservesArrivalOrder) {
     Graph g;
     g.setBoardingPolicy(BoardingPolicy::FIFO);
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
     g.addStationToLine(line, B);
     g.addTrain(line, 1);
 
-    g.spawnPassengerAt(A, StationType::Square);
+    g.spawnPassengerAt(A, StationType::SQUARE);
     g.tick(); // age first passenger
-    g.spawnPassengerAt(A, StationType::Square);
+    g.spawnPassengerAt(A, StationType::SQUARE);
 
     g.tick(); // boarding
 
@@ -69,9 +69,9 @@ TEST(BoardingPolicy, ShortestRemainingHopWins) {
     Graph g;
     g.setBoardingPolicy(BoardingPolicy::SHORTEST_REMAINING_HOPS);
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
-    auto C = g.addStation(StationType::Triangle);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
+    auto C = g.addStation(StationType::TRIANGLE);
 
     auto l1 = g.addLine();
     auto l2 = g.addLine();
@@ -84,8 +84,8 @@ TEST(BoardingPolicy, ShortestRemainingHopWins) {
 
     g.addTrain(l1, 1);
 
-    g.spawnPassengerAt(A, StationType::Triangle); // 2 hops
-    g.spawnPassengerAt(A, StationType::Square);   // 1 hop
+    g.spawnPassengerAt(A, StationType::TRIANGLE); // 2 hops
+    g.spawnPassengerAt(A, StationType::SQUARE);   // 1 hop
 
     g.tick(); // A Alighting
     g.tick(); // A Boarding
@@ -93,27 +93,27 @@ TEST(BoardingPolicy, ShortestRemainingHopWins) {
 
     const auto& onboard = g.getTrains()[0].onboard;
     ASSERT_EQ(onboard.size(), 1);
-    EXPECT_EQ(onboard[0].destination, StationType::Square);
+    EXPECT_EQ(onboard[0].destination, StationType::SQUARE);
 }
 
 TEST(Fairness, AgingEventuallyOverridesDistance) {
     Graph g;
     g.setBoardingPolicy(BoardingPolicy::AGING_PRIORITY);
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
-    auto C = g.addStation(StationType::Triangle);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
+    auto C = g.addStation(StationType::TRIANGLE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
     g.addStationToLine(line, B);
     g.addStationToLine(line, C);
 
-    g.spawnPassengerAt(A, StationType::Triangle); // farther
+    g.spawnPassengerAt(A, StationType::TRIANGLE); // farther
     for (int i = 0; i < 5; ++i)
         g.tick();
 
-    g.spawnPassengerAt(A, StationType::Square); // closer
+    g.spawnPassengerAt(A, StationType::SQUARE); // closer
 
     g.addTrain(line, 1);
     
@@ -123,22 +123,22 @@ TEST(Fairness, AgingEventuallyOverridesDistance) {
 
     const auto& onboard = g.getTrains()[0].onboard;
     ASSERT_EQ(onboard.size(), 1);
-    EXPECT_EQ(onboard[0].destination, StationType::Triangle);
+    EXPECT_EQ(onboard[0].destination, StationType::TRIANGLE);
 }
 
 TEST(Invariant, PassengerOwnershipIsExclusive) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
     g.addStationToLine(line, B);
     g.addTrain(line, 2);
 
-    g.spawnPassengerAt(A, StationType::Square);
-    g.spawnPassengerAt(A, StationType::Square);
+    g.spawnPassengerAt(A, StationType::SQUARE);
+    g.spawnPassengerAt(A, StationType::SQUARE);
 
     g.tick(); // A Alighting
     g.tick(); // A Boarding
@@ -151,9 +151,9 @@ TEST(Invariant, PassengerOwnershipIsExclusive) {
 TEST(TransferSafety, PassengerTransfersOnce) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
-    auto C = g.addStation(StationType::Triangle);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
+    auto C = g.addStation(StationType::TRIANGLE);
 
     auto l1 = g.addLine();
     auto l2 = g.addLine();
@@ -166,7 +166,7 @@ TEST(TransferSafety, PassengerTransfersOnce) {
     g.addTrain(l1, 1);
     g.addTrain(l2, 1);
 
-    g.spawnPassengerAt(A, StationType::Triangle);
+    g.spawnPassengerAt(A, StationType::TRIANGLE);
 
     for (int i = 0; i < 10; ++i)
         g.tick();
@@ -177,15 +177,15 @@ TEST(TransferSafety, PassengerTransfersOnce) {
 TEST(TransferSafety, NoStationPingPong) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
     g.addStationToLine(line, B);
     g.addTrain(line, 1);
 
-    g.spawnPassengerAt(A, StationType::Square);
+    g.spawnPassengerAt(A, StationType::SQUARE);
 
     for (int i = 0; i < 10; ++i)
         g.tick();
@@ -199,13 +199,13 @@ TEST(Week7Determinism, PolicyAndAgingDeterministic) {
     g2.setBoardingPolicy(BoardingPolicy::AGING_PRIORITY);
 
     auto setup = [](Graph& g) {
-        auto A = g.addStation(StationType::Circle);
-        auto B = g.addStation(StationType::Square);
+        auto A = g.addStation(StationType::CIRCLE);
+        auto B = g.addStation(StationType::SQUARE);
         auto line = g.addLine();
         g.addStationToLine(line, A);
         g.addStationToLine(line, B);
         g.addTrain(line, 1);
-        g.spawnPassengerAt(A, StationType::Square);
+        g.spawnPassengerAt(A, StationType::SQUARE);
     };
 
     setup(g1);
@@ -220,7 +220,7 @@ TEST(Week7Determinism, PolicyAndAgingDeterministic) {
 }
 
 TEST(PassengerFSM, IllegalTransitionFails) {
-    Passenger p = {1, StationType::Circle, StationType::Square, PassengerState::WAITING};
+    Passenger p = {1, StationType::CIRCLE, StationType::SQUARE, PassengerState::WAITING};
     p.state = PassengerState::COMPLETED;
 
     EXPECT_THROW(PassengerFSM::waitingToOnTrain(p, 1), std::logic_error);

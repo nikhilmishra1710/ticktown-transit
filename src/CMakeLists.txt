@@ -4,6 +4,7 @@ file(GLOB_RECURSE CORE_SOURCES "core/*.cpp")
 
 add_library(metro_core ${CORE_SOURCES})
 
+target_link_libraries(metro_core PUBLIC nlohmann_json::nlohmann_json)
 # Include directories so other targets can see headers in src/core
 target_include_directories(metro_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 

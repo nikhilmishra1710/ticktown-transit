@@ -5,8 +5,8 @@
 TEST(TrainMovement, MovesForwardOneStation) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
@@ -25,8 +25,8 @@ TEST(TrainMovement, MovesForwardOneStation) {
 TEST(TrainMovement, ReversesAtLineEnd) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
@@ -52,15 +52,15 @@ TEST(TrainMovement, ReversesAtLineEnd) {
 TEST(PassengerBoarding, BoardsIfRouteExists) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
     g.addStationToLine(line, B);
 
-    g.spawnPassengerAt(A, StationType::Square);
-    g.spawnPassengerAt(A, StationType::Star);
+    g.spawnPassengerAt(A, StationType::SQUARE);
+    g.spawnPassengerAt(A, StationType::STAR);
     g.addTrain(line, 1);
 
     g.tick(); // A Alighting
@@ -74,15 +74,15 @@ TEST(PassengerBoarding, BoardsIfRouteExists) {
 TEST(PassengerBoarding, RespectsCapacity) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
     g.addStationToLine(line, B);
 
-    g.spawnPassengerAt(A, StationType::Square);
-    g.spawnPassengerAt(A, StationType::Square);
+    g.spawnPassengerAt(A, StationType::SQUARE);
+    g.spawnPassengerAt(A, StationType::SQUARE);
 
     g.addTrain(line, 1);
 
@@ -96,14 +96,14 @@ TEST(PassengerBoarding, RespectsCapacity) {
 TEST(PassengerDropoff, DropsAtDestinationType) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
     g.addStationToLine(line, B);
 
-    g.spawnPassengerAt(A, StationType::Square);
+    g.spawnPassengerAt(A, StationType::SQUARE);
     g.addTrain(line, 1);
 
     g.tick(); // A Alighting
@@ -117,14 +117,14 @@ TEST(PassengerDropoff, DropsAtDestinationType) {
 TEST(PassengerDropoff, DoesNotDropEarly) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
     g.addStationToLine(line, B);
 
-    g.spawnPassengerAt(A, StationType::Square);
+    g.spawnPassengerAt(A, StationType::SQUARE);
     g.addTrain(line, 1);
 
     g.tick(); // A Alighting

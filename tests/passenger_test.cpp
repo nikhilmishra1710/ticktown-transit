@@ -3,23 +3,23 @@
 
 TEST(PassengerPressure, PassengersAccumulateIfNoTrain) {
     Graph g;
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
     g.addStationToLine(line, B);
 
-    g.spawnPassengerAt(A, StationType::Square);
-    g.spawnPassengerAt(A, StationType::Square);
+    g.spawnPassengerAt(A, StationType::SQUARE);
+    g.spawnPassengerAt(A, StationType::SQUARE);
 
     EXPECT_EQ(g.getStation(A)->waitingPassengers.size(), 2);
 }
 
 TEST(PassengerPressure, StationOverflowFailsSimulation) {
     Graph g;
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
@@ -27,17 +27,17 @@ TEST(PassengerPressure, StationOverflowFailsSimulation) {
 
     g.getMutableStation(A).maxCapacity = 2;
 
-    g.spawnPassengerAt(A, StationType::Square);
-    g.spawnPassengerAt(A, StationType::Square);
-    g.spawnPassengerAt(A, StationType::Square);
+    g.spawnPassengerAt(A, StationType::SQUARE);
+    g.spawnPassengerAt(A, StationType::SQUARE);
+    g.spawnPassengerAt(A, StationType::SQUARE);
 
     EXPECT_TRUE(g.isFailed());
 }
 
 TEST(PassengerPressure, TrainReducesQueue) {
     Graph g;
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
@@ -45,8 +45,8 @@ TEST(PassengerPressure, TrainReducesQueue) {
 
     g.addTrain(line, 2);
 
-    g.spawnPassengerAt(A, StationType::Square);
-    g.spawnPassengerAt(A, StationType::Square);
+    g.spawnPassengerAt(A, StationType::SQUARE);
+    g.spawnPassengerAt(A, StationType::SQUARE);
 
     g.tick(); // A Alighting
     g.tick(); // A Boarding
@@ -57,8 +57,8 @@ TEST(PassengerPressure, TrainReducesQueue) {
 
 TEST(PassengerPressure, FailureIsPermanent) {
     Graph g;
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
@@ -66,8 +66,8 @@ TEST(PassengerPressure, FailureIsPermanent) {
 
     g.getMutableStation(A).maxCapacity = 1;
 
-    g.spawnPassengerAt(A, StationType::Square);
-    g.spawnPassengerAt(A, StationType::Square);
+    g.spawnPassengerAt(A, StationType::SQUARE);
+    g.spawnPassengerAt(A, StationType::SQUARE);
 
     EXPECT_TRUE(g.isFailed());
 

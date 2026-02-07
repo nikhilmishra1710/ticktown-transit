@@ -4,31 +4,31 @@
 TEST(RoutingInvalidation, NextHopRecomputedAfterStationInsertion) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
-    auto C = g.addStation(StationType::Triangle);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
+    auto C = g.addStation(StationType::TRIANGLE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
     g.addStationToLine(line, B);
     g.addStationToLine(line, C);
 
-    auto hop1 = g.nextHop(A, StationType::Triangle);
+    auto hop1 = g.nextHop(A, StationType::TRIANGLE);
     ASSERT_EQ(hop1, B);
 
-    auto D = g.addStation(StationType::Star);
+    auto D = g.addStation(StationType::STAR);
     g.addStationToLine(line, D); // mutation
 
-    auto hop2 = g.nextHop(A, StationType::Triangle);
+    auto hop2 = g.nextHop(A, StationType::TRIANGLE);
     ASSERT_TRUE(hop2.has_value());
 }
 
 TEST(Serviceability, PassengerDoesNotBoardIfNextHopNotServedByTrain) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
-    auto C = g.addStation(StationType::Triangle);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
+    auto C = g.addStation(StationType::TRIANGLE);
 
     auto l1 = g.addLine();
     auto l2 = g.addLine();
@@ -41,7 +41,7 @@ TEST(Serviceability, PassengerDoesNotBoardIfNextHopNotServedByTrain) {
 
     g.addTrain(l1, 1); // only serves A->B
 
-    g.spawnPassengerAt(A, StationType::Triangle);
+    g.spawnPassengerAt(A, StationType::TRIANGLE);
 
     g.tick(); // A Alighting
     g.tick(); // A Boarding
@@ -54,9 +54,9 @@ TEST(Serviceability, PassengerDoesNotBoardIfNextHopNotServedByTrain) {
 TEST(TopologyMutation, TrainDoesNotServeInsertedStationMidRoute) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
-    auto C = g.addStation(StationType::Triangle);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
+    auto C = g.addStation(StationType::TRIANGLE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
@@ -72,7 +72,7 @@ TEST(TopologyMutation, TrainDoesNotServeInsertedStationMidRoute) {
     g.tick(); // B Alighting
     g.tick(); // B Boarding
 
-    auto D = g.addStation(StationType::Star);
+    auto D = g.addStation(StationType::STAR);
     g.addStationToLine(line, D);
     g.tick(); // B -> C
 
@@ -83,9 +83,9 @@ TEST(TopologyMutation, TrainDoesNotServeInsertedStationMidRoute) {
 TEST(Monotonicity, PassengerNeverRevisitsStation) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
-    auto C = g.addStation(StationType::Triangle);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
+    auto C = g.addStation(StationType::TRIANGLE);
 
     auto l1 = g.addLine();
     auto l2 = g.addLine();
@@ -98,7 +98,7 @@ TEST(Monotonicity, PassengerNeverRevisitsStation) {
     g.addTrain(l1, 1);
     g.addTrain(l2, 1);
 
-    g.spawnPassengerAt(A, StationType::Triangle);
+    g.spawnPassengerAt(A, StationType::TRIANGLE);
 
     for (int i = 0; i < 20; ++i)
         g.tick();

@@ -4,8 +4,6 @@
 #include "Train.hpp"
 #include "id.hpp"
 #include <optional>
-#include <unordered_map>
-#include <utility>
 #include <vector>
 
 struct PassengerView {
@@ -13,8 +11,8 @@ struct PassengerView {
     StationId origin;
     StationType destination;
     PassengerState state;
-    std::optional<uint32_t> stationId;
-    std::optional<uint32_t> trainId;
+    std::optional<StationId> stationId;
+    std::optional<TrainId> trainId;
     std::size_t age;
 };
 

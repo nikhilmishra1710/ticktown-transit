@@ -1,0 +1,162 @@
+{
+    "levels": [
+        {
+            "id": 1,
+            "name": "Quiet Suburbs",
+            "description": "A slow-paced introduction to the network.",
+            "seed": 1710,
+            "difficulty": {
+                "initialSpawnInterval": 8.0,
+                "spawnRampRate": 0.0002,
+                "minInterval": 1.5
+            },
+            "resources": {
+                "initialLines": [
+                    {
+                        "id": 0,
+                        "hex": "#3498db"
+                    }
+                ],
+                "initialTrains": 3,
+                "initialStations": [
+                    {
+                        "x": 300,
+                        "y": 360,
+                        "type": "CIRCLE",
+                        "passengers": 0
+                    },
+                    {
+                        "x": 500,
+                        "y": 360,
+                        "type": "SQUARE",
+                        "passengers": 0
+                    },
+                    {
+                        "x": 700,
+                        "y": 360,
+                        "type": "TRIANGLE",
+                        "passengers": 0
+                    }
+                ]
+            },
+            "milestones": [
+                {
+                    "tick": 1000,
+                    "rewards": [
+                        "NEW_LINE",
+                        "TWO_TRAINS"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Central Hub",
+            "description": "High volume with a central square anchor.",
+            "seed": 2026,
+            "difficulty": {
+                "initialSpawnInterval": 4.0,
+                "spawnRampRate": 0.0005,
+                "minInterval": 0.8
+            },
+            "resources": {
+                "initialLines": [
+                    {
+                        "id": 0,
+                        "hex": "#e74c3c"
+                    },
+                    {
+                        "id": 1,
+                        "hex": "#2ecc71"
+                    }
+                ],
+                "initialTrains": 2,
+                "initialStations": [
+                    {
+                        "x": 480,
+                        "y": 270,
+                        "type": "SQUARE",
+                        "passengers": 5
+                    },
+                    {
+                        "x": 200,
+                        "y": 100,
+                        "type": "CIRCLE",
+                        "passengers": 1
+                    },
+                    {
+                        "x": 760,
+                        "y": 100,
+                        "type": "CIRCLE",
+                        "passengers": 1
+                    },
+                    {
+                        "x": 480,
+                        "y": 500,
+                        "type": "TRIANGLE",
+                        "passengers": 2
+                    }
+                ]
+            },
+            "milestones": [
+                {
+                    "tick": 2000,
+                    "rewards": [
+                        "NEW_LINE",
+                        "NEW_TRAIN"
+                    ]
+                },
+                {
+                    "tick": 5000,
+                    "rewards": [
+                        "INTERCHANGE_UPGRADE",
+                        "NEW_LINE"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Rush Hour Madness",
+            "description": "Fast scaling and tight distances.",
+            "seed": 9999,
+            "difficulty": {
+                "initialSpawnInterval": 2.5,
+                "spawnRampRate": 0.001,
+                "minInterval": 0.4
+            },
+            "resources": {
+                "initialLines": [
+                    {
+                        "id": 0,
+                        "hex": "#f1c40f"
+                    }
+                ],
+                "initialTrains": 4,
+                "initialStations": [
+                    {
+                        "x": 100,
+                        "y": 100,
+                        "type": "TRIANGLE",
+                        "passengers": 0
+                    },
+                    {
+                        "x": 860,
+                        "y": 620,
+                        "type": "CIRCLE",
+                        "passengers": 0
+                    }
+                ]
+            },
+            "milestones": [
+                {
+                    "tick": 500,
+                    "rewards": [
+                        "NEW_LINE",
+                        "NEW_LINE"
+                    ]
+                }
+            ]
+        }
+    ]
+}

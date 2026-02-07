@@ -4,8 +4,9 @@
 #include "core/graph/StationType.hpp"
 #include "core/world/WorldGeometry.hpp"
 #include <iostream>
+#include <set>
 
-Simulation::Simulation(std::uint64_t seed) : seed_(seed) {
+Simulation::Simulation(std::uint64_t seed) : seed_(seed), rng_(seed) {
 }
 
 void Simulation::step(std::chrono::milliseconds dt) {
@@ -14,6 +15,48 @@ void Simulation::step(std::chrono::milliseconds dt) {
     }
     clock_.consumeStep();
     ++tickCount_;
+
+    float currentInterval = std::max(0.1f, baseSpawnInterval_ - (tickCount_ / 1000.0f) * 0.1f);
+
+    // Accumulate time (converting dt to seconds)
+    spawnAccumulator_ += (dt.count() / 1000.0f);
+    std::cout << "Tick: " << tickCount_ << ", SpawnAccumulator: " << spawnAccumulator_
+              << ", CurrentInterval: " << currentInterval << std::endl;
+
+    if (spawnAccumulator_ >= currentInterval) {
+        auto availableTypes = getExistingStationTypes();
+        auto graphSnap = graph_.snapshot();
+
+        if (!graphSnap.stations.empty() && !availableTypes.empty()) {
+
+            // 1. Pick a random origin station index
+            std::uniform_int_distribution<size_t> stationDist(0, graphSnap.stations.size() - 1);
+            size_t originIdx = stationDist(rng_); // Use rng_ here
+            uint32_t originId = graphSnap.stations[originIdx].id;
+
+            // 2. Pick a random destination type index
+            std::uniform_int_distribution<size_t> typeDist(0, availableTypes.size() - 1);
+            StationType destType;
+            if (availableTypes.size() == 1) {
+                destType = availableTypes[0];
+                if (destType == graphSnap.stations[originIdx].type) {
+                    // If the only available type is the same as the origin station's type, skip spawning
+                    std::cout << "Only one station type available and it's the same as the origin. Skipping spawn."
+                              << std::endl;
+                    spawnAccumulator_ = 0.0f; // Reset accumulator even if we skip spawning
+                    return;
+                }
+            } else {
+                do {
+                    destType = availableTypes[typeDist(rng_)];
+                } while (destType == graphSnap.stations[originIdx].type);
+            }
+            this->enqueueCommand(
+                AddPassengerCmd{.stationId = originId, .destinationType = destType});
+        }
+        spawnAccumulator_ = 0.0f;
+    }
+
     this->_applyCommands();
     this->graph_.tick();
 }
@@ -75,7 +118,9 @@ void Simulation::_applyCommands() {
                 using T = std::decay_t<decltype(c)>;
 
                 if constexpr (std::is_same_v<T, AddStationCmd>) {
-                    auto id = graph_.addStationAtPosition(c.x, c.y);
+                    std::cout << "Adding station at position (" << c.x << ", " << c.y
+                              << ") with type " << c.type << std::endl;
+                    auto id = graph_.addStationAtPosition(c.x, c.y, c.type);
                     world_.setStationPosition(id, {c.x, c.y});
                 }
 
@@ -84,18 +129,10 @@ void Simulation::_applyCommands() {
                 }
 
                 if constexpr (std::is_same_v<T, AddPassengerCmd>) {
-                    std::cout << "Spawning passenger at station " << c.stationId
-                              << " with destination type " << c.stationId + 1 << std::endl;
-                    StationType destType;
-                    try {
-                        destType = static_cast<StationType>(
-                            (static_cast<int>(graph_.getStation(c.stationId)->type) + 1) % 3);
-
-                    } catch (const std::exception& e) {
-                        std::cerr << "Exception: " << e.what() << std::endl;
+                    auto station = graph_.getStation(c.stationId);
+                    if (station) {
+                        graph_.spawnPassengerAt(c.stationId, c.destinationType);
                     }
-
-                    graph_.spawnPassengerAt(c.stationId, destType);
                 }
 
                 if constexpr (std::is_same_v<T, AddStationToLineCmd>) {
@@ -117,4 +154,13 @@ void Simulation::_applyCommands() {
             cmd);
     }
     pending_.clear();
+}
+
+std::vector<StationType> Simulation::getExistingStationTypes() const {
+    auto snap = graph_.snapshot();
+    std::set<StationType> types;
+    for (const auto& s : snap.stations) {
+        types.insert(s.type);
+    }
+    return {types.begin(), types.end()};
 }

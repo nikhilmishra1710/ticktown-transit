@@ -1,12 +1,13 @@
 #include "core/graph/Graph.hpp"
+#include "core/graph/StationType.hpp"
 #include <gtest/gtest.h>
 
 TEST(Transfer, PassengerTransfersLines) {
     Graph g;
 
-    auto A = g.addStation(Circle);
-    auto X = g.addStation(Square);
-    auto B = g.addStation(Triangle);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto X = g.addStation(StationType::SQUARE);
+    auto B = g.addStation(StationType::TRIANGLE);
 
     auto l1 = g.addLine();
     auto l2 = g.addLine();
@@ -20,7 +21,7 @@ TEST(Transfer, PassengerTransfersLines) {
     g.addTrain(l1, 1);
     g.addTrain(l2, 1);
 
-    g.spawnPassengerAt(A, Triangle);
+    g.spawnPassengerAt(A, StationType::TRIANGLE);
 
     for (int i = 0; i < 20; i++)
         g.tick();
@@ -31,15 +32,15 @@ TEST(Transfer, PassengerTransfersLines) {
 TEST(Transfer, PassengerRejectsWrongLine) {
     Graph g;
 
-    auto X = g.addStation(Circle);
-    auto Y = g.addStation(Square);
-    auto Z = g.addStation(Triangle);
+    auto X = g.addStation(StationType::CIRCLE);
+    auto Y = g.addStation(StationType::SQUARE);
+    auto Z = g.addStation(StationType::TRIANGLE);
 
     auto l1 = g.addLine();
     g.addStationToLine(l1, X);
     g.addStationToLine(l1, Y);
 
-    g.spawnPassengerAt(X, Triangle);
+    g.spawnPassengerAt(X, StationType::TRIANGLE);
     g.addTrain(l1, 1);
 
     g.tick();

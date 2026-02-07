@@ -21,4 +21,5 @@ class InGame : public Screen {
   public:
     InGame(int level);
     ScreenResult update() override;
+    static Simulation InitSimulation(int levelId);
 };

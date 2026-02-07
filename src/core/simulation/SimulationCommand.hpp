@@ -1,4 +1,5 @@
 #pragma once
+#include "core/graph/StationType.hpp"
 #include <cstddef>
 #include <cstdint>
 #include <variant>
@@ -6,6 +7,7 @@
 struct AddStationCmd {
     float x;
     float y;
+    StationType type = StationType::CIRCLE;
 };
 
 struct AddLineCmd {
@@ -14,6 +16,7 @@ struct AddLineCmd {
 
 struct AddPassengerCmd {
     uint32_t stationId;
+    StationType destinationType;
 };
 
 struct AddStationToLineCmd {

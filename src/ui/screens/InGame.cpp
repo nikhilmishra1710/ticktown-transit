@@ -1,40 +1,33 @@
 #include "ui/screens/InGame.hpp"
+#include "core/graph/StationType.hpp"
 #include "core/graph/id.hpp"
-#include "core/simulation/LevelRegistry.hpp"
+#include "core/simulation/Simulation.hpp"
 #include "core/simulation/SimulationCommand.hpp"
+#include "core/utils/LevelLoader.hpp"
+#include "core/utils/utils.hpp"
 #include "core/world/Polyline.hpp"
 #include "raylib.h"
-#include "raymath.h"
 #include "ui/constants.hpp"
 #include "ui/widgets/Button.hpp"
 #include <cstdint>
 #include <iostream>
 #include <utility>
 
-InGame::InGame(int levelId)
-    : sim_([&] {
-          auto cfg = getLevelConfig(levelId);
-          Simulation s(cfg.randomSeed);
-
-          // Level bootstrapping
-          for (uint32_t i = 0; i < cfg.initialStations; ++i) {
-              s.enqueueCommand(
-                  AddStationCmd{.x = 200.0f + i * 200.0f, .y = 360.0f + (i % 2) * 100.0f});
-          }
-          for (uint32_t i = 0; i < cfg.initialStations; ++i) {
-              for (uint32_t j = 0; j < cfg.initialPassengers; ++j) {
-                  s.enqueueCommand(AddPassengerCmd{i + 1});
-              }
-          }
-
-          for (uint32_t i = 0; i < cfg.initialLines; ++i) {
-              s.enqueueCommand(AddLineCmd{i});
-          }
-
-          return s;
-      }()) {
+Simulation InGame::InitSimulation(int levelId) {
+    auto cfg = LevelLoader::loadLevel(levelId);
+    // Return the constructed simulation object
+    return Simulation(cfg.seed);
 }
 
+InGame::InGame(int levelId)
+    : sim_(InitSimulation(levelId)) // Explicitly initialize here!
+{
+    // Now you can do the rest (adding stations, lines, etc.)
+    auto cfg = LevelLoader::loadLevel(levelId);
+    for (const auto& st : cfg.initialStations) {
+        sim_.enqueueCommand(AddStationCmd{st.x, st.y, stringToType(st.type)});
+    }
+}
 ScreenResult InGame::update() {
     if (IsKeyPressed(KEY_P)) {
         return {AppState::PAUSED};
@@ -139,13 +132,13 @@ void InGame::_renderPassenger(const PassengerView& snap, Vector2 pos) {
     Color color = MAROON;
 
     switch (snap.destination) {
-    case StationType::Circle:
+    case StationType::CIRCLE:
         color = RED;
         break;
-    case StationType::Square:
+    case StationType::SQUARE:
         color = GREEN;
         break;
-    case StationType::Triangle:
+    case StationType::TRIANGLE:
         color = BLUE;
         break;
     default:
@@ -161,13 +154,13 @@ void InGame::_renderStation(const StationView& snap, Vector2 pos) {
         (CheckCollisionPointCircle(GetMousePosition(), pos, size + 5)) ? SKYBLUE : DARKGRAY;
 
     switch (snap.type) {
-    case StationType::Circle:
+    case StationType::CIRCLE:
         DrawCircleV(pos, size, color);
         break;
-    case StationType::Square:
+    case StationType::SQUARE:
         DrawRectangleV({pos.x - size, pos.y - size}, {size * 2, size * 2}, color);
         break;
-    case StationType::Triangle:
+    case StationType::TRIANGLE:
         DrawPoly(pos, 3, size + 2, 0, color);
         break;
     default:

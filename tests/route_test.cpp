@@ -4,9 +4,9 @@
 TEST(Routing, DirectRouteOnSingleLine) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
-    auto C = g.addStation(StationType::Triangle);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
+    auto C = g.addStation(StationType::TRIANGLE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
@@ -14,16 +14,16 @@ TEST(Routing, DirectRouteOnSingleLine) {
     g.addStationToLine(line, C);
 
     EXPECT_TRUE(
-        g.canRoute(A, StationType::Triangle)
+        g.canRoute(A, StationType::TRIANGLE)
     );
 }
 
 TEST(Routing, RouteWithTransferAtSharedStation) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto X = g.addStation(StationType::Square);
-    auto B = g.addStation(StationType::Triangle);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto X = g.addStation(StationType::SQUARE);
+    auto B = g.addStation(StationType::TRIANGLE);
 
     auto l1 = g.addLine();
     auto l2 = g.addLine();
@@ -35,17 +35,17 @@ TEST(Routing, RouteWithTransferAtSharedStation) {
     g.addStationToLine(l2, B);
 
     EXPECT_TRUE(
-        g.canRoute(A, StationType::Triangle)
+        g.canRoute(A, StationType::TRIANGLE)
     );
 }
 
 TEST(Routing, NoRouteExistsBetweenComponents) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
-    auto C = g.addStation(StationType::Triangle);
-    auto D = g.addStation(StationType::Circle);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
+    auto C = g.addStation(StationType::TRIANGLE);
+    auto D = g.addStation(StationType::CIRCLE);
 
     auto l1 = g.addLine();
     auto l2 = g.addLine();
@@ -57,16 +57,16 @@ TEST(Routing, NoRouteExistsBetweenComponents) {
     g.addStationToLine(l2, D);
 
     EXPECT_FALSE(
-        g.canRoute(A, StationType::Triangle)
+        g.canRoute(A, StationType::TRIANGLE)
     );
 }
 
 TEST(Routing, RouteExistsButDestinationTypeAbsent) {
     Graph g;
 
-    auto A = g.addStation(StationType::Circle);
-    auto B = g.addStation(StationType::Square);
-    auto C = g.addStation(StationType::Square);
+    auto A = g.addStation(StationType::CIRCLE);
+    auto B = g.addStation(StationType::SQUARE);
+    auto C = g.addStation(StationType::SQUARE);
 
     auto line = g.addLine();
     g.addStationToLine(line, A);
@@ -74,6 +74,6 @@ TEST(Routing, RouteExistsButDestinationTypeAbsent) {
     g.addStationToLine(line, C);
 
     EXPECT_FALSE(
-        g.canRoute(A, StationType::Triangle)
+        g.canRoute(A, StationType::TRIANGLE)
     );
 }

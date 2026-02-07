@@ -7,6 +7,7 @@
 #include "core/world/World.hpp"
 #include <chrono>
 #include <cstdint>
+#include <random>
 
 class Simulation {
   public:
@@ -22,10 +23,14 @@ class Simulation {
 
   private:
     void _applyCommands();
+    std::vector<StationType> getExistingStationTypes() const;
 
     std::vector<SimulationCommand> pending_;
     std::uint64_t tickCount_{0};
     std::uint64_t seed_;
+    std::mt19937 rng_;
+    float spawnAccumulator_ = 0.0f;
+    float baseSpawnInterval_ = 0.2f; // Seconds between spawns
 
     TickClock clock_{std::chrono::milliseconds(1000)};
     Graph graph_;
