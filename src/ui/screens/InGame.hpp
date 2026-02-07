@@ -1,4 +1,3 @@
-#include "core/graph/SimulationSnapshot.hpp"
 #include "core/simulation/Simulation.hpp"
 #include "raylib.h"
 #include "ui/Screen.hpp"
@@ -12,6 +11,7 @@ class InGame : public Screen {
     int selectedLine_ = -1;
     bool zeroStationLine_ = false;
     bool addAtEnd_ = true;
+    bool isDraggingTrain_ = false;
     StationId draggingStationId_;
 
     void _renderPassenger(const PassengerView& snap, Vector2 pos);

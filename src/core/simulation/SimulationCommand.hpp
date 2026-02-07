@@ -19,6 +19,7 @@ struct AddPassengerCmd {
 struct AddStationToLineCmd {
     uint32_t lineId;
     uint32_t stationId;
+    uint32_t startStationId;
     size_t index;
 };
 

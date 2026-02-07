@@ -291,8 +291,7 @@ bool Graph::_canBoard(const Passenger& p, std::uint32_t stationId, std::uint32_t
     return std::find(line.stationIds.begin(), line.stationIds.end(), *hop) != line.stationIds.end();
 }
 
-void Graph::addTrain(std::uint32_t lineId, std::uint32_t capacity, float speed,
-                     TrainState initialState) {
+void Graph::addTrain(std::uint32_t lineId, std::uint32_t capacity, float speed) {
     if (!this->lineExists(lineId)) {
         throw std::logic_error("Line doesn't exist in addTrain");
     }
@@ -307,7 +306,7 @@ void Graph::addTrain(std::uint32_t lineId, std::uint32_t capacity, float speed,
                lineId,
                line->stationIds[0],
                line->stationIds[1],
-               initialState,
+               TrainState::ALIGHTING,
                0,
                1,
                {},
@@ -561,8 +560,8 @@ bool Graph::isFailed() const {
     return this->failed_;
 }
 
-SimulationSnapshot Graph::snapshot() const {
-    SimulationSnapshot snap;
+GraphSnapshot Graph::snapshot() const {
+    GraphSnapshot snap;
     snap.tick = this->tick_;
     snap.score = this->completedPassengers_;
 
@@ -575,7 +574,6 @@ SimulationSnapshot Graph::snapshot() const {
                 {p.passengerId, p.source, p.destination, p.state, id, std::nullopt, p.age});
         }
         snap.stations.push_back(stationView);
-        snap.stationPositions.emplace(id, std::make_pair(std::make_pair(s.x, s.y), stationView));
     }
 
     for (const auto& t : trains_) {

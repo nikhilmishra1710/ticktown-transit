@@ -2,11 +2,11 @@
 #include "core/graph/id.hpp"
 #include "core/simulation/LevelRegistry.hpp"
 #include "core/simulation/SimulationCommand.hpp"
+#include "core/world/Polyline.hpp"
 #include "raylib.h"
 #include "raymath.h"
 #include "ui/constants.hpp"
 #include "ui/widgets/Button.hpp"
-#include "ui/widgets/Station.hpp"
 #include <cstdint>
 #include <iostream>
 #include <utility>
@@ -18,7 +18,8 @@ InGame::InGame(int levelId)
 
           // Level bootstrapping
           for (uint32_t i = 0; i < cfg.initialStations; ++i) {
-              s.enqueueCommand(AddStationCmd{.x = 200.0f + i * 200.0f, .y = 360.0f});
+              s.enqueueCommand(
+                  AddStationCmd{.x = 200.0f + i * 200.0f, .y = 360.0f + (i % 2) * 100.0f});
           }
           for (uint32_t i = 0; i < cfg.initialStations; ++i) {
               for (uint32_t j = 0; j < cfg.initialPassengers; ++j) {
@@ -48,7 +49,7 @@ ScreenResult InGame::update() {
 
     if (!isDragging_ && IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
         for (const auto& [stationId, pair] : snapshot.stationPositions) {
-            Vector2 pos = {pair.first.first, pair.first.second};
+            Vector2 pos = {pair.first, pair.second};
             if (CheckCollisionPointCircle(mouse, pos, 15.0f)) {
                 std::vector<LineId> zeroStationLines;
                 std::cout << "Line numbers: " << snapshot.lines.size() << std::endl;
@@ -83,22 +84,49 @@ ScreenResult InGame::update() {
 
     if (isDragging_ && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
         for (const auto& [stationId, pair] : snapshot.stationPositions) {
-            Vector2 pos = {pair.first.first, pair.first.second};
+            Vector2 pos = {pair.first, pair.second};
             if (CheckCollisionPointCircle(mouse, pos, 15.0f) && stationId != draggingStationId_) {
                 std::size_t index = addAtEnd_ ? SIZE_MAX : 0;
                 if (zeroStationLine_) {
                     sim_.enqueueCommand(AddStationToLineCmd{.lineId = (uint32_t) selectedLine_,
                                                             .stationId = draggingStationId_,
+                                                            .startStationId = 0,
                                                             .index = index});
                 }
-                sim_.enqueueCommand(AddStationToLineCmd{
-                    .lineId = (uint32_t) selectedLine_, .stationId = stationId, .index = index});
+                sim_.enqueueCommand(AddStationToLineCmd{.lineId = (uint32_t) selectedLine_,
+                                                        .stationId = stationId,
+                                                        .startStationId = draggingStationId_,
+                                                        .index = index});
                 break;
             }
         }
         isDragging_ = false;
         selectedLine_ = -1;
         zeroStationLine_ = false;
+    }
+
+    if (isDraggingTrain_ && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+        Vector2 mouse = GetMousePosition();
+
+        for (const auto& line : snapshot.lines) {
+            for (size_t i = 0; i < line.stationIds.size() - 1; ++i) {
+                auto key = std::make_pair(std::min(line.stationIds[i], line.stationIds[i + 1]),
+                                          std::max(line.stationIds[i], line.stationIds[i + 1]));
+
+                const auto& poly = snapshot.edgePaths[key];
+                bool done = false;
+                for (size_t j = 0; j < poly.points.size() - 1; ++j) {
+                    // Check if mouse is near this specific polyline segment
+                    if (CheckCollisionPointLine(mouse, poly.points[j], poly.points[j + 1], 10)) {
+                        sim_.enqueueCommand(AddTrainToLineCmd{.lineId = line.id});
+                        done = true;
+                        break;
+                    }
+                }
+                if (done)
+                    break;
+            }
+        }
     }
 
     this->DrawSnapshot(snapshot);
@@ -164,17 +192,14 @@ void InGame::DrawSnapshot(const SimulationSnapshot& snap) {
 
     DrawText("Stations:", 20, y, 18, DARKBLUE);
     y += 24;
-
     for (const auto& s : snap.stations) {
         DrawText(TextFormat("Station %u type=%d waiting=%zu", s.id, (int) s.type, s.waiting), 40, y,
                  16, BLACK);
 
-        std::pair<float, float> pos = snap.stationPositions.at(s.id).first;
+        std::pair<float, float> pos = snap.stationPositions.at(s.id);
         _renderStation(s, (Vector2){pos.first, pos.second});
         y += 20;
     }
-
-    y += 20;
     DrawText("Trains:", 20, y, 18, DARKGREEN);
     y += 24;
 
@@ -201,15 +226,15 @@ void InGame::DrawSnapshot(const SimulationSnapshot& snap) {
         // Find the position of the station we started dragging from
         auto it = snap.stationPositions.find(draggingStationId_);
         if (it != snap.stationPositions.end()) {
-            Vector2 startPos = {it->second.first.first, it->second.first.second};
+            Vector2 startPos = {it->second.first, it->second.second};
             Vector2 mousePos = GetMousePosition();
 
-            // Draw a thick, semi-transparent ghost line
-            Color lineCol = ColorFromHSV((selectedLine_ * 60), 0.7f, 0.9f);
-            DrawLineEx(startPos, mousePos, 6.0f, Fade(lineCol, 0.5f));
-
-            // Draw a small indicator at the mouse to show "docking" status
-            DrawCircleV(mousePos, 5.0f, lineCol);
+            Polyline tempPath = sim_.getOctilinearPath(startPos, mousePos);
+            for (size_t i = 0; i < tempPath.points.size() - 1; ++i) {
+                DrawLineEx(tempPath.points[i], tempPath.points[i + 1], 10.0f, GRAY);
+                DrawCircleV(tempPath.points[i], 5.0f, GRAY);
+            }
+            DrawCircleV(tempPath.points.back(), 15.0f, GRAY);
         }
     }
 
@@ -217,19 +242,17 @@ void InGame::DrawSnapshot(const SimulationSnapshot& snap) {
     bool lineSelected = false;
     for (size_t i = 0; i < snap.lines.size(); ++i) {
         const auto& line = snap.lines[i];
+        if (line.stationIds.size() < 2)
+            continue;
         Color lineColor = ColorFromHSV((i * 360) / snap.lines.size(), 0.8f, 0.8f);
-        for (size_t j = 0; j + 1 < line.stationIds.size(); ++j) {
-            auto it1 = snap.stationPositions.find(line.stationIds[j]);
-            auto it2 = snap.stationPositions.find(line.stationIds[j + 1]);
-            if (it1 != snap.stationPositions.end() && it2 != snap.stationPositions.end()) {
-                DrawLineEx({it1->second.first.first, it1->second.first.second},
-                           {it2->second.first.first, it2->second.first.second}, 2.0f, lineColor);
+        std::cout << "Drawing line " << line.id << " with color (" << (int) lineColor.r << ","
+                  << (int) lineColor.g << "," << (int) lineColor.b << ")" << std::endl;
+        std::vector<Polyline> paths = snap.linePaths.at(line.id);
+        for (const auto& path : paths) {
+            for (size_t j = 0; j < path.points.size() - 1; ++j) {
+                DrawLineEx(path.points[j], path.points[j + 1], 10.0f, lineColor);
+                DrawCircleV(path.points[j + 1], 5.0f, lineColor);
             }
-        }
-        if (DrawButton(TextFormat("L%d", line.id),
-                       {WINDOW_WIDTH - 50, WINDOW_HEIGHT / 2 - 100 + (float) (i * 20), 40, 10})) {
-            selectedLine_ = line.id;
-            lineSelected = true;
         }
     }
 
@@ -238,16 +261,14 @@ void InGame::DrawSnapshot(const SimulationSnapshot& snap) {
         auto it1 = snap.stationPositions.find(t.stationId);
         auto it2 = snap.stationPositions.find(t.nextStationId);
         if (it1 != snap.stationPositions.end() && it2 != snap.stationPositions.end()) {
-            Vector2 pos = {
-                Lerp(it1->second.first.first, it2->second.first.first,
-                     (t.forward ? 0.0f : 1.0f) + (t.forward ? t.progress : (t.progress - 1))),
-                Lerp(it1->second.first.second, it2->second.first.second,
-                     (t.forward ? 0.0f : 1.0f) + (t.forward ? t.progress : (t.progress - 1)))};
-            std::cout << "Train " << t.id << " position: (" << pos.x << ", " << pos.y << ")"
-                      << std::endl;
-            DrawCircleV(pos, 10.0f, DARKGREEN);
+            std::pair<float, float> pos = snap.trainPositions.at(t.id);
+            std::cout << "Train " << t.id << " position: (" << pos.first << ", " << pos.second
+                      << ")" << std::endl;
+            DrawCircleV({pos.first, pos.second}, 10.0f, DARKGREEN);
         }
     }
+
+    y += 20;
 
     if (DrawButton("Add Train", {WINDOW_WIDTH - 150, 20, 100, 40})) {
         if (selectedLine_ != -1) {

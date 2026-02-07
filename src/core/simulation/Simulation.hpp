@@ -1,8 +1,10 @@
 #pragma once
 #include "core/graph/Graph.hpp"
-#include "core/graph/SimulationSnapshot.hpp"
 #include "core/simulation/SimulationCommand.hpp"
+#include "core/simulation/SimulationSnapshot.hpp"
 #include "core/simulation/TickClock.hpp"
+#include "core/world/Polyline.hpp"
+#include "core/world/World.hpp"
 #include <chrono>
 #include <cstdint>
 
@@ -13,8 +15,11 @@ class Simulation {
     void enqueueCommand(SimulationCommand cmd);
     void step(std::chrono::milliseconds dt);
 
+    Polyline getOctilinearPath(Vector2 start, Vector2 end) const;
+
     std::uint64_t stateHash() const;
     SimulationSnapshot snapshot() const;
+
   private:
     void _applyCommands();
 
@@ -24,4 +29,5 @@ class Simulation {
 
     TickClock clock_{std::chrono::milliseconds(1000)};
     Graph graph_;
+    World world_;
 };

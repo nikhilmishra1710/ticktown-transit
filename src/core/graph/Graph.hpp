@@ -46,8 +46,8 @@ class Graph {
 
     void spawnPassengerAt(std::uint32_t stationId, StationType destination);
 
-    void addTrain(std::uint32_t line, std::uint32_t capacity, float speed = 1.0f,
-                  TrainState initialState = TrainState::ALIGHTING);
+    void addTrain(std::uint32_t line, std::uint32_t capacity, float speed = 1.0f);
+    void addIdleTrain();
     void startTrain(std::uint32_t trainId);
     const std::vector<Train>& getTrains() const;
 
@@ -55,7 +55,7 @@ class Graph {
     void tick();
     void stateFailed();
     bool isFailed() const;
-    SimulationSnapshot snapshot() const;
+    GraphSnapshot snapshot() const;
 
   private:
     bool _canPassengerBoard(const Passenger& p, std::uint32_t stationId, const Train& train);

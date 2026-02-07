@@ -43,12 +43,11 @@ struct LineView {
     std::vector<uint32_t> stationIds;
 };
 
-struct SimulationSnapshot {
+struct GraphSnapshot {
     uint64_t tick;
     std::vector<StationView> stations;
     std::vector<TrainView> trains;
     std::vector<PassengerView> passengers;
     std::vector<LineView> lines;
-    std::unordered_map<StationId, std::pair<std::pair<float, float>, StationView>> stationPositions;
     std::uint32_t score;
 };
