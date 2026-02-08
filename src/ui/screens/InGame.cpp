@@ -8,7 +8,6 @@
 #include "core/world/Polyline.hpp"
 #include "raylib.h"
 #include "ui/constants.hpp"
-#include "ui/widgets/Button.hpp"
 #include <cstdint>
 #include <iostream>
 #include <utility>
@@ -27,6 +26,10 @@ InGame::InGame(int levelId)
     for (const auto& st : cfg.initialStations) {
         sim_.enqueueCommand(AddStationCmd{st.x, st.y, stringToType(st.type)});
     }
+    for (const auto& line : cfg.initialLines) {
+        sim_.enqueueCommand(AddLineCmd{});
+    }
+    availableTrains_ = cfg.initialTrains;
 }
 ScreenResult InGame::update() {
     if (IsKeyPressed(KEY_P)) {
@@ -98,29 +101,7 @@ ScreenResult InGame::update() {
         zeroStationLine_ = false;
     }
 
-    if (isDraggingTrain_ && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
-        Vector2 mouse = GetMousePosition();
-
-        for (const auto& line : snapshot.lines) {
-            for (size_t i = 0; i < line.stationIds.size() - 1; ++i) {
-                auto key = std::make_pair(std::min(line.stationIds[i], line.stationIds[i + 1]),
-                                          std::max(line.stationIds[i], line.stationIds[i + 1]));
-
-                const auto& poly = snapshot.edgePaths[key];
-                bool done = false;
-                for (size_t j = 0; j < poly.points.size() - 1; ++j) {
-                    // Check if mouse is near this specific polyline segment
-                    if (CheckCollisionPointLine(mouse, poly.points[j], poly.points[j + 1], 10)) {
-                        sim_.enqueueCommand(AddTrainToLineCmd{.lineId = line.id});
-                        done = true;
-                        break;
-                    }
-                }
-                if (done)
-                    break;
-            }
-        }
-    }
+    handleTrainDrag(mouse, snapshot);
 
     this->DrawSnapshot(snapshot);
 
@@ -161,7 +142,7 @@ void InGame::_renderStation(const StationView& snap, Vector2 pos) {
         DrawRectangleV({pos.x - size, pos.y - size}, {size * 2, size * 2}, color);
         break;
     case StationType::TRIANGLE:
-        DrawPoly(pos, 3, size + 2, 0, color);
+        DrawPoly(pos, 3, size + 2, 90, color);
         break;
     default:
         DrawCircleV(pos, size, color);
@@ -238,8 +219,8 @@ void InGame::DrawSnapshot(const SimulationSnapshot& snap) {
         if (line.stationIds.size() < 2)
             continue;
         Color lineColor = ColorFromHSV((i * 360) / snap.lines.size(), 0.8f, 0.8f);
-        std::cout << "Drawing line " << line.id << " with color (" << (int) lineColor.r << ","
-                  << (int) lineColor.g << "," << (int) lineColor.b << ")" << std::endl;
+        // std::cout << "Drawing line " << line.id << " with color (" << (int) lineColor.r << ","
+        //           << (int) lineColor.g << "," << (int) lineColor.b << ")" << std::endl;
         std::vector<Polyline> paths = snap.linePaths.at(line.id);
         for (const auto& path : paths) {
             for (size_t j = 0; j < path.points.size() - 1; ++j) {
@@ -255,24 +236,72 @@ void InGame::DrawSnapshot(const SimulationSnapshot& snap) {
         auto it2 = snap.stationPositions.find(t.nextStationId);
         if (it1 != snap.stationPositions.end() && it2 != snap.stationPositions.end()) {
             std::pair<float, float> pos = snap.trainPositions.at(t.id);
-            std::cout << "Train " << t.id << " position: (" << pos.first << ", " << pos.second
-                      << ")" << std::endl;
             DrawCircleV({pos.first, pos.second}, 10.0f, DARKGREEN);
         }
     }
 
-    y += 20;
+    for (int i = 0; i < availableTrains_; ++i) {
+        DrawCircleV({WINDOW_WIDTH - 30, (float) WINDOW_HEIGHT / 2 - 80 + i * 20}, 10.0f, DARKGREEN);
+    }
 
-    if (DrawButton("Add Train", {WINDOW_WIDTH - 150, 20, 100, 40})) {
-        if (selectedLine_ != -1) {
-            sim_.enqueueCommand(AddTrainToLineCmd{.lineId = (uint32_t) selectedLine_});
+    DrawRectangleLines(20, WINDOW_HEIGHT - 60, 40, 40, DARKGRAY);
+    DrawText(TextFormat("x%d", availableTrains_), 25, WINDOW_HEIGHT - 55, 20, BLACK);
+
+    // Draw the Ghost Train if dragging
+    if (isDraggingTrain_) {
+        // Draw a small rectangle or circle that follows the mouse
+        DrawRectangleV({trainDragPos_.x - 15, trainDragPos_.y - 10}, {30, 20},
+                       Fade(DARKGRAY, 0.6f));
+
+        // Optional: Highlight lines that are valid drop targets
+        DrawCircleLines(trainDragPos_.x, trainDragPos_.y, 10, GREEN);
+    }
+
+    y += 20;
+}
+
+void InGame::handleTrainDrag(Vector2 mouse, const SimulationSnapshot& snapshot) {
+    // 1. START DRAGGING: Check if user clicks the Train Inventory Slot
+    // Let's assume you have a 'trainPool_' count from your JSON level config
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && availableTrains_ > 0) {
+        Rectangle trainDock = {20, WINDOW_HEIGHT - 60, 40, 40};
+        if (CheckCollisionPointRec(mouse, trainDock)) {
+            isDraggingTrain_ = true;
         }
     }
 
-    if (lineSelected && IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+    // 2. WHILE DRAGGING: Update visual position
+    if (isDraggingTrain_) {
+        trainDragPos_ = mouse;
+    }
+
+    if (isDraggingTrain_ && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
         Vector2 mouse = GetMousePosition();
-        if (mouse.x < WINDOW_WIDTH - 50) {
-            selectedLine_ = -1;
+        std::cout << "Handling train drag release at position (" << mouse.x << ", " << mouse.y
+                  << ")" << std::endl;
+        for (const auto& line : snapshot.lines) {
+            for (size_t i = 0; i < line.stationIds.size() - 1 && line.stationIds.size() >= 2; ++i) {
+                auto key = std::make_pair(std::min(line.stationIds[i], line.stationIds[i + 1]),
+                                          std::max(line.stationIds[i], line.stationIds[i + 1]));
+                const auto& poly = snapshot.edgePaths.at(key);
+                if (poly.points.size() < 2)
+                    continue;
+                std::cout << "Checking line " << line.id << " with edge path of length "
+                          << poly.points.size() << std::endl;
+                bool done = false;
+                for (size_t j = 0; j < poly.points.size() - 1; ++j) {
+                    // Check if mouse is near this specific polyline segment
+                    if (CheckCollisionPointLine(mouse, poly.points[j], poly.points[j + 1], 10)) {
+                        sim_.enqueueCommand(AddTrainToLineCmd{.lineId = line.id});
+                        done = true;
+                        availableTrains_--;
+                        break;
+                    }
+                }
+                if (done)
+                    break;
+            }
         }
+        isDraggingTrain_ = false;
     }
 }

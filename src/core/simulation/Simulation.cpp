@@ -100,6 +100,7 @@ SimulationSnapshot Simulation::snapshot() const {
             snap.linePaths[line.id].push_back(worldSnap.edgePaths.at(key));
         }
     }
+    snap.edgePaths = worldSnap.edgePaths;
     return snap;
 }
 

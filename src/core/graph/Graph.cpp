@@ -391,14 +391,16 @@ void Graph::_alightPassengers(Train& train, Station& station) {
         }
 
         if (station.type == passenger.destination) {
-            it = train.onboard.erase(it);
             PassengerFSM::onTrainToCompleted(passenger);
+            it = train.onboard.erase(it);
             this->completedPassengers_++;
             continue;
         }
 
         std::optional hop = this->nextHop(station.id, passenger.destination);
         if (!hop.has_value()) {
+            std::cerr << passenger << std::endl;
+            std::cerr << "Station id: " << station.id << std::endl;
             throw std::logic_error("Passenger has no where to go");
         }
         StationId nextStation = *hop;

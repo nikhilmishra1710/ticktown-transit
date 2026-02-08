@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
-#include <fstream>
 #include <nlohmann/json.hpp>
+#include <string>
 #include <vector>
 
 using json = nlohmann::json;
@@ -29,7 +29,23 @@ struct LevelConfig {
     std::vector<StationInit> initialStations;
 };
 
+struct LevelMetadata {
+    int id;
+    std::string name;
+    std::string description;
+};
+
 class LevelLoader {
   public:
     static LevelConfig loadLevel(int levelId, const std::string& path = "assets/levels.json");
+    static const std::vector<LevelMetadata>&
+    getAvailableLevels(const std::string& path = "assets/levels.json");
+
+  private:
+    static void ensureLoaded(const std::string& path);
+
+    static std::vector<LevelMetadata> levels_;
+    static std::vector<LevelMetadata> levelsMetadata_;
+    static nlohmann::json cachedJson_;
+    static bool isLoaded_;
 };

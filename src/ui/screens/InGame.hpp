@@ -11,8 +11,11 @@ class InGame : public Screen {
     int selectedLine_ = -1;
     bool zeroStationLine_ = false;
     bool addAtEnd_ = true;
-    bool isDraggingTrain_ = false;
     StationId draggingStationId_;
+    int availableTrains_ = 0;
+    bool isDraggingTrain_ = false;
+    int draggingTrainInventoryIdx_ = -1; // Which train in our "dock"
+    Vector2 trainDragPos_;
 
     void _renderPassenger(const PassengerView& snap, Vector2 pos);
     void _renderStation(const StationView& snap, Vector2 pos);
@@ -22,4 +25,5 @@ class InGame : public Screen {
     InGame(int level);
     ScreenResult update() override;
     static Simulation InitSimulation(int levelId);
+    void handleTrainDrag(Vector2 mouse, const SimulationSnapshot& snap);
 };
