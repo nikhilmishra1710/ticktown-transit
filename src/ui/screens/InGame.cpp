@@ -21,16 +21,27 @@ Simulation InGame::InitSimulation(int levelId) {
 InGame::InGame(int levelId)
     : sim_(InitSimulation(levelId)) // Explicitly initialize here!
 {
+    std::cout << "Initializing InGame screen with level ID: " << levelId << std::endl;
     // Now you can do the rest (adding stations, lines, etc.)
     auto cfg = LevelLoader::loadLevel(levelId);
+    std::cout << "Loaded level: " << cfg.name << " with seed: " << cfg.seed << std::endl;
+    for (const auto& [id, pair] : cfg.geography) {
+        sim_.addRiver(pair.second, pair.first);
+        geography[id] = pair.second;
+    }
+    std::cout << "Added " << cfg.geography.size() << " rivers to the simulation." << std::endl;
     for (const auto& st : cfg.initialStations) {
         sim_.enqueueCommand(AddStationCmd{st.x, st.y, stringToType(st.type)});
     }
+    std::cout << "Enqueued " << cfg.initialStations.size() << " stations." << std::endl;
     for (const auto& line : cfg.initialLines) {
         sim_.enqueueCommand(AddLineCmd{});
     }
+    std::cout << "Enqueued " << cfg.initialLines.size() << " lines." << std::endl;
     availableTrains_ = cfg.initialTrains;
+    paused_ = false;
 }
+
 ScreenResult InGame::update() {
     if (IsKeyPressed(KEY_P)) {
         return {AppState::PAUSED};
@@ -156,6 +167,35 @@ void InGame::_renderStation(const StationView& snap, Vector2 pos) {
     }
 }
 
+void DrawBridgeCaps(Vector2 a, Vector2 b) {
+    Vector2 dir = Vector2Normalize(Vector2Subtract(b, a));
+    Vector2 perp = (Vector2){-dir.y, dir.x};
+    float capLength = 10.0f;
+
+    DrawLineEx(a, b, 3.0f, GRAY);
+    DrawLineEx(a, b, 3.0f, GRAY);
+}
+
+void DrawParallelBridgeSupports(Vector2 p1, Vector2 p2, float trackWidth, Color supportColor) {
+    // 1. Calculate direction and the perpendicular normal
+    Vector2 dir = Vector2Normalize({p2.x - p1.x, p2.y - p1.y});
+    Vector2 normal = {-dir.y, dir.x}; // Perpendicular vector
+    float bridgeWidth = 12.0f;
+    // 2. Define the side-offset (slightly wider than the track)
+    float offsetDist = (trackWidth / 2.0f) + bridgeWidth;
+
+    // 3. Calculate the parallel start/end points
+    Vector2 leftStart = {p1.x + normal.x * offsetDist, p1.y + normal.y * offsetDist};
+    Vector2 leftEnd = {p2.x + normal.x * offsetDist, p2.y + normal.y * offsetDist};
+
+    Vector2 rightStart = {p1.x - normal.x * offsetDist, p1.y - normal.y * offsetDist};
+    Vector2 rightEnd = {p2.x - normal.x * offsetDist, p2.y - normal.y * offsetDist};
+
+    // 4. Draw the two side rails
+    DrawLineEx(leftStart, leftEnd, bridgeWidth, supportColor);
+    DrawLineEx(rightStart, rightEnd, bridgeWidth, supportColor);
+}
+
 void InGame::DrawSnapshot(const SimulationSnapshot& snap) {
     int y = 100;
 
@@ -212,6 +252,14 @@ void InGame::DrawSnapshot(const SimulationSnapshot& snap) {
         }
     }
 
+    for (const auto& [id, points] : geography) {
+        for (size_t i = 0; i < points.size() - 1; ++i) {
+            DrawLineEx({points[i].first, points[i].second},
+                       {points[i + 1].first, points[i + 1].second}, 50.0f, BLUE);
+            DrawCircleV({points[i].first, points[i].second}, 25.0f, BLUE);
+        }
+    }
+
     DrawRectangle(WINDOW_WIDTH - 50, WINDOW_HEIGHT / 2 - 100, 40, 200, GRAY);
     bool lineSelected = false;
     for (size_t i = 0; i < snap.lines.size(); ++i) {
@@ -223,9 +271,24 @@ void InGame::DrawSnapshot(const SimulationSnapshot& snap) {
         //           << (int) lineColor.g << "," << (int) lineColor.b << ")" << std::endl;
         std::vector<Polyline> paths = snap.linePaths.at(line.id);
         for (const auto& path : paths) {
+            // for (const auto val: path.bridgeIndices) {
+            //     std::cout << "Line " << line.id << " has a bridge segment at index " << val
+            //               << std::endl;
+            // }
             for (size_t j = 0; j < path.points.size() - 1; ++j) {
-                DrawLineEx(path.points[j], path.points[j + 1], 10.0f, lineColor);
-                DrawCircleV(path.points[j + 1], 5.0f, lineColor);
+                bool isBridge = std::find(path.bridgeIndices.begin(), path.bridgeIndices.end(),
+                                          j) != path.bridgeIndices.end();
+
+                if (isBridge) {
+                    // Draw Bridge Style
+                    DrawLineEx(path.points[j], path.points[j + 1], 10.0f, lineColor);
+                    // Draw "Capping" lines at the banks
+                    DrawParallelBridgeSupports(path.points[j], path.points[j + 1], 12.0f, GRAY);
+                } else {
+                    // Draw Regular Track
+                    DrawLineEx(path.points[j], path.points[j + 1], 10.0f, lineColor);
+                    DrawCircleV(path.points[j + 1], 5.0f, lineColor);
+                }
             }
         }
     }

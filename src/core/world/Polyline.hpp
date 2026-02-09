@@ -6,6 +6,8 @@
 struct Polyline {
     std::vector<Vector2> points;
     float totalLength = 0.0f;
+    bool bridge = false;
+    std::vector<size_t> bridgeIndices; // Store intersection points with rivers
 
     void addPoint(Vector2 p) {
         if (!points.empty()) {

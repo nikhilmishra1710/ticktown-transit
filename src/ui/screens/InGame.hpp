@@ -16,6 +16,7 @@ class InGame : public Screen {
     bool isDraggingTrain_ = false;
     int draggingTrainInventoryIdx_ = -1; // Which train in our "dock"
     Vector2 trainDragPos_;
+    std::map<std::uint32_t, std::vector<std::pair<float, float>>> geography;
 
     void _renderPassenger(const PassengerView& snap, Vector2 pos);
     void _renderStation(const StationView& snap, Vector2 pos);

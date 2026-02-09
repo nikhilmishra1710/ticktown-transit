@@ -8,6 +8,7 @@
 #include <chrono>
 #include <cstdint>
 #include <random>
+#include <set>
 
 class Simulation {
   public:
@@ -15,6 +16,7 @@ class Simulation {
 
     void enqueueCommand(SimulationCommand cmd);
     void step(std::chrono::milliseconds dt);
+    void addRiver(const std::vector<std::pair<float, float>>& points, float width);
 
     Polyline getOctilinearPath(Vector2 start, Vector2 end) const;
 
@@ -25,6 +27,7 @@ class Simulation {
     void _applyCommands();
     std::vector<StationType> getExistingStationTypes() const;
 
+    int availableBridges_ = 3; // Starting bridges
     std::vector<SimulationCommand> pending_;
     std::uint64_t tickCount_{0};
     std::uint64_t seed_;
@@ -33,6 +36,8 @@ class Simulation {
     float baseSpawnInterval_ = 0.2f; // Seconds between spawns
 
     TickClock clock_{std::chrono::milliseconds(1000)};
+    std::map<std::uint32_t, std::pair<Polyline, float>> rivers_; // Loaded from JSON
+    std::set<std::pair<uint32_t, uint32_t>> bridgedEdges_;
     Graph graph_;
     World world_;
 };

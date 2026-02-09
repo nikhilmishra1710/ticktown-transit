@@ -10,10 +10,41 @@
                 "spawnRampRate": 0.0002,
                 "minInterval": 1.5
             },
+            "geography": {
+                "rivers": [
+                    {
+                        "id": 1,
+                        "points": [
+                            {
+                                "x": 0,
+                                "y": 500
+                            },
+                            {
+                                "x": 400,
+                                "y": 450
+                            },
+                            {
+                                "x": 1000,
+                                "y": 600
+                            },
+                            {
+                                "x": 1500,
+                                "y": 550
+                            }
+                        ],
+                        "width": 50.0,
+                        "color": "#a2d2ff"
+                    }
+                ]
+            },
             "resources": {
                 "initialLines": [
                     {
                         "id": 0,
+                        "hex": "#3498db"
+                    },
+                    {
+                        "id": 1,
                         "hex": "#3498db"
                     }
                 ],
@@ -32,8 +63,8 @@
                         "passengers": 0
                     },
                     {
-                        "x": 700,
-                        "y": 360,
+                        "x": 900,
+                        "y": 660,
                         "type": "TRIANGLE",
                         "passengers": 0
                     }

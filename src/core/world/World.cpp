@@ -3,12 +3,16 @@
 #include <iostream>
 #include <stdexcept>
 
-void World::updateEdge(uint32_t idA, uint32_t idB, Vector2 posA, Vector2 posB) {
+void World::updateEdge(uint32_t idA, uint32_t idB, bool needsBridge, Polyline path) {
     auto key = std::make_pair(std::min(idA, idB), std::max(idA, idB));
-    edgePaths[key] = WorldGeometry::getOctilinearPath(posA, posB);
-    std::cout << "Updated edge between stations " << idA << " and " << idB << " with positions ("
-              << posA.x << "," << posA.y << ") and (" << posB.x << "," << posB.y << ")"
-              << std::endl;
+    if (needsBridge) {
+        edgePaths[key].bridge = true;
+        edgePaths[key] = path;
+    } else {
+        edgePaths[key].bridge = false;
+        edgePaths[key] = path;
+    }
+    std::cout << "Updated edge between stations " << idA << " and " << idB << std::endl;
 }
 
 std::pair<float, float> World::getPositionOnEdge(uint32_t idA, uint32_t idB, float progress,

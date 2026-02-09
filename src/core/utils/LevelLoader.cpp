@@ -1,5 +1,6 @@
 #include "core/utils/LevelLoader.hpp"
 #include <fstream>
+#include <iostream>
 
 // Initialize static members
 std::vector<LevelMetadata> LevelLoader::levelsMetadata_;
@@ -58,6 +59,15 @@ LevelConfig LevelLoader::loadLevel(int levelId, const std::string& path) {
             for (auto& st : l["resources"]["initialStations"]) {
                 cfg.initialStations.push_back({st["x"], st["y"], st["type"], st["passengers"]});
             }
+            if (l.contains("geography") && l["geography"].contains("rivers"))
+                for (auto& river : l["geography"]["rivers"]) {
+                    std::vector<std::pair<float, float>> riverPoints;
+                    for (auto& point : river["points"]) {
+                        riverPoints.push_back({point["x"], point["y"]});
+                    }
+                    cfg.geography[river["id"]] = std::make_pair(river["width"], riverPoints);
+                }
+
             return cfg;
         }
     }

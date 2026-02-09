@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <nlohmann/json.hpp>
 #include <string>
+#include <utility>
 #include <vector>
 
 using json = nlohmann::json;
@@ -27,6 +28,7 @@ struct LevelConfig {
     int initialTrains;
     std::vector<LineInit> initialLines;
     std::vector<StationInit> initialStations;
+    std::map<std::uint32_t, std::pair<float, std::vector<std::pair<float, float>>>> geography;
 };
 
 struct LevelMetadata {

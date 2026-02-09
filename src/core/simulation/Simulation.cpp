@@ -2,8 +2,11 @@
 #include "core/graph/Graph.hpp"
 #include "core/graph/SimulationSnapshot.hpp"
 #include "core/graph/StationType.hpp"
+#include "core/world/Polyline.hpp"
 #include "core/world/WorldGeometry.hpp"
+#include <cstddef>
 #include <iostream>
+#include <optional>
 #include <set>
 
 Simulation::Simulation(std::uint64_t seed) : seed_(seed), rng_(seed) {
@@ -40,8 +43,10 @@ void Simulation::step(std::chrono::milliseconds dt) {
             if (availableTypes.size() == 1) {
                 destType = availableTypes[0];
                 if (destType == graphSnap.stations[originIdx].type) {
-                    // If the only available type is the same as the origin station's type, skip spawning
-                    std::cout << "Only one station type available and it's the same as the origin. Skipping spawn."
+                    // If the only available type is the same as the origin station's type, skip
+                    // spawning
+                    std::cout << "Only one station type available and it's the same as the origin. "
+                                 "Skipping spawn."
                               << std::endl;
                     spawnAccumulator_ = 0.0f; // Reset accumulator even if we skip spawning
                     return;
@@ -63,6 +68,15 @@ void Simulation::step(std::chrono::milliseconds dt) {
 
 Polyline Simulation::getOctilinearPath(Vector2 start, Vector2 end) const {
     return WorldGeometry::getOctilinearPath(start, end);
+}
+
+void Simulation::addRiver(const std::vector<std::pair<float, float>>& points, float width) {
+    uint32_t riverId = rivers_.size();
+    Polyline riverPath;
+    for (const auto& [x, y] : points) {
+        riverPath.points.push_back({x, y});
+    }
+    rivers_[riverId] = std::make_pair(riverPath, width);
 }
 
 SimulationSnapshot Simulation::snapshot() const {
@@ -143,7 +157,42 @@ void Simulation::_applyCommands() {
                     if (c.startStationId != 0) {
                         Vector2 posA = world_.getStationPosition(c.startStationId);
                         Vector2 posB = world_.getStationPosition(c.stationId);
-                        world_.updateEdge(c.startStationId, c.stationId, posA, posB);
+
+                        Polyline track = WorldGeometry::getOctilinearPath(posA, posB);
+                        std::optional<std::pair<Polyline, float>> intersectingRiver;
+                        for (const auto& [id, pair] : rivers_) {
+                            const auto& river = pair.first;
+                            const auto& width = pair.second;
+                            std::cout << "Checking if track between station " << c.startStationId
+                                      << " and " << c.stationId << " intersects a river."
+                                      << std::endl;
+                            if (WorldGeometry::doesTrackNeedBridge(track.points, river.points)) {
+                                intersectingRiver = pair;
+                                std::cout << "Track between station " << c.startStationId << " and "
+                                          << c.stationId
+                                          << " intersects a river and needs a bridge." << std::endl;
+                                break;
+                            }
+                        }
+
+                        if (intersectingRiver.has_value()) {
+                            if (availableBridges_ > 0) {
+                                availableBridges_--;
+                                Polyline bridgePath = WorldGeometry::createBridgedPath(
+                                    posA, posB, intersectingRiver->first.points,
+                                    intersectingRiver->second);
+                                world_.updateEdge(c.startStationId, c.stationId, true, bridgePath);
+
+                                // Proceed with adding to graph...
+                            } else {
+                                // REJECT: Not enough bridges!
+                                std::cout << "Cannot add line: No bridges left!" << std::endl;
+                                return;
+                            }
+                        } else {
+                            Polyline path = WorldGeometry::getOctilinearPath(posA, posB);
+                            world_.updateEdge(c.startStationId, c.stationId, false, path);
+                        }
                     }
                 }
 

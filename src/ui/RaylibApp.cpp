@@ -4,6 +4,7 @@
 #include "ui/screens/LevelSelect.hpp"
 #include "ui/screens/MainMenu.hpp"
 #include "ui/screens/PauseMenu.hpp"
+#include <iostream>
 #include <raylib.h>
 
 RaylibApp::RaylibApp() : state_(AppState::MAIN_MENU), activeLevel_(-1) {
@@ -31,8 +32,20 @@ void RaylibApp::run() {
                 activeLevel_ = result.selectedLevel;
             if (state_ == AppState::IN_GAME && result.nextState == AppState::PAUSED) {
                 prevScreen_ = std::move(screen_);
+                switchState(result.nextState);
             } else if (state_ == AppState::PAUSED && result.nextState == AppState::IN_GAME) {
                 screen_ = std::move(prevScreen_);
+                if (screen_ == nullptr) {
+                    std::cerr << "Error: Previous screen is null when resuming from pause!"
+                              << std::endl;
+                    switchState(AppState::MAIN_MENU); // Fallback to main menu
+                } else if (!dynamic_cast<InGame*>(screen_.get())) {
+                    std::cerr << "Error: Previous screen is not InGame when resuming from pause!"
+                              << std::endl;
+                    switchState(AppState::MAIN_MENU); // Fallback to main menu
+                } else {
+                    std::cout << "Resuming game from pause menu" << std::endl;
+                }
             } else {
                 switchState(result.nextState);
             }

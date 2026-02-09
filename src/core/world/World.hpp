@@ -11,7 +11,7 @@ class World {
     void setStationPosition(uint32_t stationId, Vector2 pos);
     Vector2 getStationPosition(uint32_t stationId) const;
 
-    void updateEdge(uint32_t idA, uint32_t idB, Vector2 posA, Vector2 posB);
+    void updateEdge(uint32_t idA, uint32_t idB, bool needsBridge, Polyline path);
     std::pair<float, float> getPositionOnEdge(uint32_t idA, uint32_t idB, float progress,
                                               bool forward) const;
 
